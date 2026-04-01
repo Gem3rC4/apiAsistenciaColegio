@@ -1,0 +1,113 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal de Asistencia | Sagrado Corazón de Jesús</title>
+    <style>
+        :root {
+            --verde-oscuro: #1b5e20;
+            --verde-claro: #4caf50;
+            --fondo: #f4f9f4;
+            --blanco: #ffffff;
+            --texto: #333333;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-color: var(--fondo);
+            color: var(--texto);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+            .header h1 {
+                color: var(--verde-oscuro);
+                margin: 0 0 10px 0;
+                font-size: 28px;
+            }
+
+            .header p {
+                color: #666;
+                margin: 0;
+                font-size: 16px;
+                font-weight: 500;
+            }
+
+        .menu-container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 100%;
+            max-width: 800px;
+        }
+        /* Diseño de las Tarjetas (Botones) */
+        .card {
+            background: var(--blanco);
+            width: 300px;
+            padding: 30px 20px;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(76, 175, 80, 0.15);
+            text-align: center;
+            text-decoration: none;
+            color: var(--texto);
+            border-top: 5px solid var(--verde-claro);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+            .card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 12px 28px rgba(76, 175, 80, 0.25);
+            }
+
+        .card-icon {
+            font-size: 50px;
+            margin-bottom: 15px;
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--verde-oscuro);
+            margin-bottom: 10px;
+        }
+
+        .card-text {
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Portal del Sistema de Asistencia</h1>
+        <p>Colegio Católico Eco-tecnológico Sagrado Corazón de Jesús</p>
+    </div>
+
+    <div class="menu-container">
+        <a href="escaner.html" class="card">
+            <div class="card-icon">📷</div>
+            <div class="card-title">Escáner de Entrada</div>
+            <div class="card-text">Abrir la cámara para registrar el ingreso y salida de los estudiantes mediante código QR.</div>
+        </a>
+
+        <a href="reporte.html" class="card">
+            <div class="card-icon">📊</div>
+            <div class="card-title">Reporte Diario</div>
+            <div class="card-text">Visualizar en tiempo real la lista de estudiantes presentes, ausentes y sus horas de marcaje.</div>
+        </a>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,136 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Data;
+using System.Data.SqlClient;
+
+namespace apiAsistenciaColegio.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class AsistenciaController : ControllerBase
+    {
+        private readonly string connectionString = "Server=localhost;Database=AsistenciaColegio;Trusted_Connection=True;";
+
+        //El constructor lee la conexion que pusimos en appsettings.json
+        public AsistenciaController(IConfiguration configuration)
+        {
+            connectionString = configuration.GetConnectionString("ConexionColegio");
+        }
+
+        //===================================================================
+        //==================== REGISTRAR ASISTENCIA =========================
+        //===================================================================
+        [HttpPost("registrar")]
+        public IActionResult RegistrarAsistencia([FromBody] EscaneoRequest request)
+        {
+            //Validamos que el celular no nos haya mandado un codigo vacio
+            if (string.IsNullOrEmpty(request.CodigoQR))
+            {
+                return BadRequest(new { estado = "Error", mensaje = "El codigo QR esta vacio." });
+            }
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    using (SqlCommand cmd = new SqlCommand("usp_RegistrarAsistencia", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        //Parametro de entrada (El QR que leyo el celular)
+                        cmd.Parameters.AddWithValue("@CodigoQR", request.CodigoQR);
+
+                        //Parametros de salida (Las respuestas en SQL Server)
+                        var pResultado = new SqlParameter("@Resultado", SqlDbType.Int) { Direction = ParameterDirection.Output };
+                        var pMensaje = new SqlParameter("@Mensaje", SqlDbType.VarChar, 500) { Direction = ParameterDirection.Output };
+
+                        cmd.Parameters.Add(pResultado);
+                        cmd.Parameters.Add(pMensaje);
+
+                        //Disparamos el procedimiento almacenado
+                        cmd.ExecuteNonQuery();
+
+                        //Leemos que nos respondio SQL Server
+                        bool resultado = Convert.ToBoolean(pResultado.Value);
+                        string mensaje = pMensaje.Value?.ToString() ?? "Sin Respuesta del servidor";
+
+                        //Le respondemos al celular con la respuesta de SQL Server
+                        if (resultado)
+                            return Ok(new { estado = "Exito", mensaje });
+                        else
+                            return BadRequest(new { estado = "advertencia", mensaje = mensaje });
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                //Si la base de datos esta apagada o hay un error grave
+                return StatusCode(500, new { estado = "Error", mensaje = "Error interno: " + ex.Message });
+            }
+        }
+
+        //===========================================================================
+        //=============VER TABLA CON TODAS LAS ASISTENCIAS Y FALTAS==================
+        //===========================================================================
+
+        [HttpGet("hoy")]
+        public IActionResult ObtenerReporteHoy()
+        {
+            try
+            {
+                var listaReporte = new List<ReporteAsistenciaDto>();
+
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    using (SqlCommand cmd = new SqlCommand("ups_ObtenerReporteAsistenciaHoy", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                listaReporte.Add(new ReporteAsistenciaDto
+                                {
+                                    Grado = reader["Grado"].ToString(),
+                                    Seccion = reader["Seccion"].ToString(),
+                                    NombreEstudiante = reader["NombreEstudiante"].ToString(),
+                                    HoraLlegada = reader["HoraLlegada"].ToString(),
+                                    HoraSalida = reader["HoraSalida"].ToString(),
+                                    Estado = reader["Estado"].ToString()
+                                });
+                            }
+                            
+                        }
+                    }
+                }
+                return Ok(listaReporte);
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(500, new { mensaje = "Error interno al generar reporte: " + ex.Message});
+            }
+        }
+
+
+        public class EscaneoRequest
+        {
+            public string CodigoQR { get; set; }
+        }
+
+        public class ReporteAsistenciaDto
+        {
+            public string Grado { get; set; }
+            public string Seccion { get; set; }
+            public string NombreEstudiante { get; set; }
+            public string HoraLlegada { get; set; }
+            public string HoraSalida { get; set; }
+            public string Estado { get; set; }
+        }
+    }
+}
+

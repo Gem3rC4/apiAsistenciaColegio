@@ -1,0 +1,197 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte de Asistencia | Sagrado Corazón de Jesús</title>
+    <style>
+        :root {
+            --verde-oscuro: #1b5e20;
+            --verde-claro: #4caf50;
+            --fondo: #f4f9f4;
+            --blanco: #ffffff;
+            --texto: #333333;
+            --borde: #e0e0e0;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-color: var(--fondo);
+            color: var(--texto);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--blanco);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(76, 175, 80, 0.15);
+            border-top: 5px solid var(--verde-claro);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--fondo);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+            .header h1 {
+                color: var(--verde-oscuro);
+                margin: 0;
+                font-size: 24px;
+            }
+
+        .btn-actualizar {
+            background-color: var(--verde-oscuro);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+            .btn-actualizar:hover {
+                background-color: #144d18;
+            }
+
+        /* Estilos de la Tabla */
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--borde);
+        }
+
+        th {
+            background-color: var(--fondo);
+            color: var(--verde-oscuro);
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background-color: #fafafa;
+        }
+
+        /* Etiquetas de Estado */
+        .badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            display: inline-block;
+        }
+
+        .bg-presente {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .bg-falta {
+            background-color: #ffebee;
+            color: #c62828;
+        }
+
+        .bg-retirado {
+            background-color: #e3f2fd;
+            color: #1565c0;
+        }
+
+        .hora-vacia {
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <h1>Reporte Diario de Asistencia</h1>
+            <button class="btn-actualizar" onclick="cargarReporte()">🔄 Actualizar Tabla</button>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Grado</th>
+                        <th>Sección</th>
+                        <th>Estudiante</th>
+                        <th>Hora Entrada</th>
+                        <th>Hora Salida</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody id="cuerpoTabla">
+                    <tr><td colspan="6" style="text-align: center;">Cargando datos...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Esta función va a tu API, trae el JSON y dibuja las filas
+        function cargarReporte() {
+            const tbody = document.getElementById('cuerpoTabla');
+
+            fetch('/api/asistencia/hoy')
+                .then(response => response.json())
+                .then(datos => {
+                    tbody.innerHTML = ''; // Limpiamos el mensaje de "Cargando..."
+
+                    if(datos.length === 0){
+                        tbody.innerHTML = '<tr><td colspan="6" style="text-align: center;">No hay alumnos registrados en la base de datos.</td></tr>';
+                        return;
+                    }
+
+                    datos.forEach(alumno => {
+                        // Decidimos el color de la etiqueta según el estado
+                        let claseBadge = 'bg-falta';
+                        if (alumno.estado === 'PRESENTE') claseBadge = 'bg-presente';
+                        if (alumno.estado === 'RETIRADO') claseBadge = 'bg-retirado';
+
+                        // Le damos un color gris a los "--:--" para que se vea más limpio
+                        let horaEntrada = alumno.horaLlegada === '--:--' ? '<span class="hora-vacia">--:--</span>' : alumno.horaLlegada;
+                        let horaSalida = alumno.horaSalida === '--:--' ? '<span class="hora-vacia">--:--</span>' : alumno.horaSalida;
+
+                        // Armamos la fila HTML
+                        const fila = `
+                            <tr>
+                                <td>${alumno.grado}</td>
+                                <td><strong>${alumno.seccion}</strong></td>
+                                <td>${alumno.nombreEstudiante}</td>
+                                <td>${horaEntrada}</td>
+                                <td>${horaSalida}</td>
+                                <td><span class="badge ${claseBadge}">${alumno.estado}</span></td>
+                            </tr>
+                        `;
+                        tbody.innerHTML += fila; // Agregamos la fila a la tabla
+                    });
+                })
+                .catch(error => {
+                    tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: red;">Error al cargar los datos del servidor.</td></tr>';
+                    console.error('Error:', error);
+                });
+        }
+
+        // Ejecutamos la función automáticamente al abrir la página
+        window.onload = cargarReporte;
+    </script>
+</body>
+</html>

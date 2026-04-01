@@ -1,0 +1,165 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asistencia | Sagrado Corazón de Jesús</title>
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        :root {
+            --verde-oscuro: #1b5e20;
+            --verde-claro: #4caf50;
+            --fondo: #f4f9f4;
+            --blanco: #ffffff;
+            --texto: #333333;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-color: var(--fondo);
+            color: var(--texto);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+            .header h1 {
+                color: var(--verde-oscuro);
+                margin: 0 0 5px 0;
+                font-size: 24px;
+            }
+
+            .header p {
+                color: #666;
+                margin: 0;
+                font-size: 14px;
+                font-weight: 500;
+            }
+
+        .scanner-container {
+            background: var(--blanco);
+            padding: 15px;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(76, 175, 80, 0.15);
+            width: 100%;
+            max-width: 400px;
+            border-top: 5px solid var(--verde-claro);
+        }
+
+        #reader {
+            width: 100%;
+            border-radius: 8px;
+            overflow: hidden;
+            border: none !important;
+        }
+
+        #reader__dashboard_section_csr span {
+            color: var(--verde-oscuro) !important;
+            font-weight: bold;
+        }
+
+        #reader__dashboard_section_swaplink {
+            color: var(--verde-claro) !important;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Control de Asistencia</h1>
+        <p>Colegio Católico Eco-tecnológico Sagrado Corazón de Jesús</p>
+    </div>
+
+    <div class="scanner-container">
+        <div id="reader"></div>
+    </div>
+
+    <script>
+        let escaneando = true;
+
+        function onScanSuccess(codigoEscaneado) {
+            // Si ya estamos procesando un código, ignoramos los demás escaneos
+            if (!escaneando) return;
+
+            // Pausamos la lectura
+            escaneando = false;
+
+            // Mostramos una alerta de carga amigable
+            Swal.fire({
+                title: 'Procesando...',
+                text: 'Verificando asistencia en el servidor',
+                allowOutsideClick: false,
+                didOpen: () => { Swal.showLoading(); }
+            });
+
+            // Enviamos el dato a tu API en C#
+            fetch('/api/asistencia/registrar', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ codigoQR: codigoEscaneado })
+            })
+                .then(response => response.json().then(data => ({ status: response.status, body: data })))
+                .then(res => {
+                    // Evaluamos qué respondió SQL Server
+                    if (res.status === 200) {
+                        // Ventana de ÉXITO
+                        Swal.fire({
+                            icon: 'success',
+                            title: '¡Entrada Registrada!',
+                            text: res.body.mensaje,
+                            confirmButtonText: 'Aceptar',
+                            confirmButtonColor: '#4caf50',
+                            allowOutsideClick: false // Obliga a tocar el botón
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                escaneando = true; // Reactivamos la cámara al dar Aceptar
+                            }
+                        });
+                    } else {
+                        // Ventana de ADVERTENCIA (ej. Ya había marcado)
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Atención',
+                            text: res.body.mensaje,
+                            confirmButtonText: 'Aceptar',
+                            confirmButtonColor: '#f57f17',
+                            allowOutsideClick: false
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                escaneando = true;
+                            }
+                        });
+                    }
+                })
+                .catch(error => {
+                    // Ventana de ERROR (ej. Se cayó el WiFi)
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error de Red',
+                        text: 'No se pudo conectar con el servidor.',
+                        confirmButtonText: 'Aceptar',
+                        confirmButtonColor: '#c62828',
+                        allowOutsideClick: false
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            escaneando = true;
+                        }
+                    });
+                });
+        }
+
+        // Configuración de la cámara
+        let html5QrcodeScanner = new Html5QrcodeScanner(
+            "reader", { fps: 10, qrbox: { width: 250, height: 250 } }, false);
+        html5QrcodeScanner.render(onScanSuccess);
+    </script>
+</body>
+</html>
