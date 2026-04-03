@@ -44,13 +44,70 @@
                 font-weight: 500;
             }
 
+        /* DISEÑO DE PESTAÑAS (TABS) */
+        .tabs-container {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            max-width: 400px;
+            margin-bottom: 20px;
+            background: var(--blanco);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            background: transparent;
+            font-size: 16px;
+            font-weight: bold;
+            color: #666;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+            .tab-button:hover {
+                background-color: #f0f0f0;
+            }
+
+            .tab-button.active {
+                background-color: var(--verde-oscuro);
+                color: white;
+            }
+
+        /* PANELES QUE SE MUESTRAN/OCULTAN */
+        .panel {
+            display: none; /* Ocultos por defecto */
+            width: 100%;
+            max-width: 400px;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+            .panel.active {
+                display: block; /* Solo se muestra el activo */
+            }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-5px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Estilos del Escáner */
         .scanner-container {
             background: var(--blanco);
             padding: 15px;
             border-radius: 16px;
             box-shadow: 0 8px 24px rgba(76, 175, 80, 0.15);
-            width: 100%;
-            max-width: 400px;
             border-top: 5px solid var(--verde-claro);
         }
 
@@ -61,38 +118,110 @@
             border: none !important;
         }
 
-        #reader__dashboard_section_csr span {
-            color: var(--verde-oscuro) !important;
-            font-weight: bold;
+        /* Estilos del Panel Manual */
+        .panel-manual-interno {
+            background-color: var(--blanco);
+            padding: 30px 20px;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(76, 175, 80, 0.15);
+            text-align: center;
+            border-top: 5px solid var(--verde-claro);
         }
 
-        #reader__dashboard_section_swaplink {
-            color: var(--verde-claro) !important;
+            .panel-manual-interno h4 {
+                color: var(--verde-oscuro);
+                margin-top: 0;
+                margin-bottom: 10px;
+                font-size: 20px;
+            }
+
+        #inputCarnetManual {
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+            width: 90%;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+            #inputCarnetManual:focus {
+                border-color: var(--verde-claro);
+            }
+
+        .btn-manual {
+            background-color: var(--verde-oscuro);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 90%;
         }
     </style>
 </head>
 <body>
-
     <div class="header">
-        <h1>Control de Asistencia</h1>
+        <h1>Registrar Entrada</h1>
         <p>Colegio Católico Eco-tecnológico Sagrado Corazón de Jesús</p>
     </div>
 
-    <div class="scanner-container">
-        <div id="reader"></div>
+    <div class="tabs-container">
+        <button id="btnTabQR" class="tab-button active" onclick="cambiarPestana('qr')">📷 Escanear QR</button>
+        <button id="btnTabManual" class="tab-button" onclick="cambiarPestana('manual')">⌨️ Código Manual</button>
+    </div>
+
+    <div id="panelQR" class="panel active">
+        <div class="scanner-container">
+            <div id="reader"></div>
+        </div>
+    </div>
+
+    <div id="panelManual" class="panel">
+        <div class="panel-manual-interno">
+            <h4>Registro sin Gafete</h4>
+            <p style="color: #666; font-size: 14px; margin-bottom: 20px;">
+                Ingrese el código de carnet del estudiante.
+            </p>
+            <input type="text" id="inputCarnetManual" placeholder="Ej. QR-PRUEBA-001" autocomplete="off">
+            <button type="button" class="btn-manual" onclick="procesarIngresoManual()">
+                Registrar Asistencia
+            </button>
+        </div>
     </div>
 
     <script>
         let escaneando = true;
 
-        function onScanSuccess(codigoEscaneado) {
-            // Si ya estamos procesando un código, ignoramos los demás escaneos
-            if (!escaneando) return;
+        // --- LÓGICA PARA CAMBIAR ENTRE CÁMARA Y TECLADO ---
+        function cambiarPestana(modo) {
+            // 1. Ocultar todos los paneles
+            document.getElementById("panelQR").classList.remove("active");
+            document.getElementById("panelManual").classList.remove("active");
+            // 2. Quitar color activo de los botones
+            document.getElementById("btnTabQR").classList.remove("active");
+            document.getElementById("btnTabManual").classList.remove("active");
 
-            // Pausamos la lectura
+            // 3. Activar el seleccionado
+            if (modo === 'qr') {
+                document.getElementById("panelQR").classList.add("active");
+                document.getElementById("btnTabQR").classList.add("active");
+            } else {
+                document.getElementById("panelManual").classList.add("active");
+                document.getElementById("btnTabManual").classList.add("active");
+                // Hace que el cursor parpadee automáticamente en el cuadro de texto
+                setTimeout(() => document.getElementById("inputCarnetManual").focus(), 100);
+            }
+        }
+
+        // --- LÓGICA PRINCIPAL DE ASISTENCIA ---
+        function onScanSuccess(codigoEscaneado) {
+            if (!escaneando) return;
             escaneando = false;
 
-            // Mostramos una alerta de carga amigable
             Swal.fire({
                 title: 'Procesando...',
                 text: 'Verificando asistencia en el servidor',
@@ -100,7 +229,6 @@
                 didOpen: () => { Swal.showLoading(); }
             });
 
-            // Enviamos el dato a tu API en C#
             fetch('/api/asistencia/registrar', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -108,23 +236,18 @@
             })
                 .then(response => response.json().then(data => ({ status: response.status, body: data })))
                 .then(res => {
-                    // Evaluamos qué respondió SQL Server
                     if (res.status === 200) {
-                        // Ventana de ÉXITO
                         Swal.fire({
                             icon: 'success',
                             title: '¡Entrada Registrada!',
                             text: res.body.mensaje,
                             confirmButtonText: 'Aceptar',
                             confirmButtonColor: '#4caf50',
-                            allowOutsideClick: false // Obliga a tocar el botón
+                            allowOutsideClick: false
                         }).then((result) => {
-                            if (result.isConfirmed) {
-                                escaneando = true; // Reactivamos la cámara al dar Aceptar
-                            }
+                            if (result.isConfirmed) { escaneando = true; }
                         });
                     } else {
-                        // Ventana de ADVERTENCIA (ej. Ya había marcado)
                         Swal.fire({
                             icon: 'warning',
                             title: 'Atención',
@@ -133,14 +256,11 @@
                             confirmButtonColor: '#f57f17',
                             allowOutsideClick: false
                         }).then((result) => {
-                            if (result.isConfirmed) {
-                                escaneando = true;
-                            }
+                            if (result.isConfirmed) { escaneando = true; }
                         });
                     }
                 })
                 .catch(error => {
-                    // Ventana de ERROR (ej. Se cayó el WiFi)
                     Swal.fire({
                         icon: 'error',
                         title: 'Error de Red',
@@ -149,14 +269,42 @@
                         confirmButtonColor: '#c62828',
                         allowOutsideClick: false
                     }).then((result) => {
-                        if (result.isConfirmed) {
-                            escaneando = true;
-                        }
+                        if (result.isConfirmed) { escaneando = true; }
                     });
                 });
         }
 
-        // Configuración de la cámara
+        // --- LÓGICA DEL BOTÓN MANUAL ---
+        function procesarIngresoManual() {
+            let carnet = document.getElementById("inputCarnetManual").value.trim();
+
+            if (carnet === "") {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Campo Vacío',
+                    text: 'Por favor, ingrese un código de carnet.',
+                    confirmButtonColor: '#1b5e20'
+                });
+                document.getElementById("inputCarnetManual").focus();
+                return;
+            }
+
+            // Engañamos al sistema para que crea que se escaneó
+            onScanSuccess(carnet);
+
+            // Limpiamos el texto
+            document.getElementById("inputCarnetManual").value = "";
+        }
+
+        // Permite presionar Enter en lugar del botón
+        document.getElementById("inputCarnetManual").addEventListener("keypress", function (event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                procesarIngresoManual();
+            }
+        });
+
+        // Iniciar la cámara
         let html5QrcodeScanner = new Html5QrcodeScanner(
             "reader", { fps: 10, qrbox: { width: 250, height: 250 } }, false);
         html5QrcodeScanner.render(onScanSuccess);

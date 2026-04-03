@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using QRCoder;
+using System.IO;
+using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -113,6 +115,69 @@ namespace apiAsistenciaColegio.Controllers
             {
 
                 return StatusCode(500, new { mensaje = "Error interno al generar reporte: " + ex.Message});
+            }
+        }
+
+
+        [HttpGet("/api/asistencia/generarqrmasivo")]
+        public IActionResult GenerarQRMasa()
+        {
+            try
+            {
+                // 1. CORRECCIÓN: "wwwroot" bien escrito
+                string rutaCarpeta = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "qrs");
+                if (!Directory.Exists(rutaCarpeta))
+                {
+                    Directory.CreateDirectory(rutaCarpeta);
+                }
+
+                int generados = 0;
+                string cadenaConexion = connectionString;
+
+                using (SqlConnection conn = new SqlConnection(cadenaConexion))
+                {
+                    conn.Open();
+
+                    // 2. CORRECCIÓN: Filtramos los NULOS y traemos nombres (Asegúrate que estas columnas existan en tu tabla 'Estudiantes')
+                    string consulta = "SELECT Nombres, Apellidos, CodigoQR FROM tblEstudiantes WHERE CodigoQR IS NOT NULL AND CodigoQR <> ''";
+
+                    using (SqlCommand cmd = new SqlCommand(consulta, conn))
+                    {
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                // 3. CORRECCIÓN: Usamos .ToString() que es mucho más seguro que GetString()
+                                string codigoQR = reader["CodigoQR"].ToString();
+
+                                // Obtenemos los nombres y limpiamos espacios extra
+                                string nombres = reader["Nombres"].ToString().Trim();
+                                string apellidos = reader["Apellidos"].ToString().Trim();
+
+                                // Creamos el nombre del archivo (Ej: Lopez_Ana)
+                                string nombreEstudiante = $"{apellidos}_{nombres}".Replace(" ", "_");
+
+                                QRCodeGenerator qrGenerator = new QRCodeGenerator();
+                                QRCodeData qrCodeData = qrGenerator.CreateQrCode(codigoQR, QRCodeGenerator.ECCLevel.Q);
+                                PngByteQRCode qrCode = new PngByteQRCode(qrCodeData);
+                                byte[] qrCodeImage = qrCode.GetGraphic(20);
+
+                                // Guardamos con el nombre del estudiante
+                                string rutaArchivo = Path.Combine(rutaCarpeta, $"{nombreEstudiante}.png");
+                                System.IO.File.WriteAllBytes(rutaArchivo, qrCodeImage);
+
+                                generados++;
+                            }
+                        }
+                    }
+                }
+
+                return Ok(new { mensaje = $"QRs generados exitosamente: {generados} nombrados por estudiante.", ruta = "/qrs/" });
+            }
+            catch (Exception ex)
+            {
+                // Ahora si algo falla, te dirá EXACTAMENTE qué fue en la pantalla
+                return BadRequest(new { mensaje = "Error interno: " + ex.Message });
             }
         }
 

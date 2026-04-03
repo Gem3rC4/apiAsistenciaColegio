@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reporte de Asistencia | Sagrado Corazón de Jesús</title>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
     <style>
         :root {
             --verde-oscuro: #1b5e20;
@@ -116,59 +117,190 @@
         .hora-vacia {
             color: #999;
         }
+        .panel-controles {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--blanco);
+            padding: 15px 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .filtros select {
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 15px;
+            margin-right: 10px;
+            outline: none;
+            color: var(--texto);
+            background-color: var(--fondo);
+        }
+
+        .btn-excel {
+            background-color: #217346; /* Verde oficial de Excel */
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .btn-excel:hover {
+            background-color: #1a5c37;
+            transform: translateY(-2px);
+        }
+
+        .btn-filtrar {
+            background-color: var(--verde-oscuro);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            margin-left: 10px;
+        }
+
+        .btn-filtrar:hover {
+            background-color: var(--verde-claro);
+            transform: translateY(-2px);
+        }
+
+        /* =========================================
+            DISEÑO RESPONSIVO (MÓVILES Y TABLETS)
+           ========================================= */
+
+        /* 1. Habilitar el desplazamiento horizontal de la tabla */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch; /* Hace que el deslizamiento en iPhone sea suave */
+            border-radius: 8px; /* Opcional, para que los bordes se vean suaves */
+        }
+
+        /* 2. Prohibir que el texto se apachurre en múltiples líneas */
+        #tablaAsistencia th,
+        #tablaAsistencia td {
+            white-space: nowrap;
+        }
+
+        /* 3. Media Query: Detectar si es un celular (ancho menor a 768px) */
+        @media (max-width: 768px) {
+            /* Hacemos que los controles se apilen hacia abajo y usen todo el ancho */
+            .panel-controles {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .filtros {
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+            }
+
+                /* Ajustamos botones y selectores para que midan el 100% de la pantalla y sean fáciles de tocar */
+                .filtros select {
+                    width: 100%;
+                    margin-right: 0;
+                    margin-bottom: 10px;
+                }
+
+            .btn-filtrar {
+                width: 100%;
+                margin-left: 0;
+                margin-bottom: 15px;
+            }
+
+            .btn-excel {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
-
     <div class="container">
         <div class="header">
             <h1>Reporte Diario de Asistencia</h1>
-            <button class="btn-actualizar" onclick="cargarReporte()">🔄 Actualizar Tabla</button>
+            <button type="button" class="btn-actualizar" onclick="cargarReporte()">🔄 Actualizar Tabla</button>
         </div>
 
         <div class="table-container">
             <div class="panel-controles">
-                <thead>
-                    <tr>
-                        <th>Grado</th>
-                        <th>Sección</th>
-                        <th>Estudiante</th>
-                        <th>Hora Entrada</th>
-                        <th>Hora Salida</th>
-                        <th>Estado</th>
-                    </tr>
-                </thead>
-                <tbody id="cuerpoTabla">
-                    <tr><td colspan="6" style="text-align: center;">Cargando datos...</td></tr>
-                </tbody>
-            </table>
+                <div class="filtros">
+                    <select id="filtroGrado">
+                        <option value="Todos">Todos los Grados</option>
+                        <option value="Primero">Primero Básico</option>
+                        <option value="Segundo">Segundo Básico</option>
+                        <option value="Tercero">Tercero Básico</option>
+                    </select>
+
+                    <select id="filtroSeccion">
+                        <option value="Todas">Todas las Secciones</option>
+                        <option value="A">Sección A</option>
+                        <option value="B">Sección B</option>
+                        <option value="C">Sección C</option>
+                    </select>
+
+                    <button type="button" class="btn-filtrar" onclick="filtrarTabla()">🔍 Filtrar</button>
+                </div>
+
+                <button type="button" onclick="exportarExcel()" class="btn-excel">
+                    📊 Exportar a Excel
+                </button>
+            </div>
+            <div class="table-responsive">
+                <table id="tablaAsistencia">
+                    <thead>
+                        <tr>
+                            <th>Grado</th>
+                            <th>Sección</th>
+                            <th>Estudiante</th>
+                            <th>Hora Entrada</th>
+                            <th>Hora Salida</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cuerpoTabla">
+                        <tr><td colspan="6" style="text-align: center;">Cargando datos...</td></tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
 
-    <script>
-        // Esta función va a tu API, trae el JSON y dibuja las filas
-        function cargarReporte() {
-            const tbody = document.getElementById('cuerpoTabla');
+        <script>
+            // Esta función va a tu API, trae el JSON y dibuja las filas
+            function cargarReporte() {
+                const tbody = document.getElementById('cuerpoTabla');
 
-            fetch('/api/asistencia/hoy')
-                .then(response => response.json())
-                .then(datos => {
-                    tbody.innerHTML = ''; // Limpiamos el mensaje de "Cargando..."
+                fetch('/api/asistencia/hoy')
+                    .then(response => response.json())
+                    .then(datos => {
+                        tbody.innerHTML = ''; // Limpiamos el mensaje de "Cargando..."
 
-                    if(datos.length === 0){
-                        tbody.innerHTML = '<tr><td colspan="6" style="text-align: center;">No hay alumnos registrados en la base de datos.</td></tr>';
-                        return;
-                    }
+                        if (datos.length === 0) {
+                            tbody.innerHTML = '<tr><td colspan="6" style="text-align: center;">No hay alumnos registrados en la base de datos.</td></tr>';
+                            return;
+                        }
 
-                    datos.forEach(alumno => {
-                        let claseBadge = 'bg-falta';
-                        if (alumno.estado === 'PRESENTE') claseBadge = 'bg-presente';
-                        if (alumno.estado === 'RETIRADO') claseBadge = 'bg-retirado';
+                        datos.forEach(alumno => {
+                            let claseBadge = 'bg-falta';
+                            if (alumno.estado === 'PRESENTE') claseBadge = 'bg-presente';
+                            if (alumno.estado === 'RETIRADO') claseBadge = 'bg-retirado';
 
-                        let horaEntrada = alumno.horaLlegada === '--:--' ? '<span class="hora-vacia">--:--</span>' : alumno.horaLlegada;
-                        let horaSalida = alumno.horaSalida === '--:--' ? '<span class="hora-vacia">--:--</span>' : alumno.horaSalida;
+                            let horaEntrada = alumno.horaLlegada === '--:--' ? '<span class="hora-vacia">--:--</span>' : alumno.horaLlegada;
+                            let horaSalida = alumno.horaSalida === '--:--' ? '<span class="hora-vacia">--:--</span>' : alumno.horaSalida;
 
-                        const fila = `
+                            const fila = `
                             <tr>
                                 <td>${alumno.grado}</td>
                                 <td><strong>${alumno.seccion}</strong></td>
@@ -178,24 +310,137 @@
                                 <td><span class="badge ${claseBadge}">${alumno.estado}</span></td>
                             </tr>
                         `;
-                        tbody.innerHTML += fila;
+                            tbody.innerHTML += fila;
+                        });
+
+                        // --- AQUÍ ES EL LUGAR CORRECTO ---
+                        // Una vez que terminó de escribir todos los alumnos en el HTML,
+                        // llamamos al filtro para que respete lo que esté seleccionado en los menús.
+                        filtrarTabla();
+                        // ---------------------------------
+
+                    })
+                    .catch(error => {
+                        tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: red;">Error al cargar los datos del servidor.</td></tr>';
+                        console.error('Error:', error);
                     });
+            }
 
-                    // --- AQUÍ ES EL LUGAR CORRECTO ---
-                    // Una vez que terminó de escribir todos los alumnos en el HTML, 
-                    // llamamos al filtro para que respete lo que esté seleccionado en los menús.
-                    filtrarTabla();
-                    // ---------------------------------
+            // Ejecutamos la función automáticamente al abrir la página
+            window.onload = cargarReporte;
 
-                })
-                .catch(error => {
-                    tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: red;">Error al cargar los datos del servidor.</td></tr>';
-                    console.error('Error:', error);
+            function filtrarTabla() {
+                let gradoSeleccionado = document.getElementById("filtroGrado").value.toLowerCase();
+                let seccionSeleccionada = document.getElementById("filtroSeccion").value.toLowerCase();
+
+                let filas = document.querySelectorAll("#cuerpoTabla tr");
+
+                filas.forEach(fila => {
+                    if (fila.cells.length < 2) return;
+
+                    // Obtenemos los textos, los pasamos a minúsculas y quitamos tildes
+                    let gradoFila = fila.cells[0].innerText.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+                    let seccionFila = fila.cells[1].innerText.toLowerCase().trim();
+
+                    // Limpiamos también el grado seleccionado de tildes por seguridad
+                    let gradoBuscado = gradoSeleccionado.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+                    let coincideGrado = (gradoSeleccionado === "todos" || gradoFila.includes(gradoBuscado));
+                    let coincideSeccion = (seccionSeleccionada === "todas" || seccionFila.includes(seccionSeleccionada));
+
+                    if (coincideGrado && coincideSeccion) {
+                        fila.style.display = "";
+                    } else {
+                        fila.style.display = "none";
+                    }
                 });
-        }
+            }
 
-        // Ejecutamos la función automáticamente al abrir la página
-        window.onload = cargarReporte;
-    </script>
+            // Función para exportar a Excel (VERSIÓN PREMIUM CON ESTILOS)
+            function exportarExcel() {
+                // 1. Obtener nombres para el archivo
+                let selectGrado = document.getElementById("filtroGrado");
+                let textoGrado = selectGrado.options[selectGrado.selectedIndex].text.replace(/ /g, "_");
+
+                let selectSeccion = document.getElementById("filtroSeccion");
+                let textoSeccion = selectSeccion.options[selectSeccion.selectedIndex].text.replace(/ /g, "_");
+
+                // 2. Clonar y limpiar la tabla original
+                let tablaOriginal = document.getElementById("tablaAsistencia");
+                let tablaClonada = tablaOriginal.cloneNode(true);
+
+                let filasClonadas = tablaClonada.querySelectorAll("tbody tr");
+                filasClonadas.forEach(fila => {
+                    if (fila.style.display === "none") {
+                        fila.remove();
+                    }
+                });
+
+                // 3. AGREGAR EL TÍTULO DEL COLEGIO AL INICIO
+                let thead = tablaClonada.querySelector("thead");
+                let trTitulo = document.createElement("tr");
+                let thTitulo = document.createElement("th");
+                thTitulo.colSpan = 6; // Abarca todas las columnas
+                thTitulo.innerText = "REPORTE DIARIO DE ASISTENCIA - COLEGIO SAGRADO CORAZÓN DE JESÚS";
+                trTitulo.appendChild(thTitulo);
+                thead.insertBefore(trTitulo, thead.firstChild); // Lo pone en la Fila 1
+
+                // 4. Crear el libro y la hoja
+                let libro = XLSX.utils.book_new();
+                let hoja = XLSX.utils.table_to_sheet(tablaClonada);
+
+                // 5. INYECTAR ESTILOS CELDA POR CELDA
+                for (let celda in hoja) {
+                    if (celda[0] === '!') continue; // Ignorar configuraciones internas
+
+                    let numFila = celda.replace(/\D/g, ''); // Extraer solo el número de la fila
+                    let letraColumna = celda.replace(/[0-9]/g, ''); // Extraer solo la letra de la columna
+
+                    // Estilo Base: Todo centrado, con bordes grises y texto normal
+                    hoja[celda].s = {
+                        alignment: { horizontal: "center", vertical: "center" },
+                        border: {
+                            top: { style: "thin", color: { rgb: "CCCCCC" } },
+                            bottom: { style: "thin", color: { rgb: "CCCCCC" } },
+                            left: { style: "thin", color: { rgb: "CCCCCC" } },
+                            right: { style: "thin", color: { rgb: "CCCCCC" } }
+                        }
+                    };
+
+                    // Estilo para la Fila 1 (El Súper Título)
+                    if (numFila === '1') {
+                        hoja[celda].s.font = { bold: true, sz: 14, color: { rgb: "FFFFFF" } }; // Letra blanca y grande
+                        hoja[celda].s.fill = { fgColor: { rgb: "1B5E20" } }; // Fondo Verde Oscuro
+                    }
+                    // Estilo para la Fila 2 (Los encabezados: Grado, Sección, etc.)
+                    else if (numFila === '2') {
+                        hoja[celda].s.font = { bold: true, color: { rgb: "1B5E20" } }; // Letra verde oscuro
+                        hoja[celda].s.fill = { fgColor: { rgb: "E8F5E9" } }; // Fondo verde clarito
+                    }
+
+                    // Un toque extra: Alinear los nombres a la izquierda para que se lean mejor
+                    if (letraColumna === 'C' && numFila > 2) {
+                        hoja[celda].s.alignment = { horizontal: "left", vertical: "center" };
+                    }
+                }
+
+                // 6. Ajustar el ancho de las columnas
+                hoja['!cols'] = [
+                    { wch: 18 }, // A: Grado
+                    { wch: 12 }, // B: Sección
+                    { wch: 35 }, // C: Estudiante
+                    { wch: 15 }, // D: Hora Entrada
+                    { wch: 15 }, // E: Hora Salida
+                    { wch: 15 }  // F: Estado
+                ];
+
+                XLSX.utils.book_append_sheet(libro, hoja, "Asistencia");
+
+                // 7. Descargar
+                let fecha = new Date().toLocaleDateString('es-ES').replace(/\//g, '-');
+                let nombreArchivo = `Reporte_${textoGrado}_${textoSeccion}_${fecha}.xlsx`;
+                XLSX.writeFile(libro, nombreArchivo);
+            }
+        </script>
 </body>
 </html>
