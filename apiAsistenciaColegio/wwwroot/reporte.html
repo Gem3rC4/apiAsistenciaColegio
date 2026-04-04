@@ -90,7 +90,7 @@
             background-color: #fafafa;
         }
 
-        /* Etiquetas de Estado */
+
         .badge {
             padding: 6px 12px;
             border-radius: 20px;
@@ -142,7 +142,7 @@
         }
 
         .btn-excel {
-            background-color: #217346; /* Verde oficial de Excel */
+            background-color: #217346;
             color: white;
             border: none;
             padding: 12px 20px;
@@ -176,9 +176,9 @@
             transform: translateY(-2px);
         }
 
-        /* =========================================
-            DISEÑO RESPONSIVO (MÓVILES Y TABLETS)
-           ========================================= */
+        /*=========================================*/
+        /* ===========DISEÑO RESPONSIVO============*/
+        /* ========================================*/
 
         /* 1. Habilitar el desplazamiento horizontal de la tabla */
         .table-responsive {
@@ -208,7 +208,7 @@
                 width: 100%;
             }
 
-                /* Ajustamos botones y selectores para que midan el 100% de la pantalla y sean fáciles de tocar */
+                /* Ajuste de botones y selectores para que midan el 100% de la pantalla y sean fáciles de tocar */
                 .filtros select {
                     width: 100%;
                     margin-right: 0;
@@ -356,16 +356,16 @@
                 });
             }
 
-            // Función para exportar a Excel (VERSIÓN PREMIUM CON ESTILOS)
+            // Función para exportar a Excel
             function exportarExcel() {
-                // 1. Obtener nombres para el archivo
+                //Obtener nombres para el archivo
                 let selectGrado = document.getElementById("filtroGrado");
                 let textoGrado = selectGrado.options[selectGrado.selectedIndex].text.replace(/ /g, "_");
 
                 let selectSeccion = document.getElementById("filtroSeccion");
                 let textoSeccion = selectSeccion.options[selectSeccion.selectedIndex].text.replace(/ /g, "_");
 
-                // 2. Clonar y limpiar la tabla original
+                // Clonar y limpiar la tabla original
                 let tablaOriginal = document.getElementById("tablaAsistencia");
                 let tablaClonada = tablaOriginal.cloneNode(true);
 
@@ -376,7 +376,7 @@
                     }
                 });
 
-                // 3. AGREGAR EL TÍTULO DEL COLEGIO AL INICIO
+                // AGREGAR EL TÍTULO DEL COLEGIO AL INICIO
                 let thead = tablaClonada.querySelector("thead");
                 let trTitulo = document.createElement("tr");
                 let thTitulo = document.createElement("th");
@@ -385,11 +385,11 @@
                 trTitulo.appendChild(thTitulo);
                 thead.insertBefore(trTitulo, thead.firstChild); // Lo pone en la Fila 1
 
-                // 4. Crear el libro y la hoja
+                // Crear el libro y la hoja
                 let libro = XLSX.utils.book_new();
                 let hoja = XLSX.utils.table_to_sheet(tablaClonada);
 
-                // 5. INYECTAR ESTILOS CELDA POR CELDA
+                // INYECTAR ESTILOS CELDA POR CELDA
                 for (let celda in hoja) {
                     if (celda[0] === '!') continue; // Ignorar configuraciones internas
 
@@ -424,7 +424,7 @@
                     }
                 }
 
-                // 6. Ajustar el ancho de las columnas
+                //Ajustar el ancho de las columnas
                 hoja['!cols'] = [
                     { wch: 18 }, // A: Grado
                     { wch: 12 }, // B: Sección
@@ -436,7 +436,7 @@
 
                 XLSX.utils.book_append_sheet(libro, hoja, "Asistencia");
 
-                // 7. Descargar
+                //Descargar
                 let fecha = new Date().toLocaleDateString('es-ES').replace(/\//g, '-');
                 let nombreArchivo = `Reporte_${textoGrado}_${textoSeccion}_${fecha}.xlsx`;
                 XLSX.writeFile(libro, nombreArchivo);

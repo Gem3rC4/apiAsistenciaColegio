@@ -44,7 +44,6 @@
                 font-weight: 500;
             }
 
-        /* DISEÑO DE PESTAÑAS (TABS) */
         .tabs-container {
             display: flex;
             justify-content: center;
@@ -78,16 +77,15 @@
                 color: white;
             }
 
-        /* PANELES QUE SE MUESTRAN/OCULTAN */
         .panel {
-            display: none; /* Ocultos por defecto */
+            display: none;
             width: 100%;
             max-width: 400px;
             animation: fadeIn 0.3s ease-in-out;
         }
 
             .panel.active {
-                display: block; /* Solo se muestra el activo */
+                display: block;
             }
 
         @keyframes fadeIn {
@@ -196,23 +194,22 @@
     <script>
         let escaneando = true;
 
-        // --- LÓGICA PARA CAMBIAR ENTRE CÁMARA Y TECLADO ---
+        //Logica para cambiar entre pestañas de escaneo y manual
         function cambiarPestana(modo) {
-            // 1. Ocultar todos los paneles
+            //Ocultar ambos paneles y quitar color activo de los botones
             document.getElementById("panelQR").classList.remove("active");
             document.getElementById("panelManual").classList.remove("active");
-            // 2. Quitar color activo de los botones
+            //Quitar color activo de los botones
             document.getElementById("btnTabQR").classList.remove("active");
             document.getElementById("btnTabManual").classList.remove("active");
 
-            // 3. Activar el seleccionado
+            //Activar el seleccionado
             if (modo === 'qr') {
                 document.getElementById("panelQR").classList.add("active");
                 document.getElementById("btnTabQR").classList.add("active");
             } else {
                 document.getElementById("panelManual").classList.add("active");
                 document.getElementById("btnTabManual").classList.add("active");
-                // Hace que el cursor parpadee automáticamente en el cuadro de texto
                 setTimeout(() => document.getElementById("inputCarnetManual").focus(), 100);
             }
         }

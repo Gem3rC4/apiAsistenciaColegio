@@ -1,8 +1,10 @@
-﻿using QRCoder;
-using System.IO;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using QRCoder;
 using System.Data;
 using System.Data.SqlClient;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 
 namespace apiAsistenciaColegio.Controllers
 {
@@ -67,7 +69,6 @@ namespace apiAsistenciaColegio.Controllers
             }
             catch (Exception ex)
             {
-                //Si la base de datos esta apagada o hay un error grave
                 return StatusCode(500, new { estado = "Error", mensaje = "Error interno: " + ex.Message });
             }
         }
@@ -119,12 +120,15 @@ namespace apiAsistenciaColegio.Controllers
         }
 
 
+
+        //===========================================================================
+        //=============GENERAR QR MASIVO PARA TODOS LOS ESTUDIANTES==================
+        //===========================================================================
         [HttpGet("/api/asistencia/generarqrmasivo")]
         public IActionResult GenerarQRMasa()
         {
             try
             {
-                // 1. CORRECCIÓN: "wwwroot" bien escrito
                 string rutaCarpeta = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "qrs");
                 if (!Directory.Exists(rutaCarpeta))
                 {
@@ -138,33 +142,65 @@ namespace apiAsistenciaColegio.Controllers
                 {
                     conn.Open();
 
-                    // 2. CORRECCIÓN: Filtramos los NULOS y traemos nombres (Asegúrate que estas columnas existan en tu tabla 'Estudiantes')
-                    string consulta = "SELECT Nombres, Apellidos, CodigoQR FROM tblEstudiantes WHERE CodigoQR IS NOT NULL AND CodigoQR <> ''";
-
-                    using (SqlCommand cmd = new SqlCommand(consulta, conn))
+                    // Store procedure que nos devuelve el codigo QR, nombre, apellido, grado y seccion de cada estudiante
+                    using (SqlCommand cmd = new SqlCommand("sp_ObtenerEstudiantesParaQR", conn))
                     {
+                        // definimos que es un procedimiento almacenado
+                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
                             while (reader.Read())
                             {
-                                // 3. CORRECCIÓN: Usamos .ToString() que es mucho más seguro que GetString()
+                                //Extraer el qr, nombre y apellido
                                 string codigoQR = reader["CodigoQR"].ToString();
-
-                                // Obtenemos los nombres y limpiamos espacios extra
                                 string nombres = reader["Nombres"].ToString().Trim();
                                 string apellidos = reader["Apellidos"].ToString().Trim();
 
-                                // Creamos el nombre del archivo (Ej: Lopez_Ana)
-                                string nombreEstudiante = $"{apellidos}_{nombres}".Replace(" ", "_");
+                                // Extraer grado y seccion
+                                string grado = reader["Grado"].ToString().Trim();
+                                string seccion = reader["Seccion"].ToString().Trim();
 
+                                string nombreCompleto = $"{nombres} {apellidos}";
+
+                                // Nombre del archivo
+                                string nombreArchivo = $"{grado}_{seccion}_{apellidos}_{nombres}".Replace(" ", "_");
+
+                                //Generamos solo el QR
                                 QRCodeGenerator qrGenerator = new QRCodeGenerator();
                                 QRCodeData qrCodeData = qrGenerator.CreateQrCode(codigoQR, QRCodeGenerator.ECCLevel.Q);
-                                PngByteQRCode qrCode = new PngByteQRCode(qrCodeData);
-                                byte[] qrCodeImage = qrCode.GetGraphic(20);
+                                QRCode qrCode = new QRCode(qrCodeData);
+                                Bitmap qrBitmap = qrCode.GetGraphic(20);
 
-                                // Guardamos con el nombre del estudiante
-                                string rutaArchivo = Path.Combine(rutaCarpeta, $"{nombreEstudiante}.png");
-                                System.IO.File.WriteAllBytes(rutaArchivo, qrCodeImage);
+                                //Para que el texto quede legible, le damos un espacio extra debajo del QR para escribir el nombre completo
+                                int espacioTexto = 60;
+                                Bitmap lienzoFinal = new Bitmap(qrBitmap.Width, qrBitmap.Height + espacioTexto);
+
+                                //Para dibujar el QR y el texto, usamos Graphics
+                                using (Graphics g = Graphics.FromImage(lienzoFinal))
+                                {
+                                    // Se pinta el fondo de blanco para que el texto sea legible
+                                    g.Clear(Color.White);
+
+                                    // Para pegar QR en la parte de arriba por coordenadas
+                                    g.DrawImage(qrBitmap, 0, 0);
+
+                                    // Configuracion del tipo de letra
+                                    Font fuente = new Font("Arial", 16, FontStyle.Bold);
+                                    SolidBrush brocha = new SolidBrush(Color.Black);
+
+                                    // Centrar el texto
+                                    StringFormat formato = new StringFormat();
+                                    formato.Alignment = StringAlignment.Center;
+
+                                    // Para colocar el texto debajo del qr
+                                    RectangleF espacioParaEscribir = new RectangleF(0, qrBitmap.Height, qrBitmap.Width, espacioTexto);
+                                    g.DrawString(nombreCompleto, fuente, brocha, espacioParaEscribir, formato);
+                                }
+
+                                // Se guarda la imagen con el qr y el nombre
+                                string rutaArchivo = Path.Combine(rutaCarpeta, $"{nombreArchivo}.png");
+                                lienzoFinal.Save(rutaArchivo, ImageFormat.Png);
 
                                 generados++;
                             }
@@ -172,14 +208,14 @@ namespace apiAsistenciaColegio.Controllers
                     }
                 }
 
-                return Ok(new { mensaje = $"QRs generados exitosamente: {generados} nombrados por estudiante.", ruta = "/qrs/" });
+                return Ok(new { mensaje = $"Estan Creados {generados} QRs generados con nombre incluido.", ruta = "/qrs/" });
             }
             catch (Exception ex)
             {
-                // Ahora si algo falla, te dirá EXACTAMENTE qué fue en la pantalla
                 return BadRequest(new { mensaje = "Error interno: " + ex.Message });
             }
         }
+
 
 
         public class EscaneoRequest
