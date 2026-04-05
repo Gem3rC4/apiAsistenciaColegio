@@ -4,7 +4,7 @@
 ### **Estado:** Fase 1 (MVP Local) Completada
 
 ### **1. Visión General del Proyecto**
-El sistema es una aplicación web de pila completa (Full-Stack) diseñada para automatizar el registro de asistencia de los estudiantes mediante la lectura de códigos QR. Permite registrar entradas y salidas de forma inteligente, evitando registros duplicados accidentales, y ofrece un panel de visualización en tiempo real para los maestros.
+El sistema es una aplicación web completa que sirve para controlar la asistencia de los estudiantes de forma automática usando códigos QR. Donde el alumno escanea su código y el sistema registra su entrada o salida, además de evitar errores como registros duplicados. También incluye un panel para los maestros donde pueden ver en tiempo real quiénes ya llegaron, quiénes faltan y todos los movimientos de asistencia de manera rápida y ordenada.
 
 ### **2. Pila Tecnológica (Tech Stack)**
 * **Base de Datos:** Microsoft SQL Server.
@@ -16,11 +16,11 @@ El sistema es una aplicación web de pila completa (Full-Stack) diseñada para a
 
 
 ### **3. Arquitectura de Base de Datos (SQL Server)**
-La base de datos centraliza la información de los alumnos y la lógica de negocio para garantizar la integridad de los datos, reduciendo la carga de procesamiento en el servidor web.
+La base de datos no solo guarda la información, sino que también ayuda a mantenerla ordenada y correcta, haciendo que el sistema funcione más rápido y mejor.
 
 #### **Tablas Principales:**
 
-* *tblEstudiantes:* Almacena los datos personales (Id, Nombre, Apellido).
+* *tblEstudiantes:* Almacena los datos del estudiante. (Id, Nombre, Apellido, codigoQR).
 
 * *tblGrados* y *tblAsignaciones:* Gestionan la relación estructurada de a qué grado (ej. Primero Básico) y sección (A, B) pertenece cada estudiante.
 
@@ -71,7 +71,7 @@ Toda la interfaz gráfica reside en la carpeta pública *wwwroot.* Se optó por 
 3. *reporte.html* (**Panel de Maestros**): Consume el endpoint GET y renderiza una tabla dinámica. Los estados de asistencia ("PRESENTE", "FALTA") se colorean automáticamente mediante etiquetas (badges) CSS. Los registros se auto-ordenan desde la base de datos por Grado > Sección > Apellido.
 
 ### **6. Configuración de Red Local (LAN)**
-Para permitir que dispositivos externos (como el celular de un docente) se conecten al servidor de desarrollo (Laptop):
+Para permitir que dispositivos externos se conecten al servidor de desarrollo:
 
 1. **IP y Puertos:** Se configuró Visual Studio (*launchSettings.json*) para escuchar en la dirección IP local de la máquina (*ej. 192.168.0.5*) además de *localhost*.
 
