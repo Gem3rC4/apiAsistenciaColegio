@@ -78,3 +78,14 @@ Para permitir que dispositivos externos (como el celular de un docente) se conec
 2. **Firewall:** Se abrió el puerto TCP correspondiente (ej. *5114*) en el Firewall de Windows Defender con reglas de entrada.
 
 3. **Permisos de Hardware:** Se utilizó el flag de desarrollador en Google Chrome móvil (*chrome://flags/#unsafely-treat-insecure-origin-as-secure*) para permitir que la cámara se encienda bajo un entorno HTTP local durante la fase de pruebas.
+
+### **7. Implementación de Códigos QR para Estudiantes**
+El código QR actúa como el puente físico-digital del sistema, permitiendo un registro de asistencia sin contacto y de alta velocidad para los estudiantes de los niveles de Primero, Segundo y Tercero Básico.
+
+#### **Diseño y Estructura del QR:**
+
+* **Contenido de Datos:** Cada código almacena de forma exclusiva un identificador único en texto plano correspondiente a la llave primaria o carnet del estudiante en la base de datos (ej. EST-001).
+
+* **Soporte Físico (Carnetización):** Los códigos QR se imprimen y se integran en los gafetes o carnets institucionales de los alumnos. Este soporte físico asegura que la herramienta sea de acceso inmediato durante los horarios de entrada y salida.
+
+* **Nivel de Corrección de Errores:** Los códigos se generan con una redundancia de datos adecuada (Nivel M o Q) para garantizar que la cámara del docente pueda leerlos en milisegundos, incluso si el carnet físico presenta un ligero desgaste, dobleces o reflejos de luz solar.
