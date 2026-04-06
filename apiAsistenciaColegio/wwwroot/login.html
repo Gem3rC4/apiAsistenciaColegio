@@ -1,0 +1,233 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión | Sagrado Corazón de Jesús</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        :root {
+            --verde-oscuro: #1b5e20;
+            --verde-claro: #4caf50;
+            --fondo: #f4f9f4;
+            --blanco: #ffffff;
+            --texto: #333333;
+            --borde: #e0e0e0;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-color: var(--fondo);
+            color: var(--texto);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .login-container {
+            background: var(--blanco);
+            width: 100%;
+            max-width: 400px;
+            padding: 40px 30px;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(76, 175, 80, 0.15);
+            border-top: 5px solid var(--verde-claro);
+            text-align: center;
+            box-sizing: border-box;
+            margin: 20px;
+        }
+
+        .login-header h1 {
+            color: var(--verde-oscuro);
+            margin: 0 0 10px 0;
+            font-size: 24px;
+        }
+
+        .login-header p {
+            color: #666;
+            font-size: 14px;
+            margin: 0 0 30px 0;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+            .form-group label {
+                display: block;
+                font-weight: bold;
+                margin-bottom: 8px;
+                color: var(--verde-oscuro);
+                font-size: 14px;
+            }
+
+            .form-group input {
+                width: 100%;
+                padding: 12px 15px;
+                border: 2px solid var(--borde);
+                border-radius: 8px;
+                font-size: 16px;
+                outline: none;
+                box-sizing: border-box;
+                transition: border-color 0.3s;
+            }
+
+                .form-group input:focus {
+                    border-color: var(--verde-claro);
+                }
+
+        .password-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+            .password-wrapper input {
+                padding-right: 45px;
+            }
+
+        .btn-toggle-password {
+            position: absolute;
+            top: 50%;
+            right: 12px;
+            transform: translateY(-50%);
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            display: flex;
+            color: #888;
+            transition: color 0.3s;
+        }
+
+            .btn-toggle-password:hover {
+                color: var(--verde-claro);
+            }
+
+        .btn-login {
+            background-color: var(--verde-oscuro);
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s, transform 0.2s;
+            margin-top: 10px;
+        }
+
+            .btn-login:hover {
+                background-color: #144d18;
+                transform: translateY(-2px);
+            }
+    </style>
+</head>
+<body>
+
+    <main class="login-container">
+        <header class="login-header">
+            <h1>Sistema de Asistencia</h1>
+            <p>Colegio Sagrado Corazón de Jesús</p>
+        </header>
+
+        <form id="formLogin" onsubmit="procesarLogin(event)">
+            <div class="form-group">
+                <label for="txtUsuario">Usuario</label>
+                <input type="text" id="txtUsuario" placeholder="Ingrese su usuario" autocomplete="off" required>
+            </div>
+
+            <div class="form-group">
+                <label for="txtPassword">Contraseña</label>
+                <div class="password-wrapper">
+                    <input type="password" id="txtPassword" placeholder="Ingrese su contraseña" required>
+                    <button type="button" id="btnTogglePassword" class="btn-toggle-password" title="Mostrar/Ocultar contraseña">
+                        <svg id="iconoOjo" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                            <line x1="1" y1="1" x2="23" y2="23"></line>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-login" id="btnIngresar">Ingresar</button>
+        </form>
+    </main>
+
+    <script>
+        document.getElementById('btnTogglePassword').addEventListener('click', function () {
+            const passwordInput = document.getElementById('txtPassword');
+            const iconoOjo = document.getElementById('iconoOjo');
+
+            if (passwordInput.type === 'password') {
+                // Cambiar a texto visible
+                passwordInput.type = 'text';
+                // Cambiar a icono de Ojo Normal
+                iconoOjo.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>';
+            } else {
+                // Ocultar texto nuevamente
+                passwordInput.type = 'password';
+                // Cambiar a icono de Ojo Tachado
+                iconoOjo.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line>';
+            }
+        });
+        // ----------------------------------------------------
+
+        async function procesarLogin(event) {
+            // Evitamos que la página se recargue al dar Enter o clic en el botón
+            event.preventDefault();
+
+            const usuario = document.getElementById("txtUsuario").value.trim();
+            const password = document.getElementById("txtPassword").value.trim();
+            const btnIngresar = document.getElementById("btnIngresar");
+
+            // Cambiamos el texto del botón mientras carga
+            btnIngresar.textContent = "Verificando...";
+            btnIngresar.disabled = true;
+
+            try {
+                // Llamamos a nuestro nuevo controlador en C#
+                const response = await fetch('/api/login/entrar', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ usuario: usuario, password: password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Token guardado en el almacenamiento local del navegado
+                    localStorage.setItem('tokenColegio', data.token);
+                    localStorage.setItem('nombreUsuario', data.nombre);
+                    localStorage.setItem('rolUsuario', data.rol);
+
+                    // Redirigimos al portal principal
+                    window.location.href = 'index.html';
+                } else {
+                    // Contraseña incorrecta
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Acceso Denegado',
+                        text: data.mensaje || 'Usuario o contraseña incorrectos.',
+                        confirmButtonColor: '#1b5e20'
+                    });
+                }
+            } catch (error) {
+                console.error('Error de red:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error del Servidor',
+                    text: 'No se pudo contactar al servidor. Revisa tu conexión.',
+                    confirmButtonColor: '#c62828'
+                });
+            } finally {
+                btnIngresar.textContent = "Ingresar";
+                btnIngresar.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>

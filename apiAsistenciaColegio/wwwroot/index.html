@@ -4,6 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portal de Asistencia | Sagrado Corazón de Jesús</title>
+
+    <script>
+        if (!localStorage.getItem('tokenColegio')) {
+            window.location.replace('login.html');
+        }
+    </script>
+
     <style>
         :root {
             --verde-oscuro: #1b5e20;
@@ -21,7 +28,9 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            min-height: 100vh;
             padding: 40px 20px;
+            box-sizing: border-box;
         }
 
         .header {
@@ -43,17 +52,21 @@
             }
 
         .menu-container {
-            display: flex;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 320px));
             gap: 20px;
-            flex-wrap: wrap;
-            justify-content: center;
             width: 100%;
             max-width: 800px;
+            justify-content: center;
+            align-items: start;
+            margin-bottom: 50px;
+            flex-grow: 1;
         }
 
         .card {
             background: var(--blanco);
-            width: 300px;
+            width: 100%;
+            max-width: 320px;
             padding: 30px 20px;
             border-radius: 16px;
             box-shadow: 0 8px 24px rgba(76, 175, 80, 0.15);
@@ -63,6 +76,8 @@
             border-top: 5px solid var(--verde-claro);
             transition: transform 0.3s, box-shadow 0.3s;
             cursor: pointer;
+            box-sizing: border-box;
+            height: auto;
         }
 
             .card:hover {
@@ -70,9 +85,15 @@
                 box-shadow: 0 12px 28px rgba(76, 175, 80, 0.25);
             }
 
+                .card:hover .card-icon {
+                    transform: scale(1.15);
+                }
+
         .card-icon {
             font-size: 50px;
             margin-bottom: 15px;
+            display: inline-block;
+            transition: transform 0.3s ease;
         }
 
         .card-title {
@@ -85,30 +106,75 @@
         .card-text {
             font-size: 14px;
             color: #666;
+            line-height: 1.5;
         }
+
+        /* Estilos para el botón inferior */
+        .footer-controls {
+            width: 100%;
+            text-align: center;
+            margin-top: auto; /* Empuja al fondo */
+            padding: 20px 0;
+        }
+
+        .btn-logout {
+            background-color: #c62828;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 15px;
+            transition: background-color 0.3s, transform 0.2s;
+            box-shadow: 0 4px 6px rgba(198, 40, 40, 0.2);
+        }
+
+            .btn-logout:hover {
+                background-color: #b71c1c;
+                transform: translateY(-2px);
+                box-shadow: 0 6px 12px rgba(198, 40, 40, 0.3);
+            }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <h1>Portal del Sistema de Asistencia</h1>
+    <header class="header">
+        <h1>Sistema de Asistencia</h1>
         <p>Colegio Católico Eco-tecnológico Sagrado Corazón de Jesús</p>
-    </div>
+    </header>
 
-    <div class="menu-container">
+    <main class="menu-container">
         <a href="escaner.html" class="card">
             <div class="card-icon">📝</div>
             <div class="card-title">Registrar Entrada</div>
-            <div class="card-text">Abrir la cámara para registrar el ingreso y salida de los estudiantes mediante código QR.</div>
+            <div class="card-text">Abrir para registrar el ingreso y salida de los estudiantes por escaner o digitado.</div>
         </a>
-
 
         <a href="reporte.html" class="card">
             <div class="card-icon">📊</div>
             <div class="card-title">Reporte Diario</div>
             <div class="card-text">Visualizar en tiempo real la lista de estudiantes presentes, ausentes y sus horas de marcaje.</div>
         </a>
-    </div>
+    </main>
+
+    <footer class="footer-controls">
+        <button onclick="cerrarSesion()" class="btn-logout">
+            Cerrar Sesión
+        </button>
+    </footer>
+
+    <script>
+        function cerrarSesion() {
+            // Destruimos el "Gafete Virtual" (Token) y datos del usuario
+            localStorage.removeItem('tokenColegio');
+            localStorage.removeItem('nombreUsuario');
+            localStorage.removeItem('rolUsuario');
+
+            // Redirigimos al login usando replace para limpiar el historial
+            window.location.replace('login.html');
+        }
+    </script>
 
 </body>
 </html>

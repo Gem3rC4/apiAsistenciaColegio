@@ -1,6 +1,11 @@
 ﻿<!DOCTYPE html>
 <html lang="es">
 <head>
+    <script>
+        if (!localStorage.getItem('tokenColegio')) {
+            window.location.replace('login.html');
+        }
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reporte de Asistencia | Sagrado Corazón de Jesús</title>
@@ -117,6 +122,7 @@
         .hora-vacia {
             color: #999;
         }
+
         .panel-controles {
             display: flex;
             justify-content: space-between;
@@ -153,10 +159,10 @@
             transition: background-color 0.3s, transform 0.2s;
         }
 
-        .btn-excel:hover {
-            background-color: #1a5c37;
-            transform: translateY(-2px);
-        }
+            .btn-excel:hover {
+                background-color: #1a5c37;
+                transform: translateY(-2px);
+            }
 
         .btn-filtrar {
             background-color: var(--verde-oscuro);
@@ -171,10 +177,10 @@
             margin-left: 10px;
         }
 
-        .btn-filtrar:hover {
-            background-color: var(--verde-claro);
-            transform: translateY(-2px);
-        }
+            .btn-filtrar:hover {
+                background-color: var(--verde-claro);
+                transform: translateY(-2px);
+            }
 
         /*=========================================*/
         /* ===========DISEÑO RESPONSIVO============*/
@@ -188,7 +194,7 @@
             border-radius: 8px; /* Opcional, para que los bordes se vean suaves */
         }
 
-        /* 2. Prohibir que el texto se apachurre en múltiples líneas */
+        /* 2. Prohibir que el texto se colapse en múltiples líneas */
         #tablaAsistencia th,
         #tablaAsistencia td {
             white-space: nowrap;
@@ -239,16 +245,10 @@
                 <div class="filtros">
                     <select id="filtroGrado">
                         <option value="Todos">Todos los Grados</option>
-                        <option value="Primero">Primero Básico</option>
-                        <option value="Segundo">Segundo Básico</option>
-                        <option value="Tercero">Tercero Básico</option>
                     </select>
 
                     <select id="filtroSeccion">
                         <option value="Todas">Todas las Secciones</option>
-                        <option value="A">Sección A</option>
-                        <option value="B">Sección B</option>
-                        <option value="C">Sección C</option>
                     </select>
 
                     <button type="button" class="btn-filtrar" onclick="filtrarTabla()">🔍 Filtrar</button>
@@ -278,19 +278,23 @@
         </div>
 
         <script>
-            // Esta función va a tu API, trae el JSON y dibuja las filas
+            // Esta función va al API, trae el JSON y dibuja las filas
             function cargarReporte() {
                 const tbody = document.getElementById('cuerpoTabla');
 
                 fetch('/api/asistencia/hoy')
                     .then(response => response.json())
                     .then(datos => {
-                        tbody.innerHTML = ''; // Limpiamos el mensaje de "Cargando..."
+                        // Limpiamos el mensaje de "Cargando..."
+                        tbody.innerHTML = '';
 
                         if (datos.length === 0) {
                             tbody.innerHTML = '<tr><td colspan="6" style="text-align: center;">No hay alumnos registrados en la base de datos.</td></tr>';
                             return;
                         }
+
+                        // --- 1. DIBUJAR LA TABLA DE ALUMNOS ---
+                        let filasHTML = ''; // Creamos una variable temporal para guardar todo el texto
 
                         datos.forEach(alumno => {
                             let claseBadge = 'bg-falta';
@@ -300,24 +304,47 @@
                             let horaEntrada = alumno.horaLlegada === '--:--' ? '<span class="hora-vacia">--:--</span>' : alumno.horaLlegada;
                             let horaSalida = alumno.horaSalida === '--:--' ? '<span class="hora-vacia">--:--</span>' : alumno.horaSalida;
 
-                            const fila = `
-                            <tr>
-                                <td>${alumno.grado}</td>
-                                <td><strong>${alumno.seccion}</strong></td>
-                                <td>${alumno.nombreEstudiante}</td>
-                                <td>${horaEntrada}</td>
-                                <td>${horaSalida}</td>
-                                <td><span class="badge ${claseBadge}">${alumno.estado}</span></td>
-                            </tr>
-                        `;
-                            tbody.innerHTML += fila;
+                            // Agregamos la fila a nuestra variable temporal
+                            filasHTML += `
+                                    <tr>
+                                        <td>${alumno.grado}</td>
+                                        <td><strong>${alumno.seccion}</strong></td>
+                                        <td>${alumno.nombreEstudiante}</td>
+                                        <td>${horaEntrada}</td>
+                                        <td>${horaSalida}</td>
+                                        <td><span class="badge ${claseBadge}">${alumno.estado}</span></td>
+                                    </tr>
+                                    `;
                         });
 
-                        // --- AQUÍ ES EL LUGAR CORRECTO ---
-                        // Una vez que terminó de escribir todos los alumnos en el HTML,
-                        // llamamos al filtro para que respete lo que esté seleccionado en los menús.
+                        tbody.innerHTML = filasHTML;
+
+                        // --- LLENAR LOS FILTROS DINÁMICAMENTE ---
+                        const selectGrado = document.getElementById('filtroGrado');
+                        const selectSeccion = document.getElementById('filtroSeccion');
+
+                        const gradosUnicos = [...new Set(datos.map(item => item.grado))];
+                        const seccionesUnicas = [...new Set(datos.map(item => item.seccion))].sort();
+
+                        selectGrado.innerHTML = '<option value="Todos">Todos los Grados</option>';
+                        selectSeccion.innerHTML = '<option value="Todas">Todas las Secciones</option>';
+
+                        gradosUnicos.forEach(grado => {
+                            const opcion = document.createElement('option');
+                            opcion.value = grado;
+                            opcion.textContent = grado;
+                            selectGrado.appendChild(opcion);
+                        });
+
+                        seccionesUnicas.forEach(seccion => {
+                            const opcion = document.createElement('option');
+                            opcion.value = seccion;
+                            opcion.textContent = `Sección ${seccion}`;
+                            selectSeccion.appendChild(opcion);
+                        });
+
+                        // --- APLICAR EL FILTRO ---
                         filtrarTabla();
-                        // ---------------------------------
 
                     })
                     .catch(error => {
@@ -329,6 +356,7 @@
             // Ejecutamos la función automáticamente al abrir la página
             window.onload = cargarReporte;
 
+            // Función para filtrar la tabla
             function filtrarTabla() {
                 let gradoSeleccionado = document.getElementById("filtroGrado").value.toLowerCase();
                 let seccionSeleccionada = document.getElementById("filtroSeccion").value.toLowerCase();
@@ -442,5 +470,6 @@
                 XLSX.writeFile(libro, nombreArchivo);
             }
         </script>
+    </div>
 </body>
 </html>
