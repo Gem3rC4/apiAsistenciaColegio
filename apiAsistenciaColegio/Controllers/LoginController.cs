@@ -4,6 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using BCrypt.Net; // Agregamos la referencia a BCrypt
 
 namespace apiAsistenciaColegio.Controllers
 {
@@ -13,8 +14,8 @@ namespace apiAsistenciaColegio.Controllers
     {
         private readonly string _connectionString;
 
-        // Esta es la "Firma" única del colegio para que nadie pueda falsificar los gafetes. 
-        // ¡Mantenla secreta!
+        // TIP: Para producción, ¡nunca dejes esta clave en el código fuente! 
+        // Es mejor moverla a tu appsettings.json
         private readonly string _secretKey = "MiClaveSuperSecretaParaElColegioSagradoCorazonDeJesus2026!";
 
         public LoginController(IConfiguration configuration)
@@ -33,10 +34,11 @@ namespace apiAsistenciaColegio.Controllers
             try
             {
                 using var conn = new SqlConnection(_connectionString);
-                // Vamos a la tabla a buscar al usuario. ¡Solo dejamos pasar si el estado es 1 (Activo)!
-                using var cmd = new SqlCommand("SELECT nombreCompleto, rol FROM tblUsuarios WHERE usuario = @user AND passwordHash = @pass AND estado = 1", conn);
+
+                // CAMBIO IMPORTANTE: Solo buscamos por usuario, no por contraseña.
+                // Traemos el passwordHash de la BD para compararlo en memoria.
+                using var cmd = new SqlCommand("SELECT nombreCompleto, rol, passwordHash FROM tblUsuarios WHERE usuario = @user AND estado = 1", conn);
                 cmd.Parameters.AddWithValue("@user", request.Usuario);
-                cmd.Parameters.AddWithValue("@pass", request.Password);
 
                 conn.Open();
                 using var reader = cmd.ExecuteReader();
@@ -45,32 +47,106 @@ namespace apiAsistenciaColegio.Controllers
                 {
                     string nombre = reader["nombreCompleto"].ToString();
                     string rol = reader["rol"].ToString();
+                    string hashGuardadoEnBd = reader["passwordHash"].ToString();
 
-                    // 1. Si el usuario existe, le fabricamos su Token (Gafete Virtual)
-                    var tokenHandler = new JwtSecurityTokenHandler();
-                    var llave = Encoding.ASCII.GetBytes(_secretKey);
-                    var tokenDescriptor = new SecurityTokenDescriptor
+                    // VERIFICACIÓN BCRYPT: Comparamos el texto plano con el Hash de la BD
+                    bool passwordCorrecto = BCrypt.Net.BCrypt.Verify(request.Password, hashGuardadoEnBd);
+
+                    if (passwordCorrecto)
                     {
-                        Subject = new ClaimsIdentity(new[]
+                        // 1. Si el usuario existe y la contraseña coincide, fabricamos su Token
+                        var tokenHandler = new JwtSecurityTokenHandler();
+                        var llave = Encoding.ASCII.GetBytes(_secretKey);
+                        var tokenDescriptor = new SecurityTokenDescriptor
                         {
-                            new Claim(ClaimTypes.Name, nombre),
-                            new Claim(ClaimTypes.Role, rol)
-                        }),
-                        // El gafete expira en 8 horas (un día de clases normal)
-                        Expires = DateTime.UtcNow.AddHours(8),
-                        SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(llave), SecurityAlgorithms.HmacSha256Signature)
-                    };
+                            Subject = new ClaimsIdentity(new[]
+                            {
+                                new Claim(ClaimTypes.Name, nombre),
+                                new Claim(ClaimTypes.Role, rol)
+                            }),
+                            Expires = DateTime.UtcNow.AddHours(8),
+                            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(llave), SecurityAlgorithms.HmacSha256Signature)
+                        };
 
-                    var token = tokenHandler.CreateToken(tokenDescriptor);
-                    var tokenString = tokenHandler.WriteToken(token);
+                        var token = tokenHandler.CreateToken(tokenDescriptor);
+                        var tokenString = tokenHandler.WriteToken(token);
 
-                    // 2. Le entregamos el gafete al navegador web
-                    return Ok(new { token = tokenString, nombre, rol });
+                        return Ok(new { token = tokenString, nombre, rol });
+                    }
+                }
+
+                // Error 401: Si no encontró el usuario o el Verify devolvió false
+                return Unauthorized(new { mensaje = "Usuario o contraseña incorrectos." });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { mensaje = $"Error interno: {ex.Message}" });
+            }
+        }
+
+        public class UsuarioRequest
+        {
+            public string Usuario { get; set; }
+            public string Password { get; set; }
+        }
+
+        [HttpPost("registrar")]
+        public IActionResult Registrar([FromBody] RegistroRequest request)
+        {
+            if (string.IsNullOrWhiteSpace(request.Usuario) ||
+                string.IsNullOrWhiteSpace(request.Password) ||
+                string.IsNullOrWhiteSpace(request.NombreCompleto) ||
+                string.IsNullOrWhiteSpace(request.Rol))
+            {
+                return BadRequest(new { mensaje = "Todos los campos, incluyendo el rol, son obligatorios." });
+            }
+
+            // VALIDACIÓN DE SEGURIDAD: Evita que registren roles extraños
+            var rolesPermitidos = new List<string> { "Administrador", "Maestro", "Padre", "Alumno" };
+            if (!rolesPermitidos.Contains(request.Rol))
+            {
+                return BadRequest(new { mensaje = "El tipo de usuario seleccionado no es válido." });
+            }
+
+            try
+            {
+                using var conn = new SqlConnection(_connectionString);
+                conn.Open();
+
+                // VALIDACIÓN: Verificar si el nombre de usuario ya existe
+                string queryCheck = "SELECT COUNT(1) FROM tblUsuarios WHERE usuario = @userCheck";
+                using (var cmdCheck = new SqlCommand(queryCheck, conn))
+                {
+                    cmdCheck.Parameters.AddWithValue("@userCheck", request.Usuario.Trim());
+                    int usuarioExiste = (int)cmdCheck.ExecuteScalar();
+
+                    if (usuarioExiste > 0)
+                    {
+                        return BadRequest(new { mensaje = "El nombre de usuario ya está en uso. Por favor, intenta con otro." });
+                    }
+                }
+
+                // PROCESO DE INSERCIÓN (Guardando el Hash criptográfico)
+                string passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
+
+                string queryInsert = @"INSERT INTO tblUsuarios (nombreCompleto, usuario, passwordHash, rol, estado) 
+                                       VALUES (@nombre, @user, @pass, @rol, 1)";
+
+                using var cmdInsert = new SqlCommand(queryInsert, conn);
+                cmdInsert.Parameters.AddWithValue("@nombre", request.NombreCompleto.Trim());
+                cmdInsert.Parameters.AddWithValue("@user", request.Usuario.Trim());
+                cmdInsert.Parameters.AddWithValue("@pass", passwordHash);
+                cmdInsert.Parameters.AddWithValue("@rol", request.Rol); // <--- Insertamos el rol dinámico elegido
+
+                int filasAfectadas = cmdInsert.ExecuteNonQuery();
+
+                if (filasAfectadas > 0)
+                {
+                    return Ok(new { mensaje = "Usuario registrado exitosamente con sus permisos correspondientes." });
                 }
                 else
                 {
-                    // Error 401: Detenido en la puerta
-                    return Unauthorized(new { mensaje = "Usuario o contraseña incorrectos." });
+                    return StatusCode(500, new { mensaje = "No se pudo registrar el usuario." });
                 }
             }
             catch (Exception ex)
@@ -79,11 +155,13 @@ namespace apiAsistenciaColegio.Controllers
             }
         }
 
-        // Modelo de datos para recibir el JSON del frontend
-        public class UsuarioRequest
+        // Modelo de datos actualizado para mapear el JSON del frontend
+        public class RegistroRequest
         {
+            public string NombreCompleto { get; set; }
             public string Usuario { get; set; }
             public string Password { get; set; }
+            public string Rol { get; set; } // <--- Agregamos la propiedad para el rol
         }
     }
 }

@@ -155,41 +155,94 @@
 
             <button type="submit" class="btn-login" id="btnIngresar">Ingresar</button>
         </form>
+
+        <p id="linkRegistro" style="margin-top: 15px; font-size: 14px;">
+            ¿No tienes cuenta? <a href="#" onclick="toggleFormularios()" style="color: var(--verde-claro); text-decoration: none; font-weight: bold;">Regístrate aquí</a>
+        </p>
+
+        <form id="formRegistro" onsubmit="procesarRegistro(event)" style="display: none;">
+            <div class="form-group">
+                <label for="txtRegNombre">Nombre Completo</label>
+                <input type="text" id="txtRegNombre" placeholder="Ej. Juan Pérez" autocomplete="off" required>
+            </div>
+
+            <div class="form-group">
+                <label for="txtRegUsuario">Nuevo Usuario</label>
+                <input type="text" id="txtRegUsuario" placeholder="Crea un nombre de usuario" autocomplete="off" required>
+            </div>
+
+            <div class="form-group">
+                <label for="cmbRegRol">Tipo de Usuario / Rol</label>
+                <select id="cmbRegRol" style="width: 100%; padding: 12px 15px; border: 2px solid var(--borde); border-radius: 8px; font-size: 16px; outline: none; background-color: white; box-sizing: border-box; transition: border-color 0.3s;">
+                    <option value="Alumno">Alumno (Escanear QR, Alerta Riesgo)</option>
+                    <option value="Padre">Padre de Familia (Justificaciones, Consultar Estado)</option>
+                    <option value="Maestro">Maestro (Asignar Encargados, Reportes)</option>
+                    <option value="Administrador">Administrador (Acceso Completo)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="txtRegPassword">Contraseña</label>
+                <div class="password-wrapper">
+                    <input type="password" id="txtRegPassword" placeholder="Crea tu contraseña" required>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-login" id="btnRegistrar">Crear Cuenta</button>
+
+            <p style="margin-top: 15px; font-size: 14px;">
+                ¿Ya tienes cuenta? <a href="#" onclick="toggleFormularios()" style="color: var(--verde-claro); text-decoration: none; font-weight: bold;">Inicia Sesión</a>
+            </p>
+        </form>
     </main>
 
     <script>
+        // Lógica del ojito de la contraseña
         document.getElementById('btnTogglePassword').addEventListener('click', function () {
             const passwordInput = document.getElementById('txtPassword');
             const iconoOjo = document.getElementById('iconoOjo');
 
             if (passwordInput.type === 'password') {
-                // Cambiar a texto visible
                 passwordInput.type = 'text';
-                // Cambiar a icono de Ojo Normal
                 iconoOjo.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>';
             } else {
-                // Ocultar texto nuevamente
                 passwordInput.type = 'password';
-                // Cambiar a icono de Ojo Tachado
                 iconoOjo.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line>';
             }
         });
-        // ----------------------------------------------------
 
+        // Función para alternar entre Login y Registro
+        function toggleFormularios() {
+            const formLogin = document.getElementById('formLogin');
+            const formRegistro = document.getElementById('formRegistro');
+            const linkRegistro = document.getElementById('linkRegistro');
+            const titulo = document.querySelector('.login-header h1');
+
+            if (formLogin.style.display === 'none') {
+                formLogin.style.display = 'block';
+                linkRegistro.style.display = 'block';
+                formRegistro.style.display = 'none';
+                titulo.textContent = 'Sistema de Asistencia';
+            } else {
+                formLogin.style.display = 'none';
+                linkRegistro.style.display = 'none';
+                formRegistro.style.display = 'block';
+                titulo.textContent = 'Crear Cuenta';
+            }
+        }
+
+        // Función de Login
         async function procesarLogin(event) {
-            // Evitamos que la página se recargue al dar Enter o clic en el botón
             event.preventDefault();
 
             const usuario = document.getElementById("txtUsuario").value.trim();
             const password = document.getElementById("txtPassword").value.trim();
             const btnIngresar = document.getElementById("btnIngresar");
 
-            // Cambiamos el texto del botón mientras carga
             btnIngresar.textContent = "Verificando...";
             btnIngresar.disabled = true;
 
             try {
-                // Llamamos a nuestro nuevo controlador en C#
                 const response = await fetch('/api/login/entrar', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -199,15 +252,11 @@
                 const data = await response.json();
 
                 if (response.ok) {
-                    // Token guardado en el almacenamiento local del navegado
                     localStorage.setItem('tokenColegio', data.token);
                     localStorage.setItem('nombreUsuario', data.nombre);
                     localStorage.setItem('rolUsuario', data.rol);
-
-                    // Redirigimos al portal principal
                     window.location.href = 'index.html';
                 } else {
-                    // Contraseña incorrecta
                     Swal.fire({
                         icon: 'error',
                         title: 'Acceso Denegado',
@@ -226,6 +275,61 @@
             } finally {
                 btnIngresar.textContent = "Ingresar";
                 btnIngresar.disabled = false;
+            }
+        }
+
+        // Función de Registro
+        async function procesarRegistro(event) {
+            event.preventDefault();
+
+            const nombre = document.getElementById("txtRegNombre").value.trim();
+            const usuario = document.getElementById("txtRegUsuario").value.trim();
+            const password = document.getElementById("txtRegPassword").value.trim();
+            const rol = document.getElementById("cmbRegRol").value; // <--- Capturamos el Rol seleccionado
+            const btnRegistrar = document.getElementById("btnRegistrar");
+
+            btnRegistrar.textContent = "Registrando...";
+            btnRegistrar.disabled = true;
+
+            try {
+                const response = await fetch('/api/login/registrar', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    // CAMBIO AQUÍ: Agregamos el rol al cuerpo del JSON
+                    body: JSON.stringify({ nombreCompleto: nombre, usuario: usuario, password: password, rol: rol })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Registro Exitoso!',
+                        text: 'Ahora puedes iniciar sesión con tus nuevas credenciales.',
+                        confirmButtonColor: '#1b5e20'
+                    }).then(() => {
+                        document.getElementById("formRegistro").reset();
+                        toggleFormularios();
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: data.mensaje || 'No se pudo crear la cuenta.',
+                        confirmButtonColor: '#c62828'
+                    });
+                }
+            } catch (error) {
+                console.error('Error de red:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error del Servidor',
+                    text: 'No se pudo contactar al servidor.',
+                    confirmButtonColor: '#c62828'
+                });
+            } finally {
+                btnRegistrar.textContent = "Crear Cuenta";
+                btnRegistrar.disabled = false;
             }
         }
     </script>
