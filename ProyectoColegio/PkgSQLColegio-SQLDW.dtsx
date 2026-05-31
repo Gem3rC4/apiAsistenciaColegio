@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="PkgSQLColegio-SQLDW"
   DTS:PackageType="5"
-  DTS:VersionBuild="3"
-  DTS:VersionGUID="{8A7E39F9-9E61-46D5-B9CC-1F537D92422D}">
+  DTS:VersionBuild="4"
+  DTS:VersionGUID="{134669FC-F11B-464D-BD9E-C46F7ECB3F87}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -57,17 +57,17 @@
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
           SQLTask:Connection="{B8C735A6-39D7-49BD-92AC-E3DE92FD9009}"
-          SQLTask:SqlStatementSource="truncate table CuartoBiologia;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          SQLTask:SqlStatementSource="truncate table ex_PrimeroBasico;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
-      DTS:refId="Package\ETL CuartoBABI"
+      DTS:refId="Package\Data Flow Task"
       DTS:CreationName="Microsoft.Pipeline"
       DTS:Description="Data Flow Task"
-      DTS:DTSID="{EA299902-7592-4159-BA4B-0E983EA7E937}"
+      DTS:DTSID="{B45F1271-AE72-43DB-AA61-CC7A278A9B6A}"
       DTS:ExecutableType="Microsoft.Pipeline"
       DTS:LocaleID="-1"
-      DTS:ObjectName="ETL CuartoBABI"
+      DTS:ObjectName="Data Flow Task"
       DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
       <DTS:Variables />
       <DTS:ObjectData>
@@ -75,7 +75,7 @@
           version="1">
           <components>
             <component
-              refId="Package\ETL CuartoBABI\Derived Column"
+              refId="Package\Data Flow Task\Derived Column"
               componentClassID="Microsoft.DerivedColumn"
               contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
               description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
@@ -83,7 +83,7 @@
               usesDispositions="true">
               <inputs>
                 <input
-                  refId="Package\ETL CuartoBABI\Derived Column.Inputs[Derived Column Input]"
+                  refId="Package\Data Flow Task\Derived Column.Inputs[Derived Column Input]"
                   description="Input to the Derived Column Transformation"
                   name="Derived Column Input">
                   <externalMetadataColumns />
@@ -91,19 +91,19 @@
               </inputs>
               <outputs>
                 <output
-                  refId="Package\ETL CuartoBABI\Derived Column.Outputs[Derived Column Output]"
+                  refId="Package\Data Flow Task\Derived Column.Outputs[Derived Column Output]"
                   description="Default Output of the Derived Column Transformation"
                   exclusionGroup="1"
                   name="Derived Column Output"
-                  synchronousInputId="Package\ETL CuartoBABI\Derived Column.Inputs[Derived Column Input]">
+                  synchronousInputId="Package\Data Flow Task\Derived Column.Inputs[Derived Column Input]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\ETL CuartoBABI\Derived Column.Outputs[Derived Column Output].Columns[userETL]"
+                      refId="Package\Data Flow Task\Derived Column.Outputs[Derived Column Output].Columns[userETL]"
                       dataType="wstr"
                       errorOrTruncationOperation="Computation"
                       errorRowDisposition="FailComponent"
                       length="20"
-                      lineageId="Package\ETL CuartoBABI\Derived Column.Outputs[Derived Column Output].Columns[userETL]"
+                      lineageId="Package\Data Flow Task\Derived Column.Outputs[Derived Column Output].Columns[userETL]"
                       name="userETL"
                       truncationRowDisposition="FailComponent">
                       <properties>
@@ -121,11 +121,11 @@
                       </properties>
                     </outputColumn>
                     <outputColumn
-                      refId="Package\ETL CuartoBABI\Derived Column.Outputs[Derived Column Output].Columns[dateETL]"
+                      refId="Package\Data Flow Task\Derived Column.Outputs[Derived Column Output].Columns[dateETL]"
                       dataType="dbTimeStamp"
                       errorOrTruncationOperation="Computation"
                       errorRowDisposition="FailComponent"
-                      lineageId="Package\ETL CuartoBABI\Derived Column.Outputs[Derived Column Output].Columns[dateETL]"
+                      lineageId="Package\Data Flow Task\Derived Column.Outputs[Derived Column Output].Columns[dateETL]"
                       name="dateETL"
                       truncationRowDisposition="FailComponent">
                       <properties>
@@ -146,23 +146,23 @@
                   <externalMetadataColumns />
                 </output>
                 <output
-                  refId="Package\ETL CuartoBABI\Derived Column.Outputs[Derived Column Error Output]"
+                  refId="Package\Data Flow Task\Derived Column.Outputs[Derived Column Error Output]"
                   description="Error Output of the Derived Column Transformation"
                   exclusionGroup="1"
                   isErrorOut="true"
                   name="Derived Column Error Output"
-                  synchronousInputId="Package\ETL CuartoBABI\Derived Column.Inputs[Derived Column Input]">
+                  synchronousInputId="Package\Data Flow Task\Derived Column.Inputs[Derived Column Input]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\ETL CuartoBABI\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      refId="Package\Data Flow Task\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\ETL CuartoBABI\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      lineageId="Package\Data Flow Task\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\ETL CuartoBABI\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      refId="Package\Data Flow Task\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\ETL CuartoBABI\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      lineageId="Package\Data Flow Task\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -171,7 +171,7 @@
               </outputs>
             </component>
             <component
-              refId="Package\ETL CuartoBABI\OLE DB Destination"
+              refId="Package\Data Flow Task\OLE DB Destination"
               componentClassID="Microsoft.OLEDBDestination"
               contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
               description="OLE DB Destination"
@@ -186,7 +186,7 @@
                 <property
                   dataType="System.String"
                   description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset">[CuartoBiologia]</property>
+                  name="OpenRowset">[dbo].[ex_PrimeroBasico]</property>
                 <property
                   dataType="System.String"
                   description="Specifies the variable that contains the name of the database object used to open a rowset."
@@ -228,7 +228,7 @@
               </properties>
               <connections>
                 <connection
-                  refId="Package\ETL CuartoBABI\OLE DB Destination.Connections[OleDbConnection]"
+                  refId="Package\Data Flow Task\OLE DB Destination.Connections[OleDbConnection]"
                   connectionManagerID="Package.ConnectionManagers[GERBER-CANAHUI.DW_Colegio]"
                   connectionManagerRefId="Package.ConnectionManagers[GERBER-CANAHUI.DW_Colegio]"
                   description="The OLE DB runtime connection used to access the database."
@@ -236,125 +236,109 @@
               </connections>
               <inputs>
                 <input
-                  refId="Package\ETL CuartoBABI\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input]"
                   errorOrTruncationOperation="Insert"
                   errorRowDisposition="FailComponent"
                   hasSideEffects="true"
                   name="OLE DB Destination Input">
                   <inputColumns>
                     <inputColumn
-                      refId="Package\ETL CuartoBABI\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ID_ALUMNO]"
-                      cachedDataType="i4"
-                      cachedName="ID_ALUMNO"
-                      externalMetadataColumnId="Package\ETL CuartoBABI\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ID_ALUMNO]"
-                      lineageId="Package\ETL CuartoBABI\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_ALUMNO]" />
-                    <inputColumn
-                      refId="Package\ETL CuartoBABI\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[APELLIDOS_NOMBRES]"
-                      cachedCodepage="1252"
-                      cachedDataType="str"
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ApellidosNombres]"
+                      cachedDataType="wstr"
                       cachedLength="150"
-                      cachedName="APELLIDOS_NOMBRES"
-                      externalMetadataColumnId="Package\ETL CuartoBABI\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[APELLIDOS_NOMBRES]"
-                      lineageId="Package\ETL CuartoBABI\OLE DB Source.Outputs[OLE DB Source Output].Columns[APELLIDOS_NOMBRES]" />
+                      cachedName="ApellidosNombres"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ApellidosNombres]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[ApellidosNombres]" />
                     <inputColumn
-                      refId="Package\ETL CuartoBABI\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[GRADO]"
-                      cachedCodepage="1252"
-                      cachedDataType="str"
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Grado]"
+                      cachedDataType="wstr"
                       cachedLength="50"
-                      cachedName="GRADO"
-                      externalMetadataColumnId="Package\ETL CuartoBABI\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[GRADO]"
-                      lineageId="Package\ETL CuartoBABI\OLE DB Source.Outputs[OLE DB Source Output].Columns[GRADO]" />
+                      cachedName="Grado"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Grado]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[Grado]" />
                     <inputColumn
-                      refId="Package\ETL CuartoBABI\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[SECCION]"
-                      cachedCodepage="1252"
-                      cachedDataType="str"
-                      cachedLength="1"
-                      cachedName="SECCION"
-                      externalMetadataColumnId="Package\ETL CuartoBABI\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SECCION]"
-                      lineageId="Package\ETL CuartoBABI\OLE DB Source.Outputs[OLE DB Source Output].Columns[SECCION]" />
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Seccion]"
+                      cachedDataType="wstr"
+                      cachedLength="5"
+                      cachedName="Seccion"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Seccion]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[Seccion]" />
                     <inputColumn
-                      refId="Package\ETL CuartoBABI\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[HORARIO]"
-                      cachedCodepage="1252"
-                      cachedDataType="str"
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Horario]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Horario"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Horario]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[Horario]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Estado]"
+                      cachedDataType="wstr"
                       cachedLength="20"
-                      cachedName="HORARIO"
-                      externalMetadataColumnId="Package\ETL CuartoBABI\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[HORARIO]"
-                      lineageId="Package\ETL CuartoBABI\OLE DB Source.Outputs[OLE DB Source Output].Columns[HORARIO]" />
+                      cachedName="Estado"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Estado]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[Estado]" />
                     <inputColumn
-                      refId="Package\ETL CuartoBABI\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ESTADO]"
-                      cachedCodepage="1252"
-                      cachedDataType="str"
-                      cachedLength="20"
-                      cachedName="ESTADO"
-                      externalMetadataColumnId="Package\ETL CuartoBABI\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ESTADO]"
-                      lineageId="Package\ETL CuartoBABI\OLE DB Source.Outputs[OLE DB Source Output].Columns[ESTADO]" />
-                    <inputColumn
-                      refId="Package\ETL CuartoBABI\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[CICLO_ESCOLAR]"
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[CicloEscolar]"
                       cachedDataType="i4"
-                      cachedName="CICLO_ESCOLAR"
-                      externalMetadataColumnId="Package\ETL CuartoBABI\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CICLO_ESCOLAR]"
-                      lineageId="Package\ETL CuartoBABI\OLE DB Source.Outputs[OLE DB Source Output].Columns[CICLO_ESCOLAR]" />
+                      cachedName="CicloEscolar"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CicloEscolar]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[CicloEscolar]" />
                     <inputColumn
-                      refId="Package\ETL CuartoBABI\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[userETL]"
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[userETL]"
                       cachedDataType="wstr"
                       cachedLength="20"
                       cachedName="userETL"
-                      externalMetadataColumnId="Package\ETL CuartoBABI\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[userETL]"
-                      lineageId="Package\ETL CuartoBABI\Derived Column.Outputs[Derived Column Output].Columns[userETL]" />
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[userETL]"
+                      lineageId="Package\Data Flow Task\Derived Column.Outputs[Derived Column Output].Columns[userETL]" />
                     <inputColumn
-                      refId="Package\ETL CuartoBABI\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[dateETL]"
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[dateETL]"
                       cachedDataType="dbTimeStamp"
                       cachedName="dateETL"
-                      externalMetadataColumnId="Package\ETL CuartoBABI\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[dateETL]"
-                      lineageId="Package\ETL CuartoBABI\Derived Column.Outputs[Derived Column Output].Columns[dateETL]" />
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[dateETL]"
+                      lineageId="Package\Data Flow Task\Derived Column.Outputs[Derived Column Output].Columns[dateETL]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
                     <externalMetadataColumn
-                      refId="Package\ETL CuartoBABI\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ID_ALUMNO]"
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Id]"
                       dataType="i4"
-                      name="ID_ALUMNO" />
+                      name="Id" />
                     <externalMetadataColumn
-                      refId="Package\ETL CuartoBABI\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[APELLIDOS_NOMBRES]"
-                      codePage="1252"
-                      dataType="str"
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ApellidosNombres]"
+                      dataType="wstr"
                       length="150"
-                      name="APELLIDOS_NOMBRES" />
+                      name="ApellidosNombres" />
                     <externalMetadataColumn
-                      refId="Package\ETL CuartoBABI\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[GRADO]"
-                      codePage="1252"
-                      dataType="str"
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Grado]"
+                      dataType="wstr"
                       length="50"
-                      name="GRADO" />
+                      name="Grado" />
                     <externalMetadataColumn
-                      refId="Package\ETL CuartoBABI\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SECCION]"
-                      codePage="1252"
-                      dataType="str"
-                      length="1"
-                      name="SECCION" />
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Seccion]"
+                      dataType="wstr"
+                      length="5"
+                      name="Seccion" />
                     <externalMetadataColumn
-                      refId="Package\ETL CuartoBABI\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[HORARIO]"
-                      codePage="1252"
-                      dataType="str"
-                      length="20"
-                      name="HORARIO" />
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Horario]"
+                      dataType="wstr"
+                      length="30"
+                      name="Horario" />
                     <externalMetadataColumn
-                      refId="Package\ETL CuartoBABI\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ESTADO]"
-                      codePage="1252"
-                      dataType="str"
-                      length="20"
-                      name="ESTADO" />
-                    <externalMetadataColumn
-                      refId="Package\ETL CuartoBABI\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CICLO_ESCOLAR]"
-                      dataType="i4"
-                      name="CICLO_ESCOLAR" />
-                    <externalMetadataColumn
-                      refId="Package\ETL CuartoBABI\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[userETL]"
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Estado]"
                       dataType="wstr"
                       length="20"
+                      name="Estado" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CicloEscolar]"
+                      dataType="i4"
+                      name="CicloEscolar" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[userETL]"
+                      dataType="wstr"
+                      length="100"
                       name="userETL" />
                     <externalMetadataColumn
-                      refId="Package\ETL CuartoBABI\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[dateETL]"
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[dateETL]"
                       dataType="dbTimeStamp"
                       name="dateETL" />
                   </externalMetadataColumns>
@@ -362,22 +346,22 @@
               </inputs>
               <outputs>
                 <output
-                  refId="Package\ETL CuartoBABI\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                  refId="Package\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
                   exclusionGroup="1"
                   isErrorOut="true"
                   name="OLE DB Destination Error Output"
-                  synchronousInputId="Package\ETL CuartoBABI\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                  synchronousInputId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\ETL CuartoBABI\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      refId="Package\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\ETL CuartoBABI\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      lineageId="Package\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\ETL CuartoBABI\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      refId="Package\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\ETL CuartoBABI\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      lineageId="Package\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -386,7 +370,7 @@
               </outputs>
             </component>
             <component
-              refId="Package\ETL CuartoBABI\OLE DB Source"
+              refId="Package\Data Flow Task\OLE DB Source"
               componentClassID="Microsoft.OLEDBSource"
               contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
               description="OLE DB Source"
@@ -401,7 +385,7 @@
                 <property
                   dataType="System.String"
                   description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset">[dbo].[ALUMNOS_4BIOLOGIA]</property>
+                  name="OpenRowset">[dbo].[ex_PrimeroBasico]</property>
                 <property
                   dataType="System.String"
                   description="Specifies the variable that contains the name of the database object used to open a rowset."
@@ -435,7 +419,7 @@
               </properties>
               <connections>
                 <connection
-                  refId="Package\ETL CuartoBABI\OLE DB Source.Connections[OleDbConnection]"
+                  refId="Package\Data Flow Task\OLE DB Source.Connections[OleDbConnection]"
                   connectionManagerID="Package.ConnectionManagers[GERBER-CANAHUI.db_ColegioDATA]"
                   connectionManagerRefId="Package.ConnectionManagers[GERBER-CANAHUI.db_ColegioDATA]"
                   description="The OLE DB runtime connection used to access the database."
@@ -443,185 +427,156 @@
               </connections>
               <outputs>
                 <output
-                  refId="Package\ETL CuartoBABI\OLE DB Source.Outputs[OLE DB Source Output]"
+                  refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output]"
                   name="OLE DB Source Output">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\ETL CuartoBABI\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_ALUMNO]"
-                      dataType="i4"
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[ApellidosNombres]"
+                      dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\ETL CuartoBABI\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_ALUMNO]"
-                      lineageId="Package\ETL CuartoBABI\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_ALUMNO]"
-                      name="ID_ALUMNO"
-                      truncationRowDisposition="FailComponent" />
-                    <outputColumn
-                      refId="Package\ETL CuartoBABI\OLE DB Source.Outputs[OLE DB Source Output].Columns[APELLIDOS_NOMBRES]"
-                      codePage="1252"
-                      dataType="str"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\ETL CuartoBABI\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[APELLIDOS_NOMBRES]"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ApellidosNombres]"
                       length="150"
-                      lineageId="Package\ETL CuartoBABI\OLE DB Source.Outputs[OLE DB Source Output].Columns[APELLIDOS_NOMBRES]"
-                      name="APELLIDOS_NOMBRES"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[ApellidosNombres]"
+                      name="ApellidosNombres"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\ETL CuartoBABI\OLE DB Source.Outputs[OLE DB Source Output].Columns[GRADO]"
-                      codePage="1252"
-                      dataType="str"
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[Grado]"
+                      dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\ETL CuartoBABI\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[GRADO]"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Grado]"
                       length="50"
-                      lineageId="Package\ETL CuartoBABI\OLE DB Source.Outputs[OLE DB Source Output].Columns[GRADO]"
-                      name="GRADO"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[Grado]"
+                      name="Grado"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\ETL CuartoBABI\OLE DB Source.Outputs[OLE DB Source Output].Columns[SECCION]"
-                      codePage="1252"
-                      dataType="str"
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[Seccion]"
+                      dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\ETL CuartoBABI\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SECCION]"
-                      length="1"
-                      lineageId="Package\ETL CuartoBABI\OLE DB Source.Outputs[OLE DB Source Output].Columns[SECCION]"
-                      name="SECCION"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Seccion]"
+                      length="5"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[Seccion]"
+                      name="Seccion"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\ETL CuartoBABI\OLE DB Source.Outputs[OLE DB Source Output].Columns[HORARIO]"
-                      codePage="1252"
-                      dataType="str"
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[Horario]"
+                      dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\ETL CuartoBABI\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[HORARIO]"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Horario]"
+                      length="30"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[Horario]"
+                      name="Horario"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[Estado]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Estado]"
                       length="20"
-                      lineageId="Package\ETL CuartoBABI\OLE DB Source.Outputs[OLE DB Source Output].Columns[HORARIO]"
-                      name="HORARIO"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[Estado]"
+                      name="Estado"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\ETL CuartoBABI\OLE DB Source.Outputs[OLE DB Source Output].Columns[ESTADO]"
-                      codePage="1252"
-                      dataType="str"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\ETL CuartoBABI\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ESTADO]"
-                      length="20"
-                      lineageId="Package\ETL CuartoBABI\OLE DB Source.Outputs[OLE DB Source Output].Columns[ESTADO]"
-                      name="ESTADO"
-                      truncationRowDisposition="FailComponent" />
-                    <outputColumn
-                      refId="Package\ETL CuartoBABI\OLE DB Source.Outputs[OLE DB Source Output].Columns[CICLO_ESCOLAR]"
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[CicloEscolar]"
                       dataType="i4"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\ETL CuartoBABI\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CICLO_ESCOLAR]"
-                      lineageId="Package\ETL CuartoBABI\OLE DB Source.Outputs[OLE DB Source Output].Columns[CICLO_ESCOLAR]"
-                      name="CICLO_ESCOLAR"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CicloEscolar]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[CicloEscolar]"
+                      name="CicloEscolar"
                       truncationRowDisposition="FailComponent" />
                   </outputColumns>
                   <externalMetadataColumns
                     isUsed="True">
                     <externalMetadataColumn
-                      refId="Package\ETL CuartoBABI\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_ALUMNO]"
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Id]"
                       dataType="i4"
-                      name="ID_ALUMNO" />
+                      name="Id" />
                     <externalMetadataColumn
-                      refId="Package\ETL CuartoBABI\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[APELLIDOS_NOMBRES]"
-                      codePage="1252"
-                      dataType="str"
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ApellidosNombres]"
+                      dataType="wstr"
                       length="150"
-                      name="APELLIDOS_NOMBRES" />
+                      name="ApellidosNombres" />
                     <externalMetadataColumn
-                      refId="Package\ETL CuartoBABI\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[GRADO]"
-                      codePage="1252"
-                      dataType="str"
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Grado]"
+                      dataType="wstr"
                       length="50"
-                      name="GRADO" />
+                      name="Grado" />
                     <externalMetadataColumn
-                      refId="Package\ETL CuartoBABI\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SECCION]"
-                      codePage="1252"
-                      dataType="str"
-                      length="1"
-                      name="SECCION" />
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Seccion]"
+                      dataType="wstr"
+                      length="5"
+                      name="Seccion" />
                     <externalMetadataColumn
-                      refId="Package\ETL CuartoBABI\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[HORARIO]"
-                      codePage="1252"
-                      dataType="str"
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Horario]"
+                      dataType="wstr"
+                      length="30"
+                      name="Horario" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Estado]"
+                      dataType="wstr"
                       length="20"
-                      name="HORARIO" />
+                      name="Estado" />
                     <externalMetadataColumn
-                      refId="Package\ETL CuartoBABI\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ESTADO]"
-                      codePage="1252"
-                      dataType="str"
-                      length="20"
-                      name="ESTADO" />
-                    <externalMetadataColumn
-                      refId="Package\ETL CuartoBABI\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CICLO_ESCOLAR]"
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CicloEscolar]"
                       dataType="i4"
-                      name="CICLO_ESCOLAR" />
+                      name="CicloEscolar" />
                   </externalMetadataColumns>
                 </output>
                 <output
-                  refId="Package\ETL CuartoBABI\OLE DB Source.Outputs[OLE DB Source Error Output]"
+                  refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output]"
                   isErrorOut="true"
                   name="OLE DB Source Error Output">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\ETL CuartoBABI\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_ALUMNO]"
-                      dataType="i4"
-                      lineageId="Package\ETL CuartoBABI\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_ALUMNO]"
-                      name="ID_ALUMNO" />
-                    <outputColumn
-                      refId="Package\ETL CuartoBABI\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[APELLIDOS_NOMBRES]"
-                      codePage="1252"
-                      dataType="str"
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ApellidosNombres]"
+                      dataType="wstr"
                       length="150"
-                      lineageId="Package\ETL CuartoBABI\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[APELLIDOS_NOMBRES]"
-                      name="APELLIDOS_NOMBRES" />
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ApellidosNombres]"
+                      name="ApellidosNombres" />
                     <outputColumn
-                      refId="Package\ETL CuartoBABI\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[GRADO]"
-                      codePage="1252"
-                      dataType="str"
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Grado]"
+                      dataType="wstr"
                       length="50"
-                      lineageId="Package\ETL CuartoBABI\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[GRADO]"
-                      name="GRADO" />
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Grado]"
+                      name="Grado" />
                     <outputColumn
-                      refId="Package\ETL CuartoBABI\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SECCION]"
-                      codePage="1252"
-                      dataType="str"
-                      length="1"
-                      lineageId="Package\ETL CuartoBABI\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SECCION]"
-                      name="SECCION" />
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Seccion]"
+                      dataType="wstr"
+                      length="5"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Seccion]"
+                      name="Seccion" />
                     <outputColumn
-                      refId="Package\ETL CuartoBABI\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[HORARIO]"
-                      codePage="1252"
-                      dataType="str"
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Horario]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Horario]"
+                      name="Horario" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Estado]"
+                      dataType="wstr"
                       length="20"
-                      lineageId="Package\ETL CuartoBABI\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[HORARIO]"
-                      name="HORARIO" />
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Estado]"
+                      name="Estado" />
                     <outputColumn
-                      refId="Package\ETL CuartoBABI\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ESTADO]"
-                      codePage="1252"
-                      dataType="str"
-                      length="20"
-                      lineageId="Package\ETL CuartoBABI\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ESTADO]"
-                      name="ESTADO" />
-                    <outputColumn
-                      refId="Package\ETL CuartoBABI\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CICLO_ESCOLAR]"
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CicloEscolar]"
                       dataType="i4"
-                      lineageId="Package\ETL CuartoBABI\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CICLO_ESCOLAR]"
-                      name="CICLO_ESCOLAR" />
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CicloEscolar]"
+                      name="CicloEscolar" />
                     <outputColumn
-                      refId="Package\ETL CuartoBABI\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\ETL CuartoBABI\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\ETL CuartoBABI\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\ETL CuartoBABI\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -632,15 +587,15 @@
           </components>
           <paths>
             <path
-              refId="Package\ETL CuartoBABI.Paths[Derived Column Output]"
-              endId="Package\ETL CuartoBABI\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              refId="Package\Data Flow Task.Paths[Derived Column Output]"
+              endId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input]"
               name="Derived Column Output"
-              startId="Package\ETL CuartoBABI\Derived Column.Outputs[Derived Column Output]" />
+              startId="Package\Data Flow Task\Derived Column.Outputs[Derived Column Output]" />
             <path
-              refId="Package\ETL CuartoBABI.Paths[OLE DB Source Output]"
-              endId="Package\ETL CuartoBABI\Derived Column.Inputs[Derived Column Input]"
+              refId="Package\Data Flow Task.Paths[OLE DB Source Output]"
+              endId="Package\Data Flow Task\Derived Column.Inputs[Derived Column Input]"
               name="OLE DB Source Output"
-              startId="Package\ETL CuartoBABI\OLE DB Source.Outputs[OLE DB Source Output]" />
+              startId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output]" />
           </paths>
         </pipeline>
       </DTS:ObjectData>
@@ -650,11 +605,11 @@
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint]"
       DTS:CreationName=""
-      DTS:DTSID="{BD50FD4A-CCFD-4412-A77D-D34D0F6F2F29}"
+      DTS:DTSID="{5E3BB423-4263-4E36-ADBC-3F626C32C3F0}"
       DTS:From="Package\DATA CLEAR TABLE"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint"
-      DTS:To="Package\ETL CuartoBABI" />
+      DTS:To="Package\Data Flow Task" />
   </DTS:PrecedenceConstraints>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
 <!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
@@ -673,23 +628,23 @@
           Id="Package\DATA CLEAR TABLE"
           TopLeft="152.142857466729,24.4705882138447" />
         <NodeLayout
-          Size="153.6,41.6"
-          Id="Package\ETL CuartoBABI"
-          TopLeft="167.14285749866,109.352941080618" />
+          Size="150.4,41.6"
+          Id="Package\Data Flow Task"
+          TopLeft="167.857143214467,126.176470477637" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
-          TopLeft="241.042857482695,66.0705882138447">
+          TopLeft="240.600000340598,66.0705882138447">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,43.2823528667738"
+              EndConnector="0,60.1058822637919"
               Start="0,0"
-              End="0,35.7823528667738">
+              End="0,52.6058822637919">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,35.7823528667738" />
+                    End="0,52.6058822637919" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -702,36 +657,36 @@
     </LayoutInfo>
   </Package>
   <TaskHost
-    design-time-name="Package\ETL CuartoBABI">
+    design-time-name="Package\Data Flow Task">
     <LayoutInfo>
       <GraphLayout
         Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="149.6,41.6"
-          Id="Package\ETL CuartoBABI\OLE DB Source"
-          TopLeft="177.142857519948,25.99999997721" />
-        <NodeLayout
           Size="152.8,41.6"
-          Id="Package\ETL CuartoBABI\Derived Column"
-          TopLeft="175.000000372529,126.176470477637" />
+          Id="Package\Data Flow Task\Derived Column"
+          TopLeft="187.142857541235,127.705882241002" />
         <NodeLayout
           Size="170.4,41.6"
-          Id="Package\ETL CuartoBABI\OLE DB Destination"
-          TopLeft="170.714286077692,242.411764493399" />
+          Id="Package\Data Flow Task\OLE DB Destination"
+          TopLeft="176.428571804142,220.999999806285" />
+        <NodeLayout
+          Size="149.6,41.6"
+          Id="Package\Data Flow Task\OLE DB Source"
+          TopLeft="182.857143246398,33.7647058702876" />
         <EdgeLayout
-          Id="Package\ETL CuartoBABI.Paths[OLE DB Source Output]"
-          TopLeft="251.671428946238,67.59999997721">
+          Id="Package\Data Flow Task.Paths[OLE DB Source Output]"
+          TopLeft="260.600000393816,75.3647058702877">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,58.5764705004267"
+              EndConnector="0,52.3411763707144"
               Start="0,0"
-              End="0,51.0764705004267">
+              End="0,44.8411763707144">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,51.0764705004267" />
+                    End="0,44.8411763707144" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -741,19 +696,19 @@
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\ETL CuartoBABI.Paths[Derived Column Output]"
-          TopLeft="253.65714322511,167.776470477637">
+          Id="Package\Data Flow Task.Paths[Derived Column Output]"
+          TopLeft="262.585714672688,169.305882241002">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,74.6352940157622"
+              EndConnector="0,51.694117565283"
               Start="0,0"
-              End="0,67.1352940157622">
+              End="0,44.194117565283">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,67.1352940157622" />
+                    End="0,44.194117565283" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -766,7 +721,7 @@
     </LayoutInfo>
   </TaskHost>
   <PipelineComponentMetadata
-    design-time-name="Package\ETL CuartoBABI\OLE DB Source">
+    design-time-name="Package\Data Flow Task\OLE DB Destination">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -779,7 +734,7 @@
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\ETL CuartoBABI\OLE DB Destination">
+    design-time-name="Package\Data Flow Task\OLE DB Source">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>

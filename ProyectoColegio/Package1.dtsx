@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="5/30/2026 5:57:30 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="GERBER-CANAHUI"
+  DTS:CreatorName="GERBER-CANAHUI\gerbe"
+  DTS:DTSID="{E6998289-A116-4214-BC4F-082AF387F21E}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="17.0.1016.0"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Package1"
+  DTS:PackageType="5"
+  DTS:VersionGUID="{AD526919-BC7C-4752-B81C-ED6F56A33A0A}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables />
+  <DTS:Executables />
+</DTS:Executable>
