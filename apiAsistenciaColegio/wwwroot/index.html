@@ -1,12 +1,9 @@
 ﻿<!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal de Asistencia | Sagrado Corazón de Jesús</title>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
+    <title>Sistema de Asistencia | Sagrado Corazón de Jesús</title>
 
     <script>
         if (!localStorage.getItem('tokenColegio')) {
@@ -14,273 +11,252 @@
         }
     </script>
 
+    <link rel="stylesheet" href="/css/adminlte.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
+
     <style>
-        :root {
-            --verde-oscuro: #1b5e20;
-            --verde-claro: #4caf50;
-            --fondo: #f4f9f4;
-            --blanco: #ffffff;
-            --texto: #333333;
+        .app-sidebar {
+            background-color: #f4f9f4 !important;
+            border-right: 1px solid #e0ebe0;
         }
 
-        body {
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            background-color: var(--fondo);
-            color: var(--texto);
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            padding: 40px 20px;
-            box-sizing: border-box;
+        .sidebar-brand {
+            background-color: #e8f2e8 !important;
+            border-bottom: 1px solid #d0e2d0;
+            padding: 15px !important;
         }
 
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-            .header h1 {
-                color: var(--verde-oscuro);
-                margin: 0 0 10px 0;
-                font-size: 28px;
+            .sidebar-brand .brand-text {
+                color: #1b5e20 !important;
+                font-weight: 700 !important;
             }
 
-            .header p {
-                color: #666;
-                margin: 0;
-                font-size: 16px;
-                font-weight: 500;
-            }
-
-        .menu-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 320px));
-            gap: 20px;
-            width: 100%;
-            max-width: 800px;
-            justify-content: center;
-            align-items: start;
-            margin-bottom: 50px;
-            flex-grow: 1;
-        }
-
-        .card {
-            background: var(--blanco);
-            width: 100%;
-            max-width: 320px;
-            padding: 30px 20px;
-            border-radius: 16px;
-            box-shadow: 0 8px 24px rgba(76, 175, 80, 0.15);
-            text-align: center;
-            text-decoration: none;
-            color: var(--texto);
-            border-top: 5px solid var(--verde-claro);
-            transition: transform 0.3s, box-shadow 0.3s;
-            cursor: pointer;
-            box-sizing: border-box;
-            height: auto;
-        }
-
-            .card:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 12px 28px rgba(76, 175, 80, 0.25);
-            }
-
-                .card:hover .card-icon {
-                    transform: scale(1.15);
-                }
-
-        .card-icon {
-            font-size: 50px;
-            margin-bottom: 15px;
-            display: inline-block;
-            transition: transform 0.3s ease;
-        }
-
-        .card-title {
-            font-size: 20px;
-            font-weight: bold;
-            color: var(--verde-oscuro);
-            margin-bottom: 10px;
-        }
-
-        .card-text {
-            font-size: 14px;
-            color: #666;
-            line-height: 1.5;
-        }
-
-        /* Estilos para el botón inferior */
-        .footer-controls {
-            width: 100%;
-            text-align: center;
-            margin-top: auto; /* Empuja al fondo */
-            padding: 20px 0;
-        }
-
-        .btn-logout {
-            background-color: #c62828;
-            color: white;
-            border: none;
-            padding: 10px 25px;
+        .nav-link {
+            color: #333 !important;
+            font-weight: 500;
             border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 15px;
-            transition: background-color 0.3s, transform 0.2s;
-            box-shadow: 0 4px 6px rgba(198, 40, 40, 0.2);
+            margin: 2px 10px;
+            transition: 0.3s;
         }
 
-            .btn-logout:hover {
-                background-color: #b71c1c;
-                transform: translateY(-2px);
-                box-shadow: 0 6px 12px rgba(198, 40, 40, 0.3);
+            .nav-link:hover {
+                background-color: #e8f5e9 !important;
+                color: #1b5e20 !important;
+                transform: translateX(5px);
             }
+
+            .nav-link.active {
+                background-color: #1b5e20 !important;
+                color: #fff !important;
+                box-shadow: 0 4px 8px rgba(27,94,32,0.3);
+            }
+
+        .app-header {
+            background-color: #ffffff;
+            border-bottom: 1px solid #e0e0e0;
+        }
     </style>
 </head>
-<body>
 
-    <header class="header">
-        <h1>Sistema de Asistencia</h1>
-        <p>Colegio Católico Eco-tecnológico Sagrado Corazón de Jesús</p>
-        <div style="margin-top: 15px; display: inline-block; background-color: #e8f5e9; color: #1b5e20; padding: 5px 15px; border-radius: 20px; font-weight: bold; font-size: 14px; border: 1px solid #c8e6c9;">
-            👤 <span id="lblUsuarioActual">Cargando usuario...</span>
-        </div>
-    </header>
+<body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
+    <div class="app-wrapper">
+        <nav class="app-header navbar navbar-expand bg-body">
+            <div class="container-fluid">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" data-lte-toggle="sidebar" href="#" role="button"><i class="bi bi-list"></i></a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item dropdown user-menu">
+                        <!-- El diseño a dos líneas de tu compañero integrado en el botón -->
+                        <a href="#" class="nav-link dropdown-toggle d-flex align-items-center gap-2 px-3" data-bs-toggle="dropdown" style="height: auto;">
+                            <div class="text-end lh-sm" style="max-width: 150px;">
+                                <span class="d-block fw-bold text-dark text-truncate" id="lbl-usuario" style="font-size: 13px;">
+                                    Cargando...
+                                </span>
+                                <small class="text-muted d-block fw-semibold" id="lbl-rol-navbar" style="font-size: 11px;">
+                                    Rol
+                                </small>
+                            </div>
+                            <i class="bi bi-person-circle fs-3 text-success"></i>
+                        </a>
 
-    <main class="menu-container">
-        <a href="escaner.html" class="card" data-roles="Administrador,Alumno">
-            <div class="card-icon">📝</div>
-            <div class="card-title">Registrar Entrada</div>
-            <div class="card-text">Abrir para registrar el ingreso y salida de los estudiantes por escáner o digitado.</div>
-        </a>
+                        <!-- El menú desplegable para cerrar sesión -->
+                        <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end shadow-lg border-0 rounded-3 mt-2">
+                            <li class="user-footer text-center p-3">
+                                <button onclick="ejecutarCierreSesion()" class="btn btn-danger w-100 fw-bold">
+                                    <i class="bi bi-box-arrow-right me-2"></i> Cerrar Sesión
+                                </button>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
 
-        <a href="reporte.html" class="card" data-roles="Administrador,Maestro,Padre,Alumno">
-            <div class="card-icon">📊</div>
-            <div class="card-title">Reporte Diario</div>
-            <div class="card-text">Visualizar en tiempo real la lista de estudiantes presentes, ausentes y sus horas de marcaje.</div>
-        </a>
+        <aside class="app-sidebar shadow-sm" data-bs-theme="light">
+            <div class="sidebar-brand">
+                <a href="#" class="brand-link">
+                    <i class="bi bi-mortarboard-fill text-success fs-3 me-2"></i>
+                    <span class="brand-text">SCJ System</span>
+                </a>
+            </div>
+            <div class="sidebar-wrapper mt-3">
+                <nav class="mt-2">
+                    <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu" data-accordion="false">
 
-        <a href="#" class="card" onclick="consultarEstadoEnVivo(event)" data-roles="Administrador,Padre">
-            <div class="card-icon">🔎</div>
-            <div class="card-title">Consultar Estado</div>
-            <div class="card-text">Verifica rápidamente si un estudiante se encuentra dentro o fuera del colegio en este momento.</div>
-        </a>
+                        <li class="nav-item" data-roles="Administrador,Maestro,Padre,Alumno">
+                            <a href="#" class="nav-link active" onclick="cargarPantalla('dashboard.html', this)">
+                                <i class="nav-icon bi bi-house-door"></i><p>Inicio</p>
+                            </a>
+                        </li>
+                        <li class="nav-item" data-roles="Administrador,Alumno">
+                            <a href="#" class="nav-link" onclick="cargarPantalla('escaner.html', this)">
+                                <i class="nav-icon bi bi-qr-code-scan"></i><p>Registrar Entrada</p>
+                            </a>
+                        </li>
+                        <li class="nav-item" data-roles="Administrador,Maestro,Padre,Alumno">
+                            <a href="#" class="nav-link" onclick="cargarPantalla('reporte.html', this)">
+                                <i class="nav-icon bi bi-file-earmark-bar-graph"></i><p>Reporte Diario</p>
+                            </a>
+                        </li>
+                        <li class="nav-item" data-roles="Administrador,Maestro">
+                            <a href="#" class="nav-link" onclick="cargarPantalla('alumnos.html', this)">
+                                <i class="nav-icon bi bi-people"></i><p>Listado de Alumnos</p>
+                            </a>
+                        </li>
+                        <li class="nav-item" data-roles="Administrador">
+                            <a href="#" class="nav-link" onclick="cargarPantalla('dw_admin.html', this)">
+                                <i class="nav-icon bi bi-database-fill-gear"></i><p>Data Warehouse</p>
+                            </a>
+                        </li>
 
-        <a href="#" class="card" onclick="consultarAlumnosRiesgo(event)" data-roles="Administrador,Alumno">
-            <div class="card-icon">⚠️</div>
-            <div class="card-title">Alerta de Riesgo</div>
-            <div class="card-text">Identifica a los estudiantes que han superado el límite de inasistencias en el mes actual.</div>
-        </a>
+                        <li class="nav-header text-success fw-bold mt-3">OPERACIONES</li>
 
-        <a href="#" class="card" onclick="abrirModalJustificacion(event)" data-roles="Administrador,Padre">
-            <div class="card-icon">🩺</div>
-            <div class="card-title">Justificar Inasistencia</div>
-            <div class="card-text">Registra excusas médicas o permisos especiales para un estudiante en una fecha específica.</div>
-        </a>
+                        <li class="nav-item" data-roles="Administrador,Padre">
+                            <a href="#" class="nav-link" onclick="consultarEstadoEnVivo(event)">
+                                <i class="nav-icon bi bi-search"></i><p>Consultar Estado</p>
+                            </a>
+                        </li>
+                        <li class="nav-item" data-roles="Administrador,Alumno">
+                            <a href="#" class="nav-link" onclick="consultarAlumnosRiesgo(event)">
+                                <i class="nav-icon bi bi-exclamation-triangle"></i><p>Alerta de Riesgo</p>
+                            </a>
+                        </li>
+                        <li class="nav-item" data-roles="Administrador,Padre">
+                            <a href="#" class="nav-link" onclick="abrirModalJustificacion(event)">
+                                <i class="nav-icon bi bi-file-medical"></i><p>Justificar Inasistencia</p>
+                            </a>
+                        </li>
+                        <li class="nav-item" data-roles="Administrador,Maestro">
+                            <a href="#" class="nav-link" onclick="abrirModalEncargado(event)">
+                                <i class="nav-icon bi bi-person-hearts"></i><p>Asignar Encargados</p>
+                            </a>
+                        </li>
+                        <li class="nav-item" data-roles="Administrador,Maestro">
+                            <a href="#" class="nav-link" onclick="verBuzonJustificaciones(event)">
+                                <i class="nav-icon bi bi-inbox"></i><p>Buzón de Excusas</p>
+                            </a>
+                        </li>
+                        <li class="nav-item" data-roles="Administrador">
+                            <a href="#" class="nav-link" onclick="abrirModalInscripcion(event)">
+                                <i class="nav-icon bi bi-person-plus"></i><p>Inscribir Alumno</p>
+                            </a>
+                        </li>
+                        <li class="nav-item" data-roles="Administrador">
+                            <a href="#" class="nav-link" onclick="descargarQRsMasivo(event)">
+                                <i class="nav-icon bi bi-printer"></i><p>Exportar Gafetes</p>
+                            </a>
+                        </li>
+                        <li class="nav-item mt-4">
+                            <hr class="dropdown-divider border-success opacity-25">
+                        </li>
 
-        <a href="#" class="card" onclick="abrirModalEncargado(event)" data-roles="Administrador,Maestro">
-            <div class="card-icon">👨‍👩‍👦</div>
-            <div class="card-title">Asignar Encargados</div>
-            <div class="card-text">Vincula a los padres de familia o tutores legales con sus respectivos hijos en el sistema.</div>
-        </a>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link text-danger fw-bold" onclick="ejecutarCierreSesion()">
+                                <i class="nav-icon bi bi-box-arrow-right text-danger"></i>
+                                <p>Cerrar Sesión</p>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </aside>
 
-        <a href="#" class="card" onclick="verBuzonJustificaciones(event)" data-roles="Administrador,Maestro">
-            <div class="card-icon">📂</div>
-            <div class="card-title">Buzón de Excusas</div>
-            <div class="card-text">Revisa las cartas en PDF y las firmas electrónicas adjuntas a las solicitudes de justificación.</div>
-        </a>
+        <main class="app-main">
+            <iframe id="vista-activa" src="dashboard.html" style="width: 100%; height: calc(100vh - 60px); border: none;"></iframe>
+        </main>
+    </div>
 
-        <a href="#" class="card" onclick="abrirModalInscripcion(event)" data-roles="Administrador">
-            <div class="card-icon">🎓</div>
-            <div class="card-title">Inscribir Alumno</div>
-            <div class="card-text">Registra nuevos estudiantes, asígnales un grado y genera su código QR y expediente multimedia.</div>
-        </a>
-
-        <a href="#" class="card" onclick="descargarQRsMasivo(event)" data-roles="Administrador">
-            <div class="card-icon">🖨️</div>
-            <div class="card-title">Exportar Gafetes</div>
-            <div class="card-text">Descarga un archivo ZIP con los códigos QR de todos los alumnos, organizados por grado y sección.</div>
-        </a>
-
-        <a href="dw_admin.html" class="card" data-roles="Administrador">
-            <div class="card-icon">🗄️</div>
-            <div class="card-title">Data Warehouse</div>
-            <div class="card-text">Consultar el padrón unificado de estudiantes y cargar nuevos lotes de datos desde Excel, SQL u Oracle.</div>
-        </a>
-    </main>
-
-    <footer class="footer-controls">
-        <button onclick="cerrarSesion()" class="btn-logout">
-            Cerrar Sesión
-        </button>
-    </footer>
+    <script src="/js/adminlte.js"></script>
 
     <script>
         // =======================================================
-        // ========== CONTROL DE ACCESO BASADO EN ROLES ==========
+        // 1. LÓGICA DE INTERFAZ Y ROLES (ADMINLTE)
         // =======================================================
-        function aplicarPermisosSegunRol() {
-            // 1. Obtenemos los datos del LocalStorage
+        document.addEventListener("DOMContentLoaded", () => {
             const rolActual = localStorage.getItem('rolUsuario') || 'Desconocido';
             const nombreActual = localStorage.getItem('nombreUsuario') || 'Usuario';
 
-            // 2. Actualizamos la etiqueta visual de la cabecera
-            document.getElementById('lblUsuarioActual').textContent = `${nombreActual} (Rol: ${rolActual})`;
+            // Enviamos los datos al nuevo diseño de la barra superior
+            document.getElementById('lbl-usuario').innerText = nombreActual;
+            document.getElementById('lbl-rol-navbar').innerText = rolActual;
 
-            // 3. Filtramos las tarjetas del menú
-            const tarjetas = document.querySelectorAll('.card');
-
-            tarjetas.forEach(tarjeta => {
-                // Leemos los roles permitidos que escribimos en el HTML
-                const rolesPermitidos = tarjeta.getAttribute('data-roles');
-
+            const items = document.querySelectorAll('.nav-item[data-roles]');
+            items.forEach(item => {
+                const rolesPermitidos = item.getAttribute('data-roles');
                 if (rolesPermitidos) {
-                    // Convertimos todo a minúsculas para evitar errores de escritura (ej. ADMIN vs Admin)
                     const arrayRoles = rolesPermitidos.toLowerCase().split(',');
                     const rolUsuarioLimpio = rolActual.toLowerCase().trim();
-
-                    // Lógica de acceso: Si NO es Administrador y su rol NO está en la lista de permitidos
                     if (rolUsuarioLimpio !== 'administrador' && !arrayRoles.includes(rolUsuarioLimpio)) {
-                        tarjeta.style.display = 'none'; // Ocultamos la tarjeta del DOM
+                        item.style.display = 'none';
                     }
                 }
             });
+        });
+
+        function cargarPantalla(url, elemento) {
+            document.getElementById('vista-activa').src = url;
+            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+            if (elemento) elemento.classList.add('active');
+
+            if (window.innerWidth <= 992) {
+                document.body.classList.remove('sidebar-open');
+                document.body.classList.add('sidebar-collapse');
+            }
         }
 
-        // Ejecutamos la función inmediatamente al cargar la pantalla
-        window.addEventListener('DOMContentLoaded', aplicarPermisosSegunRol);
-
-        function cerrarSesion() {
-            // Destruimos el "Gafete Virtual" (Token) y datos del usuario
-            localStorage.removeItem('tokenColegio');
-            localStorage.removeItem('nombreUsuario');
-            localStorage.removeItem('rolUsuario');
-
-            // Redirigimos al login usando replace para limpiar el historial
+        function ejecutarCierreSesion() {
+            localStorage.clear();
             window.location.replace('login.html');
         }
 
+        // =======================================================
+        // 2. FUNCIONES OPERATIVAS RESTAURADAS (SWEETALERT AVANZADO)
+        // =======================================================
+
+        // --- UTILIDAD BASE64 ---
+        const fileToBase64 = file => new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result.split(',')[1]);
+            reader.onerror = error => reject(error);
+        });
+
+        // --- ESTADO EN VIVO ---
         async function consultarEstadoEnVivo(event) {
             event.preventDefault();
-
             const { value: codigoQR } = await Swal.fire({
-                title: 'Consultar Estado en Vivo',
-                input: 'text',
-                inputLabel: 'Ingrese el código de carnet o gafete',
-                inputPlaceholder: 'Ej. QDR456WE',
-                showCancelButton: true,
-                confirmButtonText: '🔎 Buscar',
-                cancelButtonText: 'Cancelar',
-                confirmButtonColor: '#1b5e20'
+                title: 'Consultar Estado en Vivo', input: 'text', inputPlaceholder: 'Ej. QDR456WE', showCancelButton: true, confirmButtonText: '🔎 Buscar', confirmButtonColor: '#1b5e20'
             });
 
             if (codigoQR) {
                 try {
                     Swal.fire({ title: 'Buscando...', didOpen: () => Swal.showLoading() });
-
                     const response = await fetch(`/api/asistencia/estado/${codigoQR.trim()}`);
                     const data = await response.json();
 
@@ -288,684 +264,251 @@
                         let colorEstado = '#f57f17';
                         if (data.estado.toLowerCase() === 'entrada') colorEstado = '#2e7d32';
                         if (data.estado.toLowerCase() === 'salida') colorEstado = '#c62828';
-
-                        // Si el alumno no tiene foto asignada en la BD, usamos un avatar por defecto
                         const srcFoto = data.foto ? data.foto : 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png';
 
                         Swal.fire({
                             title: data.nombre,
                             html: `
                                 <div style="text-align: center;">
-                                    <img src="${srcFoto}" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 3px solid var(--verde-claro); margin-bottom: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);"><br>
+                                    <img src="${srcFoto}" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 3px solid var(--verde-claro); margin-bottom: 15px;"><br>
                                     <span style="font-size: 14px; color: #555;">Estado Actual:</span><br>
                                     <b style="color: ${colorEstado}; font-size: 22px; padding: 5px 15px; border: 2px solid ${colorEstado}; border-radius: 8px; display: inline-block; margin-top: 5px; margin-bottom: 15px;">
                                         ${data.estado.toUpperCase()}
                                     </b><br>
-                                    <a href="#" onclick="cambiarFotoPerfil('${codigoQR.trim()}')" style="color: var(--verde-oscuro); font-size: 12px; font-weight: bold; text-decoration: underline;">📷 Actualizar Fotografía</a>
+                                    <a href="#" onclick="cambiarFotoPerfil('${codigoQR.trim()}')" style="color: #1b5e20; font-size: 12px; font-weight: bold; text-decoration: underline;">📷 Actualizar Fotografía</a>
                                 </div>
                             `,
-                            confirmButtonColor: '#1b5e20',
-                            confirmButtonText: 'Cerrar'
+                            confirmButtonColor: '#1b5e20'
                         });
                     } else {
                         Swal.fire('No Encontrado', data.mensaje, 'warning');
                     }
-                } catch (error) {
-                    Swal.fire('Error de Red', 'No se pudo conectar al servidor.', 'error');
-                }
+                } catch (error) { Swal.fire('Error', 'No se pudo conectar al servidor.', 'error'); }
             }
         }
 
-        // Nueva función auxiliar para cambiar la foto de perfil al vuelo
+        // --- ACTUALIZAR FOTO ---
         async function cambiarFotoPerfil(carnet) {
-            const { value: file } = await Swal.fire({
-                title: 'Actualizar Fotografía',
-                input: 'file',
-                inputAttributes: { 'accept': 'image/*', 'aria-label': 'Suba la foto de perfil' },
-                showCancelButton: true,
-                confirmButtonText: 'Subir',
-                confirmButtonColor: '#1b5e20'
-            });
-
+            const { value: file } = await Swal.fire({ title: 'Actualizar Fotografía', input: 'file', inputAttributes: { 'accept': 'image/*' }, showCancelButton: true, confirmButtonColor: '#1b5e20' });
             if (file) {
-                try {
-                    Swal.fire({ title: 'Procesando imagen...', didOpen: () => Swal.showLoading() });
-
-                    // Reutilizamos la lógica de conversión a Base64
-                    const imagenB64 = await fileToBase64(file);
-
-                    const response = await fetch('/api/asistencia/subir-foto', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ codigoQR: carnet, fotoBase64: imagenB64 })
-                    });
-
-                    const data = await response.json();
-                    if (response.ok) {
-                        Swal.fire('¡Completado!', data.mensaje, 'success');
-                    } else {
-                        Swal.fire('Error', data.mensaje, 'warning');
-                    }
-                } catch (e) {
-                    Swal.fire('Error', 'No se pudo procesar la subida de la imagen.', 'error');
-                }
+                Swal.fire({ title: 'Procesando...', didOpen: () => Swal.showLoading() });
+                const imagenB64 = await fileToBase64(file);
+                const response = await fetch('/api/asistencia/subir-foto', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ codigoQR: carnet, fotoBase64: imagenB64 }) });
+                const data = await response.json();
+                response.ok ? Swal.fire('¡Completado!', data.mensaje, 'success') : Swal.fire('Error', data.mensaje, 'warning');
             }
         }
 
+        // --- ALUMNOS EN RIESGO ---
         async function consultarAlumnosRiesgo(event) {
             event.preventDefault();
-
-            const { value: maxFaltas } = await Swal.fire({
-                title: 'Alumnos en Riesgo',
-                input: 'number',
-                inputLabel: 'Ingrese el límite de inasistencias (Ej. 3)',
-                inputValue: 3,
-                showCancelButton: true,
-                confirmButtonText: 'Generar Reporte',
-                cancelButtonText: 'Cancelar',
-                confirmButtonColor: '#1b5e20'
-            });
+            const { value: maxFaltas } = await Swal.fire({ title: 'Alumnos en Riesgo', input: 'number', inputValue: 3, showCancelButton: true, confirmButtonText: 'Generar Reporte', confirmButtonColor: '#1b5e20' });
 
             if (maxFaltas) {
-                try {
-                    Swal.fire({ title: 'Calculando...', didOpen: () => Swal.showLoading() });
+                Swal.fire({ title: 'Calculando...', didOpen: () => Swal.showLoading() });
+                const fechaActual = new Date();
+                const mes = fechaActual.getMonth() + 1;
+                const anio = fechaActual.getFullYear();
+                const response = await fetch(`/api/asistencia/riesgo?mes=${mes}&anio=${anio}&maxFaltas=${maxFaltas}`);
+                const data = await response.json();
 
-                    const fechaActual = new Date();
-                    const mes = fechaActual.getMonth() + 1;
-                    const anio = fechaActual.getFullYear();
+                if (response.ok) {
+                    if (data.length === 0) return Swal.fire('¡Excelentes noticias!', `Nadie supera las ${maxFaltas} faltas.`, 'success');
 
-                    const response = await fetch(`/api/asistencia/riesgo?mes=${mes}&anio=${anio}&maxFaltas=${maxFaltas}`);
-                    const data = await response.json();
+                    let tablaHTML = `<div style="max-height: 300px; overflow-y: auto; text-align: left; margin-top: 15px;"><table style="width: 100%; border-collapse: collapse; font-size: 14px;"><thead><tr style="background-color: #f4f9f4; color: #1b5e20; border-bottom: 2px solid #4caf50;"><th style="padding: 10px;">Estudiante</th><th style="padding: 10px; text-align: center;">Faltas</th></tr></thead><tbody>`;
+                    data.forEach(est => {
+                        let colorBadge = est.nivelRiesgo === 'Crítico' ? '#c62828' : '#f57f17';
+                        let bgBadge = est.nivelRiesgo === 'Crítico' ? '#ffebee' : '#fff3e0';
+                        tablaHTML += `<tr style="border-bottom: 1px solid #eee;"><td style="padding: 10px;">${est.nombreCompleto}</td><td style="padding: 10px; text-align: center;"><span style="background-color: ${bgBadge}; color: ${colorBadge}; padding: 5px 10px; border-radius: 12px; font-weight: bold; font-size: 12px;">${est.faltasAcumuladas} (${est.nivelRiesgo})</span></td></tr>`;
+                    });
+                    tablaHTML += `</tbody></table></div>`;
 
-                    if (response.ok) {
-                        if (data.length === 0) {
-                            Swal.fire({
-                                icon: 'success',
-                                title: '¡Excelentes noticias!',
-                                text: `Ningún estudiante supera las ${maxFaltas} faltas este mes.`,
-                                confirmButtonColor: '#1b5e20'
-                            });
-                            return;
-                        }
-
-                        // Construcción de la tabla HTML para la vista previa
-                        let tablaHTML = `
-                            <div style="max-height: 300px; overflow-y: auto; text-align: left; margin-top: 15px;">
-                                <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
-                                    <thead>
-                                        <tr style="background-color: #f4f9f4; color: #1b5e20; border-bottom: 2px solid #4caf50;">
-                                            <th style="padding: 10px;">Estudiante</th>
-                                            <th style="padding: 10px; text-align: center;">Faltas</th>
-                                            <th style="padding: 10px; text-align: center;">Estado</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                            `;
-
-                        data.forEach(est => {
-                            let colorBadge = est.nivelRiesgo === 'Crítico' ? '#c62828' : '#f57f17';
-                            let bgBadge = est.nivelRiesgo === 'Crítico' ? '#ffebee' : '#fff3e0';
-
-                            tablaHTML += `
-                                    <tr style="border-bottom: 1px solid #eee;">
-                                        <td style="padding: 10px; font-weight: 500;">${est.nombreCompleto}</td>
-                                        <td style="padding: 10px; font-weight: bold; text-align: center; font-size: 16px;">${est.faltasAcumuladas}</td>
-                                        <td style="padding: 10px; text-align: center;">
-                                            <span style="background-color: ${bgBadge}; color: ${colorBadge}; padding: 5px 10px; border-radius: 12px; font-weight: bold; font-size: 12px;">
-                                                ${est.nivelRiesgo}
-                                            </span>
-                                        </td>
-                                    </tr>
-                                `;
-                        });
-
-                        tablaHTML += `</tbody></table></div>`;
-
-                        // CAMBIO AQUÍ: Agregamos el botón de denegación configurado como botón de Excel
-                        Swal.fire({
-                            title: `Reporte de Riesgo (${mes}/${anio})`,
-                            html: tablaHTML,
-                            width: 600,
-                            showConfirmButton: true,
-                            confirmButtonText: 'Cerrar',
-                            confirmButtonColor: '#555555',
-                            showDenyButton: true,
-                            denyButtonText: '📊 Descargar Excel',
-                            denyButtonColor: '#217346' // Color característico de Microsoft Excel
-                        }).then((result) => {
-                            // Si hacen clic en el botón de Excel
-                            if (result.isDenied) {
-                                exportarRiesgoAExcel(data, mes, anio);
-                            }
-                        });
-
-                    } else {
-                        Swal.fire('Error', data.mensaje || 'Error al generar el reporte', 'error');
-                    }
-                } catch (error) {
-                    Swal.fire('Error de Red', 'No se pudo conectar al servidor.', 'error');
+                    Swal.fire({ title: `Riesgo (${mes}/${anio})`, html: tablaHTML, width: 600, showConfirmButton: true, confirmButtonColor: '#555555', showDenyButton: true, denyButtonText: '📊 Descargar Excel', denyButtonColor: '#217346' })
+                        .then((result) => { if (result.isDenied) exportarRiesgoAExcel(data, mes, anio); });
                 }
             }
         }
 
-        // =======================================================================
-        // ============ FUNCIÓN EXCLUSIVA PARA EXPORTAR EL REPORTE ============
-        // =======================================================================
         function exportarRiesgoAExcel(data, mes, anio) {
-            // 1. Estructura base de las filas de Excel
-            const filasExcel = [
-                ["REPORTE DE ESTUDIANTES EN RIESGO DE INASISTENCIAS"],
-                [`Período Evaluado: ${mes}/${anio} -- Generado el: ${new Date().toLocaleDateString('es-ES')}`],
-                ["ID Estudiante", "Nombre Completo", "Faltas Acumuladas", "Nivel de Riesgo"]
-            ];
-
-            // 2. Volcamos los datos del JSON a la matriz
-            data.forEach(item => {
-                filasExcel.push([item.idEstudiante, item.nombreCompleto, item.faltasAcumuladas, item.nivelRiesgo]);
-            });
-
-            const libro = XLSX.utils.book_new();
-            const hoja = XLSX.utils.aoa_to_sheet(filasExcel);
-
-            // 3. Combinación de celdas para los títulos superiores (Columnas de la A a la D)
-            hoja['!merges'] = [
-                { s: { r: 0, c: 0 }, e: { r: 0, c: 3 } },
-                { s: { r: 1, c: 0 }, e: { r: 1, c: 3 } }
-            ];
-
-            // 4. Inyección de estilos celda por celda
-            for (let celda in hoja) {
-                if (celda[0] === '!') continue;
-
-                let numFila = parseInt(celda.replace(/\D/g, ''));
-                let letraColumna = celda.replace(/[0-9]/g, '');
-
-                // Estilo base general (Centrado, con tipografía Segoe UI y bordes finos grises)
-                hoja[celda].s = {
-                    alignment: { horizontal: "center", vertical: "center" },
-                    border: {
-                        top: { style: "thin", color: { rgb: "CCCCCC" } },
-                        bottom: { style: "thin", color: { rgb: "CCCCCC" } },
-                        left: { style: "thin", color: { rgb: "CCCCCC" } },
-                        right: { style: "thin", color: { rgb: "CCCCCC" } }
-                    },
-                    font: { name: "Segoe UI", sz: 11 }
-                };
-
-                // Estilo Fila 1: Gran Título Institucional
-                if (numFila === 1) {
-                    hoja[celda].s.font = { bold: true, sz: 13, color: { rgb: "FFFFFF" }, name: "Segoe UI" };
-                    hoja[celda].s.fill = { fgColor: { rgb: "1B5E20" } }; // Verde Oscuro del Colegio
-                }
-                // Estilo Fila 2: Subtítulo de fechas
-                else if (numFila === 2) {
-                    hoja[celda].s.font = { italic: true, sz: 10, color: { rgb: "555555" }, name: "Segoe UI" };
-                    hoja[celda].s.fill = { fgColor: { rgb: "F4F9F4" } };
-                }
-                // Estilo Fila 3: Encabezados de la Tabla
-                else if (numFila === 3) {
-                    hoja[celda].s.font = { bold: true, color: { rgb: "1B5E20" }, name: "Segoe UI" };
-                    hoja[celda].s.fill = { fgColor: { rgb: "E8F5E9" } }; // Verde Claro
-                }
-                // Estilo Filas 4 en adelante: Registros de Alumnos
-                else if (numFila > 3) {
-                    // Los nombres quedan mejor alineados a la izquierda
-                    if (letraColumna === 'B') {
-                        hoja[celda].s.alignment = { horizontal: "left", vertical: "center" };
-                    }
-                    // Formato Condicional para la columna de Riesgo (Columna D)
-                    if (letraColumna === 'D') {
-                        let riesgo = hoja[celda].v;
-                        if (riesgo === 'Crítico') {
-                            hoja[celda].s.font = { bold: true, color: { rgb: "C62828" }, name: "Segoe UI" }; // Texto Rojo
-                            hoja[celda].s.fill = { fgColor: { rgb: "FFEBEE" } }; // Fondo Rojo Suave
-                        } else {
-                            hoja[celda].s.font = { bold: true, color: { rgb: "F57F17" }, name: "Segoe UI" }; // Texto Naranja
-                            hoja[celda].s.fill = { fgColor: { rgb: "FFF3E0" } }; // Fondo Naranja Suave
-                        }
-                    }
-                }
-            }
-
-            // 5. Ajuste manual de anchura para evitar que los textos largos se corten
-            hoja['!cols'] = [
-                { wch: 15 }, // A: ID Estudiante
-                { wch: 35 }, // B: Nombre Completo
-                { wch: 18 }, // C: Faltas Acumuladas
-                { wch: 18 }  // D: Nivel de Riesgo
-            ];
-
-            // 6. Construcción y descarga del documento
-            XLSX.utils.book_append_sheet(libro, hoja, "Riesgo de Inasistencias");
-            XLSX.writeFile(libro, `Reporte_Alumnos_Riesgo_${mes}_${anio}.xlsx`);
+            const filasExcel = [["REPORTE EN RIESGO"], [`Período: ${mes}/${anio}`], ["ID Estudiante", "Nombre Completo", "Faltas Acumuladas", "Nivel de Riesgo"]];
+            data.forEach(item => filasExcel.push([item.idEstudiante, item.nombreCompleto, item.faltasAcumuladas, item.nivelRiesgo]));
+            const libro = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(libro, XLSX.utils.aoa_to_sheet(filasExcel), "Riesgo");
+            XLSX.writeFile(libro, `Riesgo_${mes}_${anio}.xlsx`);
         }
 
-        // Función auxiliar para convertir archivos a Base64
-        const fileToBase64 = file => new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            // El split(',') remueve la cabecera "data:image/png;base64," para enviar solo el texto puro a C#
-            reader.onload = () => resolve(reader.result.split(',')[1]);
-            reader.onerror = error => reject(error);
-        });
-
+        // --- JUSTIFICACIONES (Con PDF y Firma) ---
         async function abrirModalJustificacion(event) {
             event.preventDefault();
-
             const { value: formValues } = await Swal.fire({
                 title: 'Registrar Justificación',
                 html: `
-                        <div style="text-align: left; font-size: 14px; max-height: 450px; overflow-y: auto; padding-right: 5px;">
-                            <label style="font-weight: bold; color: var(--verde-oscuro);">Carnet del Estudiante:</label>
-                            <input id="j-carnet" class="swal2-input" style="margin-top: 5px; margin-bottom: 15px; width: 95%;" placeholder="Ej. QDR456WE">
-
-                            <label style="font-weight: bold; color: var(--verde-oscuro);">Fecha de la Falta:</label>
-                            <input id="j-fecha" type="date" class="swal2-input" style="margin-top: 5px; margin-bottom: 15px; width: 95%;">
-
-                            <label style="font-weight: bold; color: var(--verde-oscuro);">Modo de Justificación:</label>
-                            <select id="j-tipo" class="swal2-input" style="margin-top: 5px; margin-bottom: 15px; width: 95%;">
-                                <option value="texto">Motivo Escrito + Firma Electrónica</option>
-                                <option value="pdf">Adjuntar Carta / Constancia PDF</option>
-                            </select>
-
-                            <div id="div-texto">
-                                <label style="font-weight: bold; color: var(--verde-oscuro);">Motivo:</label>
-                                <textarea id="j-motivo" class="swal2-textarea" style="margin-top: 5px; margin-bottom: 15px; width: 95%;" placeholder="Ej. Ausencia por problemas de salud..."></textarea>
-
-                                <label style="font-weight: bold; color: var(--verde-oscuro);">Adjuntar Firma (Imagen JPG/PNG):</label>
-                                <input type="file" id="j-firma" accept="image/png, image/jpeg" style="margin-top: 10px; width: 95%;">
-                            </div>
-
-                            <div id="div-pdf" style="display: none;">
-                                <label style="font-weight: bold; color: var(--verde-oscuro);">Adjuntar Archivo PDF:</label>
-                                <input type="file" id="j-pdf" accept=".pdf" style="margin-top: 10px; width: 95%;">
-                            </div>
+                    <div style="text-align: left; font-size: 14px; max-height: 450px; overflow-y: auto;">
+                        <label>Carnet:</label> <input id="j-carnet" class="swal2-input" style="width: 90%;">
+                        <label>Fecha:</label> <input id="j-fecha" type="date" class="swal2-input" style="width: 90%;">
+                        <label>Modo:</label> 
+                        <select id="j-tipo" class="swal2-input" style="width: 90%;">
+                            <option value="texto">Motivo Escrito + Firma</option>
+                            <option value="pdf">Adjuntar PDF</option>
+                        </select>
+                        <div id="div-texto">
+                            <textarea id="j-motivo" class="swal2-textarea" placeholder="Motivo..."></textarea>
+                            <label>Firma (JPG/PNG):</label> <input type="file" id="j-firma" accept="image/*" style="width: 90%;">
                         </div>
-                    `,
-                focusConfirm: false,
-                showCancelButton: true,
-                confirmButtonText: '💾 Guardar y Procesar',
-                cancelButtonText: 'Cancelar',
-                confirmButtonColor: '#1b5e20',
-                width: '500px',
+                        <div id="div-pdf" style="display: none;">
+                            <label>PDF:</label> <input type="file" id="j-pdf" accept=".pdf" style="width: 90%;">
+                        </div>
+                    </div>
+                `,
+                focusConfirm: false, showCancelButton: true, confirmButtonText: 'Guardar', confirmButtonColor: '#1b5e20',
                 didOpen: () => {
-                    // Lógica para alternar las vistas según el selector
-                    const selectTipo = document.getElementById('j-tipo');
-                    const divTexto = document.getElementById('div-texto');
-                    const divPdf = document.getElementById('div-pdf');
-
-                    selectTipo.addEventListener('change', (e) => {
-                        if (e.target.value === 'texto') {
-                            divTexto.style.display = 'block';
-                            divPdf.style.display = 'none';
-                        } else {
-                            divTexto.style.display = 'none';
-                            divPdf.style.display = 'block';
-                        }
+                    document.getElementById('j-tipo').addEventListener('change', (e) => {
+                        document.getElementById('div-texto').style.display = e.target.value === 'texto' ? 'block' : 'none';
+                        document.getElementById('div-pdf').style.display = e.target.value === 'pdf' ? 'block' : 'none';
                     });
                 },
                 preConfirm: async () => {
                     const carnet = document.getElementById('j-carnet').value.trim();
                     const fecha = document.getElementById('j-fecha').value;
                     const tipo = document.getElementById('j-tipo').value;
+                    if (!carnet || !fecha) return Swal.showValidationMessage('Carnet y fecha obligatorios');
 
                     let motivo = "", pdfB64 = "", firmaB64 = "";
-
-                    if (!carnet || !fecha) {
-                        Swal.showValidationMessage('El carnet y la fecha son obligatorios.');
-                        return false;
-                    }
-
-                    // Validación y conversión a Base64 dinámica
                     if (tipo === 'texto') {
                         motivo = document.getElementById('j-motivo').value.trim();
                         const fileFirma = document.getElementById('j-firma').files[0];
-
-                        if (!motivo || !fileFirma) {
-                            Swal.showValidationMessage('Debe escribir el motivo y adjuntar la imagen de la firma.');
-                            return false;
-                        }
+                        if (!motivo || !fileFirma) return Swal.showValidationMessage('Motivo y firma obligatorios');
                         firmaB64 = await fileToBase64(fileFirma);
                     } else {
-                        motivo = "Justificación respaldada mediante documento adjunto en PDF.";
+                        motivo = "Respaldado por PDF adjunto.";
                         const filePdf = document.getElementById('j-pdf').files[0];
-
-                        if (!filePdf) {
-                            Swal.showValidationMessage('Debe seleccionar un archivo PDF válido.');
-                            return false;
-                        }
+                        if (!filePdf) return Swal.showValidationMessage('Selecciona el PDF');
                         pdfB64 = await fileToBase64(filePdf);
                     }
-
                     return { carnet, fecha, motivo, pdfB64, firmaB64 };
                 }
             });
 
             if (formValues) {
-                try {
-                    Swal.fire({ title: 'Procesando Archivos...', didOpen: () => Swal.showLoading() });
-
-                    const response = await fetch('/api/asistencia/justificar', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            codigoQR: formValues.carnet,
-                            fechaFalta: formValues.fecha,
-                            motivo: formValues.motivo,
-                            pdfBase64: formValues.pdfB64,
-                            firmaBase64: formValues.firmaB64
-                        })
-                    });
-
-                    const data = await response.json();
-
-                    if (response.ok) {
-                        Swal.fire('¡Registro Completado!', data.mensaje, 'success');
-                    } else {
-                        Swal.fire('Atención', data.mensaje, 'warning');
-                    }
-                } catch (error) {
-                    Swal.fire('Error de Red', 'No se pudo contactar al servidor para subir los archivos.', 'error');
-                }
+                Swal.fire({ title: 'Procesando...', didOpen: () => Swal.showLoading() });
+                const response = await fetch('/api/asistencia/justificar', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ codigoQR: formValues.carnet, fechaFalta: formValues.fecha, motivo: formValues.motivo, pdfBase64: formValues.pdfB64, firmaBase64: formValues.firmaB64 }) });
+                const data = await response.json();
+                response.ok ? Swal.fire('¡Éxito!', data.mensaje, 'success') : Swal.fire('Error', data.mensaje, 'warning');
             }
         }
 
+        // --- ASIGNAR ENCARGADOS ---
         async function abrirModalEncargado(event) {
             event.preventDefault();
-
-            // Desplegamos un modal con diseño de formulario adaptado
             const { value: formValues } = await Swal.fire({
-                title: 'Asignación de Padre o Tutor',
+                title: 'Asignar Padre o Tutor',
                 html: `
-                        <div style="text-align: left; font-size: 14px; max-height: 400px; overflow-y: auto; padding-right: 5px;">
-                            <label style="font-weight: bold; color: var(--verde-oscuro);">Carnet del Estudiante:</label>
-                            <input id="enc-carnet" class="swal2-input" style="margin-top: 5px; margin-bottom: 15px; width: 95%;" placeholder="Ej. QDR456WE">
-
-                            <label style="font-weight: bold; color: var(--verde-oscuro);">Parentesco / Vínculo:</label>
-                            <select id="enc-parentesco" class="swal2-input" style="margin-top: 5px; margin-bottom: 15px; width: 95%;">
-                                <option value="Padre">Padre</option>
-                                <option value="Madre">Madre</option>
-                                <option value="Tutor Legal">Tutor Legal</option>
-                                <option value="Abuelo/a">Abuelo/a</option>
-                            </select>
-
-                            <label style="font-weight: bold; color: var(--verde-oscuro);">DPI del Encargado:</label>
-                            <input id="enc-dpi" class="swal2-input" style="margin-top: 5px; margin-bottom: 15px; width: 95%;" placeholder="Ej. 2541852410101">
-
-                            <label style="font-weight: bold; color: var(--verde-oscuro);">Nombres:</label>
-                            <input id="enc-nombres" class="swal2-input" style="margin-top: 5px; margin-bottom: 15px; width: 95%;" placeholder="Nombres del tutor">
-
-                            <label style="font-weight: bold; color: var(--verde-oscuro);">Apellidos:</label>
-                            <input id="enc-apellidos" class="swal2-input" style="margin-top: 5px; margin-bottom: 15px; width: 95%;" placeholder="Apellidos del tutor">
-
-                            <label style="font-weight: bold; color: var(--verde-oscuro);">Teléfono de Contacto:</label>
-                            <input id="enc-telefono" class="swal2-input" style="margin-top: 5px; margin-bottom: 15px; width: 95%;" placeholder="Ej. 5555-1234">
-
-                            <label style="font-weight: bold; color: var(--verde-oscuro);">Correo Electrónico (Opcional):</label>
-                            <input id="enc-correo" type="email" class="swal2-input" style="margin-top: 5px; width: 95%;" placeholder="ejemplo@correo.com">
-                        </div>
-                    `,
-                focusConfirm: false,
-                showCancelButton: true,
-                confirmButtonText: '🔗 Vincular',
-                cancelButtonText: 'Cancelar',
-                confirmButtonColor: '#1b5e20',
-                width: '450px',
+                    <div style="text-align: left; font-size: 14px; max-height: 400px; overflow-y: auto;">
+                        <input id="enc-carnet" class="swal2-input" placeholder="Carnet Alumno (QDR456WE)" style="width: 90%;">
+                        <select id="enc-parentesco" class="swal2-input" style="width: 90%;"><option value="Padre">Padre</option><option value="Madre">Madre</option><option value="Tutor Legal">Tutor Legal</option></select>
+                        <input id="enc-dpi" class="swal2-input" placeholder="DPI Encargado" style="width: 90%;">
+                        <input id="enc-nombres" class="swal2-input" placeholder="Nombres" style="width: 90%;">
+                        <input id="enc-apellidos" class="swal2-input" placeholder="Apellidos" style="width: 90%;">
+                        <input id="enc-telefono" class="swal2-input" placeholder="Teléfono" style="width: 90%;">
+                        <input id="enc-correo" type="email" class="swal2-input" placeholder="Correo (Opcional)" style="width: 90%;">
+                    </div>
+                `,
+                showCancelButton: true, confirmButtonText: 'Vincular', confirmButtonColor: '#1b5e20',
                 preConfirm: () => {
                     const carnet = document.getElementById('enc-carnet').value.trim();
-                    const parentesco = document.getElementById('enc-parentesco').value;
                     const dpi = document.getElementById('enc-dpi').value.trim();
-                    const nombres = document.getElementById('enc-nombres').value.trim();
-                    const apellidos = document.getElementById('enc-apellidos').value.trim();
-                    const telefono = document.getElementById('enc-telefono').value.trim();
-                    const correo = document.getElementById('enc-correo').value.trim();
-
-                    if (!carnet || !dpi || !nombres || !apellidos || !telefono) {
-                        Swal.showValidationMessage('Por favor, completa todos los campos obligatorios.');
-                        return false;
-                    }
-                    return { carnet, parentesco, dpi, nombres, apellidos, telefono, correo };
+                    if (!carnet || !dpi) return Swal.showValidationMessage('Carnet y DPI obligatorios');
+                    return { carnet, parentesco: document.getElementById('enc-parentesco').value, dpi, nombres: document.getElementById('enc-nombres').value, apellidos: document.getElementById('enc-apellidos').value, telefono: document.getElementById('enc-telefono').value, correo: document.getElementById('enc-correo').value };
                 }
             });
 
-            // Si pasa las validaciones locales de SweetAlert y presiona "Vincular"
             if (formValues) {
-                try {
-                    Swal.fire({ title: 'Procesando registro...', didOpen: () => Swal.showLoading() });
-
-                    const response = await fetch('/api/asistencia/asignar-encargado', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            codigoQR: formValues.carnet,
-                            parentesco: formValues.parentesco,
-                            dpi: formValues.dpi,
-                            nombres: formValues.nombres,
-                            apellidos: formValues.apellidos,
-                            telefono: formValues.telefono,
-                            correo: formValues.correo
-                        })
-                    });
-
-                    const data = await response.json();
-
-                    if (response.ok) {
-                        Swal.fire('¡Éxito!', data.mensaje, 'success');
-                    } else {
-                        Swal.fire('Atención', data.mensaje, 'warning');
-                    }
-                } catch (error) {
-                    Swal.fire('Error', 'No se pudo contactar al servidor local.', 'error');
-                }
+                Swal.fire({ title: 'Procesando...', didOpen: () => Swal.showLoading() });
+                const response = await fetch('/api/asistencia/asignar-encargado', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ codigoQR: formValues.carnet, parentesco: formValues.parentesco, dpi: formValues.dpi, nombres: formValues.nombres, apellidos: formValues.apellidos, telefono: formValues.telefono, correo: formValues.correo }) });
+                const data = await response.json();
+                response.ok ? Swal.fire('¡Éxito!', data.mensaje, 'success') : Swal.fire('Error', data.mensaje, 'warning');
             }
         }
 
+        // --- BUZÓN DE EXCUSAS ---
         async function verBuzonJustificaciones(event) {
             event.preventDefault();
-
             try {
                 Swal.fire({ title: 'Cargando buzón...', didOpen: () => Swal.showLoading() });
-
                 const response = await fetch('/api/asistencia/lista-justificaciones');
                 const data = await response.json();
+                if (data.length === 0) return Swal.fire('Buzón Vacío', 'No hay documentos.', 'info');
 
-                if (!response.ok) throw new Error();
-
-                if (data.length === 0) {
-                    Swal.fire('Buzón Vacío', 'No hay documentos ni justificaciones registradas.', 'info');
-                    return;
-                }
-
-                let tablaHTML = `
-                <div style="max-height: 350px; overflow-y: auto; text-align: left; margin-top: 15px;">
-                    <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
-                        <thead>
-                            <tr style="background-color: #f4f9f4; color: #1b5e20; border-bottom: 2px solid #4caf50;">
-                                <th style="padding: 8px;">Estudiante</th>
-                                <th style="padding: 8px;">Fecha Falta</th>
-                                <th style="padding: 8px; text-align: center;">Adjuntos</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                `;
-
+                let tablaHTML = `<div style="max-height: 350px; overflow-y: auto; text-align: left;"><table style="width: 100%; border-collapse: collapse; font-size: 13px;"><thead><tr style="background-color: #f4f9f4; border-bottom: 2px solid #4caf50;"><th>Estudiante</th><th>Fecha</th><th>Adjuntos</th></tr></thead><tbody>`;
                 data.forEach(item => {
-                    let botonPdf = item.pdf ? `<a href="${item.pdf}" target="_blank" style="color: #c62828; text-decoration: none; font-weight: bold; margin-right: 10px;">📄 Ver PDF</a>` : '';
-                    let botonFirma = item.firma ? `<a href="${item.firma}" target="_blank" style="color: #1565c0; text-decoration: none; font-weight: bold;">✒️ Ver Firma</a>` : '';
-
-                    if (!botonPdf && !botonFirma) botonPdf = '<span style="color:#999;">Sin adjuntos</span>';
-
-                    tablaHTML += `
-                        <tr style="border-bottom: 1px solid #eee;">
-                            <td style="padding: 8px;">
-                                <b>${item.estudiante}</b><br>
-                                <span style="font-size: 11px; color: #666;">${item.motivo}</span>
-                            </td>
-                            <td style="padding: 8px; white-space: nowrap;">${item.fechaFalta}</td>
-                            <td style="padding: 8px; text-align: center; white-space: nowrap;">
-                                ${botonPdf} ${botonFirma}
-                            </td>
-                        </tr>
-                    `;
+                    let btnPdf = item.pdf ? `<a href="${item.pdf}" target="_blank" style="color: #c62828; font-weight: bold; margin-right: 10px;">📄 PDF</a>` : '';
+                    let btnFirma = item.firma ? `<a href="${item.firma}" target="_blank" style="color: #1565c0; font-weight: bold;">✒️ Firma</a>` : '';
+                    if (!btnPdf && !btnFirma) btnPdf = '<span style="color:#999;">Sin adjuntos</span>';
+                    tablaHTML += `<tr style="border-bottom: 1px solid #eee;"><td style="padding: 8px;"><b>${item.estudiante}</b><br><span style="font-size:11px; color:#666;">${item.motivo}</span></td><td>${item.fechaFalta}</td><td>${btnPdf} ${btnFirma}</td></tr>`;
                 });
-
                 tablaHTML += `</tbody></table></div>`;
-
-                Swal.fire({
-                    title: 'Buzón de Justificaciones',
-                    html: tablaHTML,
-                    width: 650,
-                    confirmButtonColor: '#1b5e20',
-                    confirmButtonText: 'Entendido'
-                });
-
-            } catch (error) {
-                Swal.fire('Error', 'No se pudieron recuperar los documentos del servidor.', 'error');
-            }
+                Swal.fire({ title: 'Buzón de Justificaciones', html: tablaHTML, width: 650, confirmButtonColor: '#1b5e20' });
+            } catch (e) { Swal.fire('Error', 'No se pudieron recuperar los documentos.', 'error'); }
         }
 
+        // --- INSCRIBIR ALUMNO (Con carga dinámica de grados) ---
         async function abrirModalInscripcion(event) {
             event.preventDefault();
-
-            // 1. Mostrar estado de carga mientras obtenemos los grados reales de la BD
             Swal.fire({ title: 'Cargando formulario...', didOpen: () => Swal.showLoading() });
 
             let opcionesGrados = '';
             try {
-                // Llamamos al nuevo endpoint
                 const responseGrados = await fetch('/api/asistencia/grados');
                 const dataGrados = await responseGrados.json();
+                if (responseGrados.ok) { dataGrados.forEach(g => opcionesGrados += `<option value="${g.idGrado}">${g.nombreGrado}</option>`); }
+                else { opcionesGrados = `<option value="">Error al cargar grados</option>`; }
+            } catch (e) { opcionesGrados = `<option value="">Error de conexión</option>`; }
 
-                if (responseGrados.ok) {
-                    // Construimos las etiquetas <option> dinámicamente
-                    dataGrados.forEach(g => {
-                        opcionesGrados += `<option value="${g.idGrado}">${g.nombreGrado}</option>`;
-                    });
-                } else {
-                    opcionesGrados = `<option value="">Error al cargar grados</option>`;
-                }
-            } catch (error) {
-                opcionesGrados = `<option value="">Error de conexión</option>`;
-            }
-
-            // Cerramos el estado de carga
             Swal.close();
 
-            // 2. Desplegamos el modal inyectando la variable de grados
             const { value: formValues } = await Swal.fire({
-                title: 'Inscripción de Nuevo Alumno',
+                title: 'Nuevo Alumno',
                 html: `
-                    <div style="text-align: left; font-size: 14px; max-height: 450px; overflow-y: auto; padding-right: 5px;">
-                        <label style="font-weight: bold; color: var(--verde-oscuro);">Nombres Completos:</label>
-                        <input id="ins-nombres" class="swal2-input" style="margin-top: 5px; margin-bottom: 15px; width: 95%;" placeholder="Ej. Juan Carlos">
-
-                        <label style="font-weight: bold; color: var(--verde-oscuro);">Apellidos Completos:</label>
-                        <input id="ins-apellidos" class="swal2-input" style="margin-top: 5px; margin-bottom: 15px; width: 95%;" placeholder="Ej. Pérez Gómez">
-
-                        <div style="display: flex; gap: 10px; margin-bottom: 15px;">
-                            <div style="flex: 1;">
-                                <label style="font-weight: bold; color: var(--verde-oscuro);">Grado:</label>
-                                <select id="ins-grado" class="swal2-input" style="margin-top: 5px; width: 100%;">
-                                    ${opcionesGrados} 
-                                </select>
-                            </div>
-                            <div style="flex: 1;">
-                                <label style="font-weight: bold; color: var(--verde-oscuro);">Sección:</label>
-                                <select id="ins-seccion" class="swal2-input" style="margin-top: 5px; width: 100%;">
-                                    <option value="A">A</option>
-                                    <option value="B">B</option>
-                                    <option value="C">C</option>
-                                </select>
-                            </div>
+                    <div style="text-align: left; font-size: 14px;">
+                        <input id="ins-nombres" class="swal2-input" placeholder="Nombres" style="width: 90%;">
+                        <input id="ins-apellidos" class="swal2-input" placeholder="Apellidos" style="width: 90%;">
+                        <div style="display: flex; gap: 10px; margin-top: 15px;">
+                            <select id="ins-grado" class="swal2-input" style="flex: 1;">${opcionesGrados}</select>
+                            <select id="ins-seccion" class="swal2-input" style="flex: 1;"><option value="A">A</option><option value="B">B</option><option value="C">C</option></select>
                         </div>
-
-                        <label style="font-weight: bold; color: var(--verde-oscuro);">Fotografía de Perfil (Opcional):</label>
-                        <input type="file" id="ins-foto" accept="image/png, image/jpeg" style="margin-top: 10px; width: 95%;">
+                        <label style="margin-top: 15px; display: block; font-weight: bold;">Foto Perfil (Opcional):</label>
+                        <input type="file" id="ins-foto" accept="image/*" style="width: 90%;">
                     </div>
                 `,
-                focusConfirm: false,
-                showCancelButton: true,
-                confirmButtonText: '💾 Inscribir Alumno',
-                cancelButtonText: 'Cancelar',
-                confirmButtonColor: '#1b5e20',
-                width: '500px',
+                showCancelButton: true, confirmButtonText: 'Inscribir', confirmButtonColor: '#1b5e20',
                 preConfirm: async () => {
                     const nombres = document.getElementById('ins-nombres').value.trim();
                     const apellidos = document.getElementById('ins-apellidos').value.trim();
                     const idGrado = document.getElementById('ins-grado').value;
-                    const seccion = document.getElementById('ins-seccion').value;
-                    const fileFoto = document.getElementById('ins-foto').files[0];
-
-                    if (!nombres || !apellidos || !idGrado) {
-                        Swal.showValidationMessage('Los nombres, apellidos y el grado son obligatorios.');
-                        return false;
-                    }
+                    if (!nombres || !apellidos || !idGrado) return Swal.showValidationMessage('Nombres, apellidos y grado son obligatorios');
 
                     let fotoB64 = "";
-                    if (fileFoto) {
-                        fotoB64 = await fileToBase64(fileFoto);
-                    }
-
-                    return { nombres, apellidos, idGrado, seccion, fotoB64 };
+                    const fileFoto = document.getElementById('ins-foto').files[0];
+                    if (fileFoto) fotoB64 = await fileToBase64(fileFoto);
+                    return { nombres, apellidos, idGrado, seccion: document.getElementById('ins-seccion').value, fotoB64 };
                 }
             });
 
-            // 3. Proceso de guardado (Se mantiene exactamente igual)
             if (formValues) {
-                try {
-                    Swal.fire({ title: 'Guardando registro...', didOpen: () => Swal.showLoading() });
-
-                    const response = await fetch('/api/asistencia/nuevo-estudiante', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            nombres: formValues.nombres,
-                            apellidos: formValues.apellidos,
-                            idGrado: parseInt(formValues.idGrado),
-                            seccion: formValues.seccion,
-                            fotoBase64: formValues.fotoB64
-                        })
-                    });
-
-                    const data = await response.json();
-
-                    if (response.ok) {
-                        Swal.fire({
-                            icon: 'success',
-                            title: '¡Inscripción Exitosa!',
-                            html: `
-                                ${data.mensaje}<br><br>
-                                Carnet generado:<br><b style="font-size: 24px; color: #1b5e20;">${data.carnetGenerado}</b><br><br>
-                                <a href="/api/asistencia/descargar-qr/${data.carnetGenerado}" download class="swal2-confirm swal2-styled" style="background-color: #2e7d32; text-decoration: none; display: inline-block;">⬇️ Descargar Gafete QR</a>
-                            `,
-                            showConfirmButton: true,
-                            confirmButtonColor: '#555',
-                            confirmButtonText: 'Cerrar'
-                        });
-                    } else {
-                        Swal.fire('Atención', data.mensaje, 'warning');
-                    }
-                } catch (error) {
-                    Swal.fire('Error', 'No se pudo contactar al servidor.', 'error');
-                }
+                Swal.fire({ title: 'Guardando...', didOpen: () => Swal.showLoading() });
+                const response = await fetch('/api/asistencia/nuevo-estudiante', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ nombres: formValues.nombres, apellidos: formValues.apellidos, idGrado: parseInt(formValues.idGrado), seccion: formValues.seccion, fotoBase64: formValues.fotoB64 }) });
+                const data = await response.json();
+                if (response.ok) {
+                    Swal.fire({ icon: 'success', title: '¡Inscrito!', html: `${data.mensaje}<br><br>Carnet:<br><b style="font-size: 24px; color: #1b5e20;">${data.carnetGenerado}</b><br><br><a href="/api/asistencia/descargar-qr/${data.carnetGenerado}" download class="swal2-confirm swal2-styled" style="background-color: #2e7d32; text-decoration: none;">⬇️ Descargar Gafete QR</a>`, showConfirmButton: true, confirmButtonColor: '#555' });
+                } else { Swal.fire('Error', data.mensaje, 'error'); }
             }
         }
 
+        // --- DESCARGA MASIVA ---
         function descargarQRsMasivo(event) {
             event.preventDefault();
-
-            Swal.fire({
-                title: 'Generando Gafetes...',
-                text: 'El servidor está empaquetando los códigos QR. Esto puede tardar unos segundos.',
-                icon: 'info',
-                showConfirmButton: false,
-                timer: 3000 // Se cierra solo después de 3 segundos
-            });
-
-            // Redirigir el navegador al endpoint lanza la descarga del archivo ZIP automáticamente
+            Swal.fire({ title: 'Generando Gafetes...', text: 'Empaquetando en ZIP...', icon: 'info', showConfirmButton: false, timer: 3000 });
             window.location.href = '/api/asistencia/descargar-qrs-zip';
         }
     </script>
-
 </body>
 </html>

@@ -334,11 +334,17 @@
 
                 const data = await response.json();
 
+                // 🎯 Construimos el mensaje verificando si el Trigger envió una alerta
+                let htmlMensaje = data.mensaje;
+                if (data.alerta) {
+                    htmlMensaje += `<br><br><div style="background-color: #fff3e0; color: #e65100; padding: 10px; border-radius: 8px; border: 1px solid #ffb74d; font-size: 14px;"><b>⚠️ Alerta del Sistema:</b> ${data.alerta}</div>`;
+                }
+
                 if (response.ok) {
                     await Swal.fire({
                         icon: 'success',
                         title: '¡Entrada Registrada!',
-                        text: data.mensaje,
+                        html: htmlMensaje,
                         confirmButtonText: 'Aceptar',
                         confirmButtonColor: '#4caf50',
                         allowOutsideClick: false
@@ -347,7 +353,7 @@
                     await Swal.fire({
                         icon: 'warning',
                         title: 'Atención',
-                        text: data.mensaje,
+                        html: htmlMensaje,
                         confirmButtonText: 'Aceptar',
                         confirmButtonColor: '#f57f17',
                         allowOutsideClick: false

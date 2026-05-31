@@ -31,9 +31,16 @@ namespace apiAsistenciaColegio.Controllers
                 return BadRequest(new { estado = "Error", mensaje = "El código QR está vacío o es inválido." });
             }
 
+            // Variable local para acumular los mensajes del Trigger (PRINT o llegadas tarde)
+            string alertaTrigger = string.Empty;
+
             try
             {
                 using var conn = new SqlConnection(_connectionString);
+
+                // 🎯 Escuchar al trigger antes de abrir la conexión
+                conn.InfoMessage += (sender, e) => { alertaTrigger += e.Message + "\n"; };
+
                 using var cmd = new SqlCommand("usp_RegistrarAsistencia", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
 
@@ -50,11 +57,12 @@ namespace apiAsistenciaColegio.Controllers
 
                 bool resultado = Convert.ToBoolean(pResultado.Value);
                 string mensaje = pMensaje.Value?.ToString() ?? "Sin Respuesta del servidor";
+                alertaTrigger = alertaTrigger.Trim(); // Limpiamos saltos de línea
 
                 if (resultado)
-                    return Ok(new { estado = "Exito", mensaje });
+                    return Ok(new { estado = "Exito", mensaje, alerta = !string.IsNullOrEmpty(alertaTrigger) ? alertaTrigger : null });
                 else
-                    return BadRequest(new { estado = "advertencia", mensaje });
+                    return BadRequest(new { estado = "advertencia", mensaje, alerta = !string.IsNullOrEmpty(alertaTrigger) ? alertaTrigger : null });
             }
             catch (Exception ex)
             {
@@ -76,19 +84,29 @@ namespace apiAsistenciaColegio.Controllers
                 using var cmd = new SqlCommand("ups_ObtenerReporteAsistenciaHoy", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
 
+                // 🎯 AGREGAMOS LOS PARÁMETROS OUTPUT QUE AHORA EXIGE EL SP
+                var pResultado = new SqlParameter("@Resultado", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+                var pMensaje = new SqlParameter("@Mensaje", SqlDbType.NVarChar, 500) { Direction = ParameterDirection.Output };
+
+                cmd.Parameters.Add(pResultado);
+                cmd.Parameters.Add(pMensaje);
+
                 conn.Open();
+
                 using var reader = cmd.ExecuteReader();
 
                 while (reader.Read())
                 {
                     listaReporte.Add(new ReporteAsistenciaDto
                     {
-                        Grado = reader["Grado"].ToString(),
-                        Seccion = reader["Seccion"].ToString(),
-                        NombreEstudiante = reader["NombreEstudiante"].ToString(),
-                        HoraLlegada = reader["HoraLlegada"].ToString(),
-                        HoraSalida = reader["HoraSalida"].ToString(),
-                        Estado = reader["Estado"].ToString()
+                        // Mapeamos a los nombres exactos de las columnas que devuelve tu nuevo SP
+                        Grado = reader["grado"].ToString(),
+                        Seccion = reader["seccion"].ToString(),
+                        NombreEstudiante = reader["nombreEstudiante"].ToString(),
+                        HoraLlegada = reader["horaLlegada"].ToString(),
+                        HoraSalida = reader["horaSalida"].ToString(),
+                        Estado = reader["estado"].ToString(),
+                        TiempoTotal = reader["tiempoTotal"].ToString()
                     });
                 }
 
@@ -884,6 +902,7 @@ namespace apiAsistenciaColegio.Controllers
             public string HoraLlegada { get; set; }
             public string HoraSalida { get; set; }
             public string Estado { get; set; }
+            public string TiempoTotal { get; set; } // Propiedad requerida
         }
     }
 }
