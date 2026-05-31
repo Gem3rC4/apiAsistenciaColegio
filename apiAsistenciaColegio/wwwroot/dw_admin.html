@@ -35,104 +35,153 @@
         .header {
             text-align: center;
             margin-bottom: 30px;
+            margin-top: 20px;
         }
 
             .header h1 {
                 color: var(--verde-oscuro);
                 margin: 0 0 10px 0;
+                font-size: 32px;
+            }
+
+            .header p {
+                color: #555;
+                font-size: 16px;
+                margin: 0;
             }
 
         .btn-volver {
             background-color: #555;
             color: white;
-            padding: 8px 15px;
+            padding: 10px 20px;
             text-decoration: none;
             border-radius: 8px;
             font-weight: bold;
             position: absolute;
-            left: 20px;
-            top: 20px;
+            left: 30px;
+            top: 30px;
+            transition: background-color 0.3s;
         }
 
-        /* Contenedor de los dos paneles */
+            .btn-volver:hover {
+                background-color: #333;
+            }
+
         .dashboard-container {
             display: flex;
-            gap: 20px;
+            gap: 25px;
             width: 100%;
-            max-width: 1200px;
-            flex-wrap: wrap;
+            max-width: 1300px;
+            align-items: flex-start;
         }
 
-        /* Estilo de los paneles (Casillas) */
         .panel {
             background: var(--blanco);
             border-radius: 12px;
             padding: 25px;
-            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.1);
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.15);
             border-top: 5px solid var(--verde-claro);
-            flex: 1;
-            min-width: 300px;
+            box-sizing: border-box;
         }
 
-            .panel h2 {
-                color: var(--verde-oscuro);
-                margin-top: 0;
-                border-bottom: 2px solid #eee;
-                padding-bottom: 10px;
-            }
+        .panel-izquierdo {
+            flex: 2;
+            min-width: 600px;
+        }
 
-        /* Estilos de tabla */
+        .panel-derecho {
+            flex: 1;
+            min-width: 350px;
+        }
+
+        .panel h2 {
+            color: var(--verde-oscuro);
+            margin-top: 0;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 22px;
+        }
+
+        .table-container {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 15px;
             font-size: 14px;
         }
 
         th, td {
-            border: 1px solid #ddd;
-            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            padding: 12px 10px;
             text-align: left;
         }
 
         th {
             background-color: #e8f5e9;
             color: var(--verde-oscuro);
+            font-weight: bold;
+            position: sticky;
+            top: 0;
+            box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.1);
         }
 
         tr:nth-child(even) {
-            background-color: #f9f9f9;
+            background-color: #fafafa;
         }
 
-        /* Formularios */
+        tr:hover {
+            background-color: #f1f8e9;
+        }
+
+        .filtros-container {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            align-items: flex-end;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+        }
+
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+            width: 100%;
         }
 
         label {
             font-weight: bold;
             color: var(--verde-oscuro);
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
+            font-size: 15px;
         }
 
-        select, input[type="file"] {
+        select, input[type="file"], input[type="text"] {
             width: 100%;
             padding: 10px;
             border-radius: 6px;
             border: 1px solid #ccc;
             box-sizing: border-box;
+            font-size: 14px;
         }
 
         button.btn-accion {
             background-color: var(--verde-oscuro);
             color: white;
             border: none;
-            padding: 10px 20px;
+            padding: 12px 20px;
             border-radius: 6px;
             cursor: pointer;
             font-weight: bold;
             width: 100%;
+            font-size: 15px;
+            transition: background-color 0.3s;
         }
 
             button.btn-accion:hover {
@@ -151,14 +200,15 @@
 
     <div class="dashboard-container">
 
-        <div class="panel" style="flex: 2;">
+        <div class="panel panel-izquierdo">
             <h2>🔎 Consultar Alumnos Unificados</h2>
 
-            <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+            <div class="filtros-container">
                 <div style="flex: 1;">
                     <label>Filtrar por Grado:</label>
                     <select id="filtroGrado">
                         <option value="TODOS">Todos los grados</option>
+                        <option value="Primero Basico">Primero Básico</option>
                         <option value="Segundo Basico">Segundo Básico</option>
                         <option value="Tercero Basico">Tercero Básico</option>
                         <option value="Cuarto Baco">Cuarto Bachillerato</option>
@@ -174,12 +224,12 @@
                         <option value="B">B</option>
                     </select>
                 </div>
-                <div style="flex: 0.5; display: flex; align-items: flex-end;">
+                <div style="flex: 0.5;">
                     <button class="btn-accion" onclick="cargarTablaDW()">Filtrar</button>
                 </div>
             </div>
 
-            <div style="max-height: 400px; overflow-y: auto;">
+            <div class="table-container">
                 <table id="tablaDW">
                     <thead>
                         <tr>
@@ -189,134 +239,174 @@
                             <th>Sección</th>
                             <th>Horario</th>
                             <th>Estado</th>
-                            <th>Origen Datos</th>
                         </tr>
                     </thead>
                     <tbody id="cuerpoTablaDW">
                         <tr>
-                            <td colspan="7" style="text-align: center; color: #666;">Haga clic en filtrar para cargar los datos del Data Warehouse...</td>
+                            <td colspan="6" style="text-align: center; color: #666; padding: 30px;">Haga clic en filtrar para cargar los datos del Data Warehouse...</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
 
-        <div class="panel" style="flex: 1;">
-            <h2>☁️ Cargar Nuevos Datos</h2>
-            <p style="font-size: 13px; color: #666;">Sube un archivo para integrarlo al proceso ETL. Estructura requerida: id | Apellidos, Nombres | Grado | Seccion | Horario | Estado | CicloEscolar</p>
+        <div class="panel panel-derecho">
+            <h2>☁️ Extraer Nuevos Datos</h2>
+            <p style="font-size: 13px; color: #666; margin-bottom: 20px; line-height: 1.5;">
+                Seleccione la fuente de origen para iniciar la extracción hacia el Data Warehouse.
+            </p>
 
             <div class="form-group">
                 <label>Tipo de Origen:</label>
-                <select id="tipoArchivo">
-                    <option value="EXCEL">Archivo de Excel (.xlsx, .csv)</option>
-                    <option value="SQL">Script SQL Server (.sql)</option>
-                    <option value="ORACLE">Exportación Oracle (.dmp, .csv)</option>
+                <select id="tipoArchivo" onchange="cambiarInterfazOrigen()">
+                    <option value="EXCEL">Archivo de Excel (.xlsx)</option>
+                    <option value="SQL">Conexión a BD SQL Server</option>
                 </select>
             </div>
 
-            <div class="form-group">
+            <div class="form-group" id="contenedorExcel">
                 <label>Seleccionar Archivo:</label>
-                <input type="file" id="archivoETL" accept=".xlsx, .csv, .sql, .dmp">
+                <input type="file" id="archivoETL" accept=".xlsx, .csv">
             </div>
 
-            <button class="btn-accion" onclick="procesarArchivoETL()">🚀 Cargar al Data Warehouse</button>
+            <div class="form-group" id="contenedorSQL" style="display: none;">
+                <label>Nombre de la Base de Datos Origen:</label>
+                <input type="text" id="nombreBaseDatos" placeholder="Ej. db_ColegioDATA">
+            </div>
+
+            <button class="btn-accion" onclick="procesarETL()">🚀 Iniciar Proceso ETL</button>
         </div>
 
     </div>
 
     <script>
-        // ==========================================
-        // 1. FUNCIÓN PARA FILTRAR LA TABLA (GET)
-        // ==========================================
+        // Función para alternar entre pedir un archivo o pedir el nombre de la BD
+        function cambiarInterfazOrigen() {
+            const tipo = document.getElementById('tipoArchivo').value;
+            const contenedorExcel = document.getElementById('contenedorExcel');
+            const contenedorSQL = document.getElementById('contenedorSQL');
+
+            if (tipo === 'SQL') {
+                contenedorExcel.style.display = 'none';
+                contenedorSQL.style.display = 'block';
+            } else {
+                contenedorExcel.style.display = 'block';
+                contenedorSQL.style.display = 'none';
+            }
+        }
+
+        // =========================================================
+        // CARGAR TABLA GET (Se mantiene igual)
+        // =========================================================
         async function cargarTablaDW() {
             const grado = document.getElementById('filtroGrado').value;
             const seccion = document.getElementById('filtroSeccion').value;
             const tbody = document.getElementById('cuerpoTablaDW');
 
-            tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;">Cargando datos desde SQL Server...</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding: 20px;">Cargando datos desde SQL Server...</td></tr>';
 
             try {
-                // Llamada real a tu backend en C#
                 const res = await fetch(`/api/dw/alumnos?grado=${grado}&seccion=${seccion}`);
+                if (!res.ok) throw new Error('Error en la petición');
+
                 const data = await res.json();
-
-                tbody.innerHTML = ''; // Limpiamos tabla
-
-                data.forEach(item => {
-                    // Colores de las etiquetas según el origen
-                    let badgeColor = item.origen === "EXCEL" ? "#217346" : (item.origen === "ORACLE" ? "#c62828" : "#0277bd");
-
-                    tbody.innerHTML += `
-                        <tr>
-                            <td><b>${item.id}</b></td>
-                            <td>${item.nombre}</td>
-                            <td>${item.grado}</td>
-                            <td><b>${item.seccion}</b></td>
-                            <td>${item.horario}</td>
-                            <td>${item.estado}</td>
-                            <td><span style="background:${badgeColor}; color:white; padding:3px 8px; border-radius:4px; font-size:11px; font-weight:bold;">${item.origen}</span></td>
-                        </tr>
-                    `;
-                });
+                tbody.innerHTML = '';
 
                 if (data.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;">No se encontraron registros en el Data Warehouse.</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding: 20px;">No se encontraron registros en el Data Warehouse.</td></tr>';
+                    return;
                 }
 
+                data.forEach(item => {
+                    tbody.innerHTML += `
+                            <tr>
+                                <td><b>${item.id}</b></td>
+                                <td>${item.nombre}</td>
+                                <td>${item.grado}</td>
+                                <td style="text-align: center;"><b>${item.seccion}</b></td>
+                                <td>${item.horario}</td>
+                                <td><span style="color: #2e7d32; font-weight: bold;">${item.estado}</span></td>
+                            </tr>
+                        `;
+                });
             } catch (error) {
-                Swal.fire('Error', 'No se pudo conectar al Data Warehouse. Verifica la conexión a BD.', 'error');
+                Swal.fire('Error de Conexión', 'No se pudo conectar al Data Warehouse.', 'error');
             }
         }
 
-        // ==========================================
-        // 2. FUNCIÓN PARA SUBIR ARCHIVO (POST)
-        // ==========================================
-        async function procesarArchivoETL() {
+        // =========================================================
+        // PROCESAR ETL (Maneja tanto Excel como SQL)
+        // =========================================================
+        async function procesarETL() {
             const tipo = document.getElementById('tipoArchivo').value;
-            const archivo = document.getElementById('archivoETL').files[0];
+            let formData = new FormData();
+            let endpointUrl = '';
 
-            if (!archivo) {
-                Swal.fire('Atención', 'Debes seleccionar un archivo para cargar.', 'warning');
-                return;
+            if (tipo === 'EXCEL') {
+                const archivoInput = document.getElementById('archivoETL');
+                const archivo = archivoInput.files[0];
+
+                if (!archivo) {
+                    Swal.fire('Atención', 'Debes seleccionar un archivo de Excel.', 'warning');
+                    return;
+                }
+                formData.append("archivo", archivo);
+                endpointUrl = '/api/dw/cargar-archivo'; // El endpoint que ya teníamos
+
+                Swal.fire({
+                    title: 'Analizando Excel...',
+                    html: `Verificando hojas y columnas de <b>${archivo.name}</b>.`,
+                    allowOutsideClick: false,
+                    didOpen: () => { Swal.showLoading(); }
+                });
+
+            } else if (tipo === 'SQL') {
+                const dbNombre = document.getElementById('nombreBaseDatos').value.trim();
+
+                if (!dbNombre) {
+                    Swal.fire('Atención', 'Debes escribir el nombre de la base de datos de origen.', 'warning');
+                    return;
+                }
+                formData.append("baseDatosOrigen", dbNombre);
+                endpointUrl = '/api/dw/extraer-sql'; // ¡Nuevo endpoint!
+
+                Swal.fire({
+                    title: 'Conectando a BD...',
+                    html: `Extrayendo datos desde <b>${dbNombre}</b> hacia el Data Warehouse.`,
+                    allowOutsideClick: false,
+                    didOpen: () => { Swal.showLoading(); }
+                });
             }
 
-            // Simulamos la barra de carga que se ve muy bien en las presentaciones
-            Swal.fire({
-                title: 'Ejecutando proceso ETL...',
-                html: `Transfiriendo archivo ${tipo} hacia SQL Server.`,
-                allowOutsideClick: false,
-                didOpen: () => { Swal.showLoading(); }
-            });
-
             try {
-                // Aquí usarías FormData para enviar el archivo al controlador C#
-                /*
-                const formData = new FormData();
-                formData.append("archivo", archivo);
-                formData.append("tipoFuente", tipo);
-
-                const response = await fetch('/api/dw/cargar-archivo', {
+                const response = await fetch(endpointUrl, {
                     method: 'POST',
                     body: formData
                 });
-                const result = await response.json();
-                */
 
-                // Simulamos el tiempo de espera del ETL (2 segundos)
-                setTimeout(() => {
+                const data = await response.json();
+
+                if (response.ok) {
                     Swal.fire({
                         icon: 'success',
-                        title: '¡Carga Exitosa!',
-                        text: `Los datos del archivo ${archivo.name} fueron extraídos, transformados y cargados al Data Warehouse correctamente.`,
+                        title: '¡Extracción Exitosa!',
+                        text: data.mensaje,
                         confirmButtonColor: '#1b5e20'
                     }).then(() => {
-                        document.getElementById('archivoETL').value = ""; // Limpiar input
-                        cargarTablaDW(); // Recargar la tabla
+                        if (tipo === 'EXCEL') document.getElementById('archivoETL').value = "";
+                        else document.getElementById('nombreBaseDatos').value = "";
+                        cargarTablaDW();
                     });
-                }, 2000);
-
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Validación Fallida',
+                        text: data.mensaje,
+                        confirmButtonColor: '#c62828'
+                    });
+                }
             } catch (error) {
-                Swal.fire('Error ETL', 'Ocurrió un problema en la transformación de datos.', 'error');
+                Swal.fire('Error de Red', 'No se pudo comunicar con el servidor.', 'error');
             }
         }
     </script>

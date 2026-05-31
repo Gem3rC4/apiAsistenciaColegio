@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="PkgOracleColegio-SQLDW"
   DTS:PackageType="5"
-  DTS:VersionBuild="9"
-  DTS:VersionGUID="{A0E9AD9E-1C12-4EA0-9A0D-D3011B4C780E}">
+  DTS:VersionBuild="11"
+  DTS:VersionGUID="{5C063AD5-67EA-44EB-B96D-DBE057195DB8}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -53,7 +53,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAsgzBP/3uaUq4r0cKXge4EQAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAACBM+WT/dCswOBoxySw8IfqNQKPPux+Ipi1G+vCq9hIZAAAAAAOgAAAAAIAACAAAADHBRa09IBQ8z+CG8nQsUOhizXF6ZMq0xwjARalQfq1qRAAAABvu9myC3UldTsZ2LgGU+HrQAAAABKwk4GYGwCxNbkK/cKpyiQ6tpdBdFk2b4djMuOJbDhUoExiAT0J7xl5MbFcYAqPh9/+jzZSqjDKZitsEJ6z9Wc</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAsgzBP/3uaUq4r0cKXge4EQAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAAZZfEdD6/RfLIUIclx8W/L7v+awHA9/0D6hToE9LOWqgAAAAAOgAAAAAIAACAAAACi91xtoPGwebLYXtPRzL0mDNKRwTaBrrUvX7JW0f3BvRAAAADq7v8GOHWPKJWX/k6WDqP/QAAAAEixd/70DGUFWY15UkZAFfN/E/6B3PJGdTTrqkcwSCIcI3IbwOc2TuLHe2thpjK7WfhwKz1dXZIQOsFqfJyDMAE</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -74,17 +74,17 @@
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
           SQLTask:Connection="{165569B3-8814-44CD-A52D-10FB6927D635}"
-          SQLTask:SqlStatementSource="truncate table CuartoBachillerato;&#xA;truncate table QuintoBachillerato" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          SQLTask:SqlStatementSource="truncate table ex_PrimeroBasico;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
-      DTS:refId="Package\ETL CuartoBaco"
+      DTS:refId="Package\Data Flow Task"
       DTS:CreationName="Microsoft.Pipeline"
       DTS:Description="Data Flow Task"
-      DTS:DTSID="{55812EE7-6C8D-49EC-8532-9984DCEF6377}"
+      DTS:DTSID="{A48CCBDD-6F87-4ED4-81B6-656FA1740859}"
       DTS:ExecutableType="Microsoft.Pipeline"
       DTS:LocaleID="-1"
-      DTS:ObjectName="ETL CuartoBaco"
+      DTS:ObjectName="Data Flow Task"
       DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
       <DTS:Variables />
       <DTS:ObjectData>
@@ -92,7 +92,7 @@
           version="1">
           <components>
             <component
-              refId="Package\ETL CuartoBaco\Derived Column"
+              refId="Package\Data Flow Task\Derived Column"
               componentClassID="Microsoft.DerivedColumn"
               contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
               description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
@@ -100,7 +100,7 @@
               usesDispositions="true">
               <inputs>
                 <input
-                  refId="Package\ETL CuartoBaco\Derived Column.Inputs[Derived Column Input]"
+                  refId="Package\Data Flow Task\Derived Column.Inputs[Derived Column Input]"
                   description="Input to the Derived Column Transformation"
                   name="Derived Column Input">
                   <externalMetadataColumns />
@@ -108,19 +108,19 @@
               </inputs>
               <outputs>
                 <output
-                  refId="Package\ETL CuartoBaco\Derived Column.Outputs[Derived Column Output]"
+                  refId="Package\Data Flow Task\Derived Column.Outputs[Derived Column Output]"
                   description="Default Output of the Derived Column Transformation"
                   exclusionGroup="1"
                   name="Derived Column Output"
-                  synchronousInputId="Package\ETL CuartoBaco\Derived Column.Inputs[Derived Column Input]">
+                  synchronousInputId="Package\Data Flow Task\Derived Column.Inputs[Derived Column Input]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\ETL CuartoBaco\Derived Column.Outputs[Derived Column Output].Columns[userETL]"
+                      refId="Package\Data Flow Task\Derived Column.Outputs[Derived Column Output].Columns[userETL]"
                       dataType="wstr"
                       errorOrTruncationOperation="Computation"
                       errorRowDisposition="FailComponent"
                       length="20"
-                      lineageId="Package\ETL CuartoBaco\Derived Column.Outputs[Derived Column Output].Columns[userETL]"
+                      lineageId="Package\Data Flow Task\Derived Column.Outputs[Derived Column Output].Columns[userETL]"
                       name="userETL"
                       truncationRowDisposition="FailComponent">
                       <properties>
@@ -138,11 +138,11 @@
                       </properties>
                     </outputColumn>
                     <outputColumn
-                      refId="Package\ETL CuartoBaco\Derived Column.Outputs[Derived Column Output].Columns[dateETL]"
+                      refId="Package\Data Flow Task\Derived Column.Outputs[Derived Column Output].Columns[dateETL]"
                       dataType="dbTimeStamp"
                       errorOrTruncationOperation="Computation"
                       errorRowDisposition="FailComponent"
-                      lineageId="Package\ETL CuartoBaco\Derived Column.Outputs[Derived Column Output].Columns[dateETL]"
+                      lineageId="Package\Data Flow Task\Derived Column.Outputs[Derived Column Output].Columns[dateETL]"
                       name="dateETL"
                       truncationRowDisposition="FailComponent">
                       <properties>
@@ -163,23 +163,23 @@
                   <externalMetadataColumns />
                 </output>
                 <output
-                  refId="Package\ETL CuartoBaco\Derived Column.Outputs[Derived Column Error Output]"
+                  refId="Package\Data Flow Task\Derived Column.Outputs[Derived Column Error Output]"
                   description="Error Output of the Derived Column Transformation"
                   exclusionGroup="1"
                   isErrorOut="true"
                   name="Derived Column Error Output"
-                  synchronousInputId="Package\ETL CuartoBaco\Derived Column.Inputs[Derived Column Input]">
+                  synchronousInputId="Package\Data Flow Task\Derived Column.Inputs[Derived Column Input]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\ETL CuartoBaco\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      refId="Package\Data Flow Task\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\ETL CuartoBaco\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      lineageId="Package\Data Flow Task\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\ETL CuartoBaco\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      refId="Package\Data Flow Task\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\ETL CuartoBaco\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      lineageId="Package\Data Flow Task\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -188,7 +188,7 @@
               </outputs>
             </component>
             <component
-              refId="Package\ETL CuartoBaco\OLE DB Destination"
+              refId="Package\Data Flow Task\OLE DB Destination"
               componentClassID="Microsoft.OLEDBDestination"
               contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
               description="OLE DB Destination"
@@ -203,7 +203,7 @@
                 <property
                   dataType="System.String"
                   description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset">[CuartoBachillerato]</property>
+                  name="OpenRowset">[dbo].[ex_PrimeroBasico]</property>
                 <property
                   dataType="System.String"
                   description="Specifies the variable that contains the name of the database object used to open a rowset."
@@ -245,7 +245,7 @@
               </properties>
               <connections>
                 <connection
-                  refId="Package\ETL CuartoBaco\OLE DB Destination.Connections[OleDbConnection]"
+                  refId="Package\Data Flow Task\OLE DB Destination.Connections[OleDbConnection]"
                   connectionManagerID="Package.ConnectionManagers[GERBER-CANAHUI.DW_Colegio]"
                   connectionManagerRefId="Package.ConnectionManagers[GERBER-CANAHUI.DW_Colegio]"
                   description="The OLE DB runtime connection used to access the database."
@@ -253,119 +253,110 @@
               </connections>
               <inputs>
                 <input
-                  refId="Package\ETL CuartoBaco\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input]"
                   errorOrTruncationOperation="Insert"
                   errorRowDisposition="FailComponent"
                   hasSideEffects="true"
                   name="OLE DB Destination Input">
                   <inputColumns>
                     <inputColumn
-                      refId="Package\ETL CuartoBaco\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ID_ALUMNO]"
-                      cachedDataType="wstr"
-                      cachedLength="38"
-                      cachedName="ID_ALUMNO"
-                      externalMetadataColumnId="Package\ETL CuartoBaco\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ID_ALUMNO]"
-                      lineageId="Package\ETL CuartoBaco\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_ALUMNO]" />
-                    <inputColumn
-                      refId="Package\ETL CuartoBaco\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[APELLIDOS_NOMBRES]"
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[APELLIDOSNOMBRES]"
                       cachedDataType="wstr"
                       cachedLength="150"
-                      cachedName="APELLIDOS_NOMBRES"
-                      externalMetadataColumnId="Package\ETL CuartoBaco\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[APELLIDOS_NOMBRES]"
-                      lineageId="Package\ETL CuartoBaco\OLE DB Source.Outputs[OLE DB Source Output].Columns[APELLIDOS_NOMBRES]" />
+                      cachedName="APELLIDOSNOMBRES"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ApellidosNombres]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[APELLIDOSNOMBRES]" />
                     <inputColumn
-                      refId="Package\ETL CuartoBaco\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[GRADO]"
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[GRADO]"
                       cachedDataType="wstr"
                       cachedLength="50"
                       cachedName="GRADO"
-                      externalMetadataColumnId="Package\ETL CuartoBaco\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[GRADO]"
-                      lineageId="Package\ETL CuartoBaco\OLE DB Source.Outputs[OLE DB Source Output].Columns[GRADO]" />
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Grado]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[GRADO]" />
                     <inputColumn
-                      refId="Package\ETL CuartoBaco\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[SECCION]"
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[SECCION]"
                       cachedDataType="wstr"
-                      cachedLength="1"
+                      cachedLength="5"
                       cachedName="SECCION"
-                      externalMetadataColumnId="Package\ETL CuartoBaco\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SECCION]"
-                      lineageId="Package\ETL CuartoBaco\OLE DB Source.Outputs[OLE DB Source Output].Columns[SECCION]" />
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Seccion]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[SECCION]" />
                     <inputColumn
-                      refId="Package\ETL CuartoBaco\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[HORARIO]"
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[HORARIO]"
                       cachedDataType="wstr"
-                      cachedLength="20"
+                      cachedLength="30"
                       cachedName="HORARIO"
-                      externalMetadataColumnId="Package\ETL CuartoBaco\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[HORARIO]"
-                      lineageId="Package\ETL CuartoBaco\OLE DB Source.Outputs[OLE DB Source Output].Columns[HORARIO]" />
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Horario]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[HORARIO]" />
                     <inputColumn
-                      refId="Package\ETL CuartoBaco\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ESTADO]"
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ESTADO]"
                       cachedDataType="wstr"
                       cachedLength="20"
                       cachedName="ESTADO"
-                      externalMetadataColumnId="Package\ETL CuartoBaco\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ESTADO]"
-                      lineageId="Package\ETL CuartoBaco\OLE DB Source.Outputs[OLE DB Source Output].Columns[ESTADO]" />
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Estado]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[ESTADO]" />
                     <inputColumn
-                      refId="Package\ETL CuartoBaco\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[CICLO_ESCOLAR]"
-                      cachedDataType="numeric"
-                      cachedName="CICLO_ESCOLAR"
-                      cachedPrecision="4"
-                      externalMetadataColumnId="Package\ETL CuartoBaco\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CICLO_ESCOLAR]"
-                      lineageId="Package\ETL CuartoBaco\OLE DB Source.Outputs[OLE DB Source Output].Columns[CICLO_ESCOLAR]" />
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[CICLOESCOLAR]"
+                      cachedDataType="wstr"
+                      cachedLength="38"
+                      cachedName="CICLOESCOLAR"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CicloEscolar]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[CICLOESCOLAR]" />
                     <inputColumn
-                      refId="Package\ETL CuartoBaco\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[userETL]"
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[userETL]"
                       cachedDataType="wstr"
                       cachedLength="20"
                       cachedName="userETL"
-                      externalMetadataColumnId="Package\ETL CuartoBaco\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[userETL]"
-                      lineageId="Package\ETL CuartoBaco\Derived Column.Outputs[Derived Column Output].Columns[userETL]" />
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[userETL]"
+                      lineageId="Package\Data Flow Task\Derived Column.Outputs[Derived Column Output].Columns[userETL]" />
                     <inputColumn
-                      refId="Package\ETL CuartoBaco\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[dateETL]"
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[dateETL]"
                       cachedDataType="dbTimeStamp"
                       cachedName="dateETL"
-                      externalMetadataColumnId="Package\ETL CuartoBaco\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[dateETL]"
-                      lineageId="Package\ETL CuartoBaco\Derived Column.Outputs[Derived Column Output].Columns[dateETL]" />
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[dateETL]"
+                      lineageId="Package\Data Flow Task\Derived Column.Outputs[Derived Column Output].Columns[dateETL]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
                     <externalMetadataColumn
-                      refId="Package\ETL CuartoBaco\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ID_ALUMNO]"
-                      dataType="wstr"
-                      length="38"
-                      name="ID_ALUMNO" />
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Id]"
+                      dataType="i4"
+                      name="Id" />
                     <externalMetadataColumn
-                      refId="Package\ETL CuartoBaco\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[APELLIDOS_NOMBRES]"
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ApellidosNombres]"
                       dataType="wstr"
                       length="150"
-                      name="APELLIDOS_NOMBRES" />
+                      name="ApellidosNombres" />
                     <externalMetadataColumn
-                      refId="Package\ETL CuartoBaco\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[GRADO]"
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Grado]"
                       dataType="wstr"
                       length="50"
-                      name="GRADO" />
+                      name="Grado" />
                     <externalMetadataColumn
-                      refId="Package\ETL CuartoBaco\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SECCION]"
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Seccion]"
                       dataType="wstr"
-                      length="1"
-                      name="SECCION" />
+                      length="5"
+                      name="Seccion" />
                     <externalMetadataColumn
-                      refId="Package\ETL CuartoBaco\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[HORARIO]"
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Horario]"
                       dataType="wstr"
-                      length="20"
-                      name="HORARIO" />
+                      length="30"
+                      name="Horario" />
                     <externalMetadataColumn
-                      refId="Package\ETL CuartoBaco\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ESTADO]"
-                      dataType="wstr"
-                      length="20"
-                      name="ESTADO" />
-                    <externalMetadataColumn
-                      refId="Package\ETL CuartoBaco\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CICLO_ESCOLAR]"
-                      dataType="numeric"
-                      name="CICLO_ESCOLAR"
-                      precision="4" />
-                    <externalMetadataColumn
-                      refId="Package\ETL CuartoBaco\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[userETL]"
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Estado]"
                       dataType="wstr"
                       length="20"
+                      name="Estado" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CicloEscolar]"
+                      dataType="i4"
+                      name="CicloEscolar" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[userETL]"
+                      dataType="wstr"
+                      length="100"
                       name="userETL" />
                     <externalMetadataColumn
-                      refId="Package\ETL CuartoBaco\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[dateETL]"
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[dateETL]"
                       dataType="dbTimeStamp"
                       name="dateETL" />
                   </externalMetadataColumns>
@@ -373,22 +364,22 @@
               </inputs>
               <outputs>
                 <output
-                  refId="Package\ETL CuartoBaco\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                  refId="Package\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
                   exclusionGroup="1"
                   isErrorOut="true"
                   name="OLE DB Destination Error Output"
-                  synchronousInputId="Package\ETL CuartoBaco\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                  synchronousInputId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\ETL CuartoBaco\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      refId="Package\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\ETL CuartoBaco\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      lineageId="Package\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\ETL CuartoBaco\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      refId="Package\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\ETL CuartoBaco\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      lineageId="Package\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -397,7 +388,7 @@
               </outputs>
             </component>
             <component
-              refId="Package\ETL CuartoBaco\OLE DB Source"
+              refId="Package\Data Flow Task\OLE DB Source"
               componentClassID="Microsoft.OLEDBSource"
               contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
               description="OLE DB Source"
@@ -412,7 +403,7 @@
                 <property
                   dataType="System.String"
                   description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset">"SYSCOLEGIO"."ALUMNOS_ORACLE_4BACH"</property>
+                  name="OpenRowset">"SYSCOLEGIO"."EX_PRIMEROBASICO"</property>
                 <property
                   dataType="System.String"
                   description="Specifies the variable that contains the name of the database object used to open a rowset."
@@ -446,7 +437,7 @@
               </properties>
               <connections>
                 <connection
-                  refId="Package\ETL CuartoBaco\OLE DB Source.Connections[OleDbConnection]"
+                  refId="Package\Data Flow Task\OLE DB Source.Connections[OleDbConnection]"
                   connectionManagerID="Package.ConnectionManagers[XE.SYSCOLEGIO]"
                   connectionManagerRefId="Package.ConnectionManagers[XE.SYSCOLEGIO]"
                   description="The OLE DB runtime connection used to access the database."
@@ -454,176 +445,160 @@
               </connections>
               <outputs>
                 <output
-                  refId="Package\ETL CuartoBaco\OLE DB Source.Outputs[OLE DB Source Output]"
+                  refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output]"
                   name="OLE DB Source Output">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\ETL CuartoBaco\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_ALUMNO]"
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[APELLIDOSNOMBRES]"
                       dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\ETL CuartoBaco\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_ALUMNO]"
-                      length="38"
-                      lineageId="Package\ETL CuartoBaco\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_ALUMNO]"
-                      name="ID_ALUMNO"
-                      truncationRowDisposition="FailComponent" />
-                    <outputColumn
-                      refId="Package\ETL CuartoBaco\OLE DB Source.Outputs[OLE DB Source Output].Columns[APELLIDOS_NOMBRES]"
-                      dataType="wstr"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\ETL CuartoBaco\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[APELLIDOS_NOMBRES]"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[APELLIDOSNOMBRES]"
                       length="150"
-                      lineageId="Package\ETL CuartoBaco\OLE DB Source.Outputs[OLE DB Source Output].Columns[APELLIDOS_NOMBRES]"
-                      name="APELLIDOS_NOMBRES"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[APELLIDOSNOMBRES]"
+                      name="APELLIDOSNOMBRES"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\ETL CuartoBaco\OLE DB Source.Outputs[OLE DB Source Output].Columns[GRADO]"
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[GRADO]"
                       dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\ETL CuartoBaco\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[GRADO]"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[GRADO]"
                       length="50"
-                      lineageId="Package\ETL CuartoBaco\OLE DB Source.Outputs[OLE DB Source Output].Columns[GRADO]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[GRADO]"
                       name="GRADO"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\ETL CuartoBaco\OLE DB Source.Outputs[OLE DB Source Output].Columns[SECCION]"
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[SECCION]"
                       dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\ETL CuartoBaco\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SECCION]"
-                      length="1"
-                      lineageId="Package\ETL CuartoBaco\OLE DB Source.Outputs[OLE DB Source Output].Columns[SECCION]"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SECCION]"
+                      length="5"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[SECCION]"
                       name="SECCION"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\ETL CuartoBaco\OLE DB Source.Outputs[OLE DB Source Output].Columns[HORARIO]"
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[HORARIO]"
                       dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\ETL CuartoBaco\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[HORARIO]"
-                      length="20"
-                      lineageId="Package\ETL CuartoBaco\OLE DB Source.Outputs[OLE DB Source Output].Columns[HORARIO]"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[HORARIO]"
+                      length="30"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[HORARIO]"
                       name="HORARIO"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\ETL CuartoBaco\OLE DB Source.Outputs[OLE DB Source Output].Columns[ESTADO]"
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[ESTADO]"
                       dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\ETL CuartoBaco\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ESTADO]"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ESTADO]"
                       length="20"
-                      lineageId="Package\ETL CuartoBaco\OLE DB Source.Outputs[OLE DB Source Output].Columns[ESTADO]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[ESTADO]"
                       name="ESTADO"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\ETL CuartoBaco\OLE DB Source.Outputs[OLE DB Source Output].Columns[CICLO_ESCOLAR]"
-                      dataType="numeric"
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[CICLOESCOLAR]"
+                      dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\ETL CuartoBaco\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CICLO_ESCOLAR]"
-                      lineageId="Package\ETL CuartoBaco\OLE DB Source.Outputs[OLE DB Source Output].Columns[CICLO_ESCOLAR]"
-                      name="CICLO_ESCOLAR"
-                      precision="4"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CICLOESCOLAR]"
+                      length="38"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[CICLOESCOLAR]"
+                      name="CICLOESCOLAR"
                       truncationRowDisposition="FailComponent" />
                   </outputColumns>
                   <externalMetadataColumns
                     isUsed="True">
                     <externalMetadataColumn
-                      refId="Package\ETL CuartoBaco\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_ALUMNO]"
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID]"
                       dataType="wstr"
                       length="38"
-                      name="ID_ALUMNO" />
+                      name="ID" />
                     <externalMetadataColumn
-                      refId="Package\ETL CuartoBaco\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[APELLIDOS_NOMBRES]"
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[APELLIDOSNOMBRES]"
                       dataType="wstr"
                       length="150"
-                      name="APELLIDOS_NOMBRES" />
+                      name="APELLIDOSNOMBRES" />
                     <externalMetadataColumn
-                      refId="Package\ETL CuartoBaco\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[GRADO]"
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[GRADO]"
                       dataType="wstr"
                       length="50"
                       name="GRADO" />
                     <externalMetadataColumn
-                      refId="Package\ETL CuartoBaco\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SECCION]"
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SECCION]"
                       dataType="wstr"
-                      length="1"
+                      length="5"
                       name="SECCION" />
                     <externalMetadataColumn
-                      refId="Package\ETL CuartoBaco\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[HORARIO]"
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[HORARIO]"
                       dataType="wstr"
-                      length="20"
+                      length="30"
                       name="HORARIO" />
                     <externalMetadataColumn
-                      refId="Package\ETL CuartoBaco\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ESTADO]"
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ESTADO]"
                       dataType="wstr"
                       length="20"
                       name="ESTADO" />
                     <externalMetadataColumn
-                      refId="Package\ETL CuartoBaco\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CICLO_ESCOLAR]"
-                      dataType="numeric"
-                      name="CICLO_ESCOLAR"
-                      precision="4" />
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CICLOESCOLAR]"
+                      dataType="wstr"
+                      length="38"
+                      name="CICLOESCOLAR" />
                   </externalMetadataColumns>
                 </output>
                 <output
-                  refId="Package\ETL CuartoBaco\OLE DB Source.Outputs[OLE DB Source Error Output]"
+                  refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output]"
                   isErrorOut="true"
                   name="OLE DB Source Error Output">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\ETL CuartoBaco\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_ALUMNO]"
-                      dataType="wstr"
-                      length="38"
-                      lineageId="Package\ETL CuartoBaco\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_ALUMNO]"
-                      name="ID_ALUMNO" />
-                    <outputColumn
-                      refId="Package\ETL CuartoBaco\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[APELLIDOS_NOMBRES]"
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[APELLIDOSNOMBRES]"
                       dataType="wstr"
                       length="150"
-                      lineageId="Package\ETL CuartoBaco\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[APELLIDOS_NOMBRES]"
-                      name="APELLIDOS_NOMBRES" />
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[APELLIDOSNOMBRES]"
+                      name="APELLIDOSNOMBRES" />
                     <outputColumn
-                      refId="Package\ETL CuartoBaco\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[GRADO]"
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[GRADO]"
                       dataType="wstr"
                       length="50"
-                      lineageId="Package\ETL CuartoBaco\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[GRADO]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[GRADO]"
                       name="GRADO" />
                     <outputColumn
-                      refId="Package\ETL CuartoBaco\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SECCION]"
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SECCION]"
                       dataType="wstr"
-                      length="1"
-                      lineageId="Package\ETL CuartoBaco\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SECCION]"
+                      length="5"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SECCION]"
                       name="SECCION" />
                     <outputColumn
-                      refId="Package\ETL CuartoBaco\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[HORARIO]"
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[HORARIO]"
                       dataType="wstr"
-                      length="20"
-                      lineageId="Package\ETL CuartoBaco\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[HORARIO]"
+                      length="30"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[HORARIO]"
                       name="HORARIO" />
                     <outputColumn
-                      refId="Package\ETL CuartoBaco\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ESTADO]"
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ESTADO]"
                       dataType="wstr"
                       length="20"
-                      lineageId="Package\ETL CuartoBaco\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ESTADO]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ESTADO]"
                       name="ESTADO" />
                     <outputColumn
-                      refId="Package\ETL CuartoBaco\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CICLO_ESCOLAR]"
-                      dataType="numeric"
-                      lineageId="Package\ETL CuartoBaco\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CICLO_ESCOLAR]"
-                      name="CICLO_ESCOLAR"
-                      precision="4" />
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CICLOESCOLAR]"
+                      dataType="wstr"
+                      length="38"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CICLOESCOLAR]"
+                      name="CICLOESCOLAR" />
                     <outputColumn
-                      refId="Package\ETL CuartoBaco\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\ETL CuartoBaco\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\ETL CuartoBaco\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\ETL CuartoBaco\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -634,585 +609,15 @@
           </components>
           <paths>
             <path
-              refId="Package\ETL CuartoBaco.Paths[Derived Column Output]"
-              endId="Package\ETL CuartoBaco\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              refId="Package\Data Flow Task.Paths[Derived Column Output]"
+              endId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input]"
               name="Derived Column Output"
-              startId="Package\ETL CuartoBaco\Derived Column.Outputs[Derived Column Output]" />
+              startId="Package\Data Flow Task\Derived Column.Outputs[Derived Column Output]" />
             <path
-              refId="Package\ETL CuartoBaco.Paths[OLE DB Source Output]"
-              endId="Package\ETL CuartoBaco\Derived Column.Inputs[Derived Column Input]"
+              refId="Package\Data Flow Task.Paths[OLE DB Source Output]"
+              endId="Package\Data Flow Task\Derived Column.Inputs[Derived Column Input]"
               name="OLE DB Source Output"
-              startId="Package\ETL CuartoBaco\OLE DB Source.Outputs[OLE DB Source Output]" />
-          </paths>
-        </pipeline>
-      </DTS:ObjectData>
-    </DTS:Executable>
-    <DTS:Executable
-      DTS:refId="Package\ETL QuintoBaco"
-      DTS:CreationName="Microsoft.Pipeline"
-      DTS:Description="Data Flow Task"
-      DTS:DTSID="{58F1234E-36B8-459E-AAC5-4C3A9313EE35}"
-      DTS:ExecutableType="Microsoft.Pipeline"
-      DTS:LocaleID="-1"
-      DTS:ObjectName="ETL QuintoBaco"
-      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
-      <DTS:Variables />
-      <DTS:ObjectData>
-        <pipeline
-          version="1">
-          <components>
-            <component
-              refId="Package\ETL QuintoBaco\Derived Column"
-              componentClassID="Microsoft.DerivedColumn"
-              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
-              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
-              name="Derived Column"
-              usesDispositions="true">
-              <inputs>
-                <input
-                  refId="Package\ETL QuintoBaco\Derived Column.Inputs[Derived Column Input]"
-                  description="Input to the Derived Column Transformation"
-                  name="Derived Column Input">
-                  <externalMetadataColumns />
-                </input>
-              </inputs>
-              <outputs>
-                <output
-                  refId="Package\ETL QuintoBaco\Derived Column.Outputs[Derived Column Output]"
-                  description="Default Output of the Derived Column Transformation"
-                  exclusionGroup="1"
-                  name="Derived Column Output"
-                  synchronousInputId="Package\ETL QuintoBaco\Derived Column.Inputs[Derived Column Input]">
-                  <outputColumns>
-                    <outputColumn
-                      refId="Package\ETL QuintoBaco\Derived Column.Outputs[Derived Column Output].Columns[userETL]"
-                      dataType="wstr"
-                      errorOrTruncationOperation="Computation"
-                      errorRowDisposition="FailComponent"
-                      length="20"
-                      lineageId="Package\ETL QuintoBaco\Derived Column.Outputs[Derived Column Output].Columns[userETL]"
-                      name="userETL"
-                      truncationRowDisposition="FailComponent">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.String"
-                          description="Derived Column Expression"
-                          name="Expression">@[System::UserName]</property>
-                        <property
-                          containsID="true"
-                          dataType="System.String"
-                          description="Derived Column Friendly Expression"
-                          expressionType="Notify"
-                          name="FriendlyExpression">@[System::UserName]</property>
-                      </properties>
-                    </outputColumn>
-                    <outputColumn
-                      refId="Package\ETL QuintoBaco\Derived Column.Outputs[Derived Column Output].Columns[dateETL]"
-                      dataType="dbTimeStamp"
-                      errorOrTruncationOperation="Computation"
-                      errorRowDisposition="FailComponent"
-                      lineageId="Package\ETL QuintoBaco\Derived Column.Outputs[Derived Column Output].Columns[dateETL]"
-                      name="dateETL"
-                      truncationRowDisposition="FailComponent">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.String"
-                          description="Derived Column Expression"
-                          name="Expression">[GETDATE]()</property>
-                        <property
-                          containsID="true"
-                          dataType="System.String"
-                          description="Derived Column Friendly Expression"
-                          expressionType="Notify"
-                          name="FriendlyExpression">GETDATE()</property>
-                      </properties>
-                    </outputColumn>
-                  </outputColumns>
-                  <externalMetadataColumns />
-                </output>
-                <output
-                  refId="Package\ETL QuintoBaco\Derived Column.Outputs[Derived Column Error Output]"
-                  description="Error Output of the Derived Column Transformation"
-                  exclusionGroup="1"
-                  isErrorOut="true"
-                  name="Derived Column Error Output"
-                  synchronousInputId="Package\ETL QuintoBaco\Derived Column.Inputs[Derived Column Input]">
-                  <outputColumns>
-                    <outputColumn
-                      refId="Package\ETL QuintoBaco\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
-                      dataType="i4"
-                      lineageId="Package\ETL QuintoBaco\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
-                      name="ErrorCode"
-                      specialFlags="1" />
-                    <outputColumn
-                      refId="Package\ETL QuintoBaco\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
-                      dataType="i4"
-                      lineageId="Package\ETL QuintoBaco\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
-                      name="ErrorColumn"
-                      specialFlags="2" />
-                  </outputColumns>
-                  <externalMetadataColumns />
-                </output>
-              </outputs>
-            </component>
-            <component
-              refId="Package\ETL QuintoBaco\OLE DB Destination"
-              componentClassID="Microsoft.OLEDBDestination"
-              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
-              description="OLE DB Destination"
-              name="OLE DB Destination"
-              usesDispositions="true"
-              version="4">
-              <properties>
-                <property
-                  dataType="System.Int32"
-                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
-                  name="CommandTimeout">0</property>
-                <property
-                  dataType="System.String"
-                  description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset">[QuintoBachillerato]</property>
-                <property
-                  dataType="System.String"
-                  description="Specifies the variable that contains the name of the database object used to open a rowset."
-                  name="OpenRowsetVariable"></property>
-                <property
-                  dataType="System.String"
-                  description="The SQL command to be executed."
-                  name="SqlCommand"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies the column code page to use when code page information is unavailable from the data source."
-                  name="DefaultCodePage">1252</property>
-                <property
-                  dataType="System.Boolean"
-                  description="Forces the use of the DefaultCodePage property value when describing character data."
-                  name="AlwaysUseDefaultCodePage">false</property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies the mode used to access the database."
-                  name="AccessMode"
-                  typeConverter="AccessMode">3</property>
-                <property
-                  dataType="System.Boolean"
-                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
-                  name="FastLoadKeepIdentity">false</property>
-                <property
-                  dataType="System.Boolean"
-                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
-                  name="FastLoadKeepNulls">false</property>
-                <property
-                  dataType="System.String"
-                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
-                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
-                  name="FastLoadMaxInsertCommitSize">2147483647</property>
-              </properties>
-              <connections>
-                <connection
-                  refId="Package\ETL QuintoBaco\OLE DB Destination.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[GERBER-CANAHUI.DW_Colegio]"
-                  connectionManagerRefId="Package.ConnectionManagers[GERBER-CANAHUI.DW_Colegio]"
-                  description="The OLE DB runtime connection used to access the database."
-                  name="OleDbConnection" />
-              </connections>
-              <inputs>
-                <input
-                  refId="Package\ETL QuintoBaco\OLE DB Destination.Inputs[OLE DB Destination Input]"
-                  errorOrTruncationOperation="Insert"
-                  errorRowDisposition="FailComponent"
-                  hasSideEffects="true"
-                  name="OLE DB Destination Input">
-                  <inputColumns>
-                    <inputColumn
-                      refId="Package\ETL QuintoBaco\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ID_ALUMNO]"
-                      cachedDataType="wstr"
-                      cachedLength="38"
-                      cachedName="ID_ALUMNO"
-                      externalMetadataColumnId="Package\ETL QuintoBaco\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ID_ALUMNO]"
-                      lineageId="Package\ETL QuintoBaco\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_ALUMNO]" />
-                    <inputColumn
-                      refId="Package\ETL QuintoBaco\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[APELLIDOS_NOMBRES]"
-                      cachedDataType="wstr"
-                      cachedLength="150"
-                      cachedName="APELLIDOS_NOMBRES"
-                      externalMetadataColumnId="Package\ETL QuintoBaco\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[APELLIDOS_NOMBRES]"
-                      lineageId="Package\ETL QuintoBaco\OLE DB Source.Outputs[OLE DB Source Output].Columns[APELLIDOS_NOMBRES]" />
-                    <inputColumn
-                      refId="Package\ETL QuintoBaco\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[GRADO]"
-                      cachedDataType="wstr"
-                      cachedLength="50"
-                      cachedName="GRADO"
-                      externalMetadataColumnId="Package\ETL QuintoBaco\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[GRADO]"
-                      lineageId="Package\ETL QuintoBaco\OLE DB Source.Outputs[OLE DB Source Output].Columns[GRADO]" />
-                    <inputColumn
-                      refId="Package\ETL QuintoBaco\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[SECCION]"
-                      cachedDataType="wstr"
-                      cachedLength="1"
-                      cachedName="SECCION"
-                      externalMetadataColumnId="Package\ETL QuintoBaco\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SECCION]"
-                      lineageId="Package\ETL QuintoBaco\OLE DB Source.Outputs[OLE DB Source Output].Columns[SECCION]" />
-                    <inputColumn
-                      refId="Package\ETL QuintoBaco\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[HORARIO]"
-                      cachedDataType="wstr"
-                      cachedLength="20"
-                      cachedName="HORARIO"
-                      externalMetadataColumnId="Package\ETL QuintoBaco\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[HORARIO]"
-                      lineageId="Package\ETL QuintoBaco\OLE DB Source.Outputs[OLE DB Source Output].Columns[HORARIO]" />
-                    <inputColumn
-                      refId="Package\ETL QuintoBaco\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ESTADO]"
-                      cachedDataType="wstr"
-                      cachedLength="20"
-                      cachedName="ESTADO"
-                      externalMetadataColumnId="Package\ETL QuintoBaco\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ESTADO]"
-                      lineageId="Package\ETL QuintoBaco\OLE DB Source.Outputs[OLE DB Source Output].Columns[ESTADO]" />
-                    <inputColumn
-                      refId="Package\ETL QuintoBaco\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[CICLO_ESCOLAR]"
-                      cachedDataType="numeric"
-                      cachedName="CICLO_ESCOLAR"
-                      cachedPrecision="4"
-                      externalMetadataColumnId="Package\ETL QuintoBaco\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CICLO_ESCOLAR]"
-                      lineageId="Package\ETL QuintoBaco\OLE DB Source.Outputs[OLE DB Source Output].Columns[CICLO_ESCOLAR]" />
-                    <inputColumn
-                      refId="Package\ETL QuintoBaco\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[userETL]"
-                      cachedDataType="wstr"
-                      cachedLength="20"
-                      cachedName="userETL"
-                      externalMetadataColumnId="Package\ETL QuintoBaco\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[userETL]"
-                      lineageId="Package\ETL QuintoBaco\Derived Column.Outputs[Derived Column Output].Columns[userETL]" />
-                    <inputColumn
-                      refId="Package\ETL QuintoBaco\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[dateETL]"
-                      cachedDataType="dbTimeStamp"
-                      cachedName="dateETL"
-                      externalMetadataColumnId="Package\ETL QuintoBaco\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[dateETL]"
-                      lineageId="Package\ETL QuintoBaco\Derived Column.Outputs[Derived Column Output].Columns[dateETL]" />
-                  </inputColumns>
-                  <externalMetadataColumns
-                    isUsed="True">
-                    <externalMetadataColumn
-                      refId="Package\ETL QuintoBaco\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ID_ALUMNO]"
-                      dataType="wstr"
-                      length="38"
-                      name="ID_ALUMNO" />
-                    <externalMetadataColumn
-                      refId="Package\ETL QuintoBaco\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[APELLIDOS_NOMBRES]"
-                      dataType="wstr"
-                      length="150"
-                      name="APELLIDOS_NOMBRES" />
-                    <externalMetadataColumn
-                      refId="Package\ETL QuintoBaco\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[GRADO]"
-                      dataType="wstr"
-                      length="50"
-                      name="GRADO" />
-                    <externalMetadataColumn
-                      refId="Package\ETL QuintoBaco\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SECCION]"
-                      dataType="wstr"
-                      length="1"
-                      name="SECCION" />
-                    <externalMetadataColumn
-                      refId="Package\ETL QuintoBaco\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[HORARIO]"
-                      dataType="wstr"
-                      length="20"
-                      name="HORARIO" />
-                    <externalMetadataColumn
-                      refId="Package\ETL QuintoBaco\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ESTADO]"
-                      dataType="wstr"
-                      length="20"
-                      name="ESTADO" />
-                    <externalMetadataColumn
-                      refId="Package\ETL QuintoBaco\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CICLO_ESCOLAR]"
-                      dataType="numeric"
-                      name="CICLO_ESCOLAR"
-                      precision="4" />
-                    <externalMetadataColumn
-                      refId="Package\ETL QuintoBaco\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[userETL]"
-                      dataType="wstr"
-                      length="20"
-                      name="userETL" />
-                    <externalMetadataColumn
-                      refId="Package\ETL QuintoBaco\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[dateETL]"
-                      dataType="dbTimeStamp"
-                      name="dateETL" />
-                  </externalMetadataColumns>
-                </input>
-              </inputs>
-              <outputs>
-                <output
-                  refId="Package\ETL QuintoBaco\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
-                  exclusionGroup="1"
-                  isErrorOut="true"
-                  name="OLE DB Destination Error Output"
-                  synchronousInputId="Package\ETL QuintoBaco\OLE DB Destination.Inputs[OLE DB Destination Input]">
-                  <outputColumns>
-                    <outputColumn
-                      refId="Package\ETL QuintoBaco\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
-                      dataType="i4"
-                      lineageId="Package\ETL QuintoBaco\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
-                      name="ErrorCode"
-                      specialFlags="1" />
-                    <outputColumn
-                      refId="Package\ETL QuintoBaco\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
-                      dataType="i4"
-                      lineageId="Package\ETL QuintoBaco\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
-                      name="ErrorColumn"
-                      specialFlags="2" />
-                  </outputColumns>
-                  <externalMetadataColumns />
-                </output>
-              </outputs>
-            </component>
-            <component
-              refId="Package\ETL QuintoBaco\OLE DB Source"
-              componentClassID="Microsoft.OLEDBSource"
-              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
-              description="OLE DB Source"
-              name="OLE DB Source"
-              usesDispositions="true"
-              version="7">
-              <properties>
-                <property
-                  dataType="System.Int32"
-                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
-                  name="CommandTimeout">0</property>
-                <property
-                  dataType="System.String"
-                  description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset">"SYSCOLEGIO"."ALUMNOS_ORACLE_5BACO"</property>
-                <property
-                  dataType="System.String"
-                  description="Specifies the variable that contains the name of the database object used to open a rowset."
-                  name="OpenRowsetVariable"></property>
-                <property
-                  dataType="System.String"
-                  description="The SQL command to be executed."
-                  name="SqlCommand"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
-                <property
-                  dataType="System.String"
-                  description="The variable that contains the SQL command to be executed."
-                  name="SqlCommandVariable"></property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies the column code page to use when code page information is unavailable from the data source."
-                  name="DefaultCodePage">1252</property>
-                <property
-                  dataType="System.Boolean"
-                  description="Forces the use of the DefaultCodePage property value when describing character data."
-                  name="AlwaysUseDefaultCodePage">false</property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies the mode used to access the database."
-                  name="AccessMode"
-                  typeConverter="AccessMode">0</property>
-                <property
-                  dataType="System.String"
-                  description="The mappings between the parameters in the SQL command and variables."
-                  name="ParameterMapping"></property>
-              </properties>
-              <connections>
-                <connection
-                  refId="Package\ETL QuintoBaco\OLE DB Source.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[XE.SYSCOLEGIO]"
-                  connectionManagerRefId="Package.ConnectionManagers[XE.SYSCOLEGIO]"
-                  description="The OLE DB runtime connection used to access the database."
-                  name="OleDbConnection" />
-              </connections>
-              <outputs>
-                <output
-                  refId="Package\ETL QuintoBaco\OLE DB Source.Outputs[OLE DB Source Output]"
-                  name="OLE DB Source Output">
-                  <outputColumns>
-                    <outputColumn
-                      refId="Package\ETL QuintoBaco\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_ALUMNO]"
-                      dataType="wstr"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\ETL QuintoBaco\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_ALUMNO]"
-                      length="38"
-                      lineageId="Package\ETL QuintoBaco\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_ALUMNO]"
-                      name="ID_ALUMNO"
-                      truncationRowDisposition="FailComponent" />
-                    <outputColumn
-                      refId="Package\ETL QuintoBaco\OLE DB Source.Outputs[OLE DB Source Output].Columns[APELLIDOS_NOMBRES]"
-                      dataType="wstr"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\ETL QuintoBaco\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[APELLIDOS_NOMBRES]"
-                      length="150"
-                      lineageId="Package\ETL QuintoBaco\OLE DB Source.Outputs[OLE DB Source Output].Columns[APELLIDOS_NOMBRES]"
-                      name="APELLIDOS_NOMBRES"
-                      truncationRowDisposition="FailComponent" />
-                    <outputColumn
-                      refId="Package\ETL QuintoBaco\OLE DB Source.Outputs[OLE DB Source Output].Columns[GRADO]"
-                      dataType="wstr"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\ETL QuintoBaco\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[GRADO]"
-                      length="50"
-                      lineageId="Package\ETL QuintoBaco\OLE DB Source.Outputs[OLE DB Source Output].Columns[GRADO]"
-                      name="GRADO"
-                      truncationRowDisposition="FailComponent" />
-                    <outputColumn
-                      refId="Package\ETL QuintoBaco\OLE DB Source.Outputs[OLE DB Source Output].Columns[SECCION]"
-                      dataType="wstr"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\ETL QuintoBaco\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SECCION]"
-                      length="1"
-                      lineageId="Package\ETL QuintoBaco\OLE DB Source.Outputs[OLE DB Source Output].Columns[SECCION]"
-                      name="SECCION"
-                      truncationRowDisposition="FailComponent" />
-                    <outputColumn
-                      refId="Package\ETL QuintoBaco\OLE DB Source.Outputs[OLE DB Source Output].Columns[HORARIO]"
-                      dataType="wstr"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\ETL QuintoBaco\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[HORARIO]"
-                      length="20"
-                      lineageId="Package\ETL QuintoBaco\OLE DB Source.Outputs[OLE DB Source Output].Columns[HORARIO]"
-                      name="HORARIO"
-                      truncationRowDisposition="FailComponent" />
-                    <outputColumn
-                      refId="Package\ETL QuintoBaco\OLE DB Source.Outputs[OLE DB Source Output].Columns[ESTADO]"
-                      dataType="wstr"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\ETL QuintoBaco\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ESTADO]"
-                      length="20"
-                      lineageId="Package\ETL QuintoBaco\OLE DB Source.Outputs[OLE DB Source Output].Columns[ESTADO]"
-                      name="ESTADO"
-                      truncationRowDisposition="FailComponent" />
-                    <outputColumn
-                      refId="Package\ETL QuintoBaco\OLE DB Source.Outputs[OLE DB Source Output].Columns[CICLO_ESCOLAR]"
-                      dataType="numeric"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\ETL QuintoBaco\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CICLO_ESCOLAR]"
-                      lineageId="Package\ETL QuintoBaco\OLE DB Source.Outputs[OLE DB Source Output].Columns[CICLO_ESCOLAR]"
-                      name="CICLO_ESCOLAR"
-                      precision="4"
-                      truncationRowDisposition="FailComponent" />
-                  </outputColumns>
-                  <externalMetadataColumns
-                    isUsed="True">
-                    <externalMetadataColumn
-                      refId="Package\ETL QuintoBaco\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_ALUMNO]"
-                      dataType="wstr"
-                      length="38"
-                      name="ID_ALUMNO" />
-                    <externalMetadataColumn
-                      refId="Package\ETL QuintoBaco\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[APELLIDOS_NOMBRES]"
-                      dataType="wstr"
-                      length="150"
-                      name="APELLIDOS_NOMBRES" />
-                    <externalMetadataColumn
-                      refId="Package\ETL QuintoBaco\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[GRADO]"
-                      dataType="wstr"
-                      length="50"
-                      name="GRADO" />
-                    <externalMetadataColumn
-                      refId="Package\ETL QuintoBaco\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SECCION]"
-                      dataType="wstr"
-                      length="1"
-                      name="SECCION" />
-                    <externalMetadataColumn
-                      refId="Package\ETL QuintoBaco\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[HORARIO]"
-                      dataType="wstr"
-                      length="20"
-                      name="HORARIO" />
-                    <externalMetadataColumn
-                      refId="Package\ETL QuintoBaco\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ESTADO]"
-                      dataType="wstr"
-                      length="20"
-                      name="ESTADO" />
-                    <externalMetadataColumn
-                      refId="Package\ETL QuintoBaco\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CICLO_ESCOLAR]"
-                      dataType="numeric"
-                      name="CICLO_ESCOLAR"
-                      precision="4" />
-                  </externalMetadataColumns>
-                </output>
-                <output
-                  refId="Package\ETL QuintoBaco\OLE DB Source.Outputs[OLE DB Source Error Output]"
-                  isErrorOut="true"
-                  name="OLE DB Source Error Output">
-                  <outputColumns>
-                    <outputColumn
-                      refId="Package\ETL QuintoBaco\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_ALUMNO]"
-                      dataType="wstr"
-                      length="38"
-                      lineageId="Package\ETL QuintoBaco\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_ALUMNO]"
-                      name="ID_ALUMNO" />
-                    <outputColumn
-                      refId="Package\ETL QuintoBaco\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[APELLIDOS_NOMBRES]"
-                      dataType="wstr"
-                      length="150"
-                      lineageId="Package\ETL QuintoBaco\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[APELLIDOS_NOMBRES]"
-                      name="APELLIDOS_NOMBRES" />
-                    <outputColumn
-                      refId="Package\ETL QuintoBaco\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[GRADO]"
-                      dataType="wstr"
-                      length="50"
-                      lineageId="Package\ETL QuintoBaco\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[GRADO]"
-                      name="GRADO" />
-                    <outputColumn
-                      refId="Package\ETL QuintoBaco\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SECCION]"
-                      dataType="wstr"
-                      length="1"
-                      lineageId="Package\ETL QuintoBaco\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SECCION]"
-                      name="SECCION" />
-                    <outputColumn
-                      refId="Package\ETL QuintoBaco\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[HORARIO]"
-                      dataType="wstr"
-                      length="20"
-                      lineageId="Package\ETL QuintoBaco\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[HORARIO]"
-                      name="HORARIO" />
-                    <outputColumn
-                      refId="Package\ETL QuintoBaco\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ESTADO]"
-                      dataType="wstr"
-                      length="20"
-                      lineageId="Package\ETL QuintoBaco\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ESTADO]"
-                      name="ESTADO" />
-                    <outputColumn
-                      refId="Package\ETL QuintoBaco\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CICLO_ESCOLAR]"
-                      dataType="numeric"
-                      lineageId="Package\ETL QuintoBaco\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CICLO_ESCOLAR]"
-                      name="CICLO_ESCOLAR"
-                      precision="4" />
-                    <outputColumn
-                      refId="Package\ETL QuintoBaco\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
-                      dataType="i4"
-                      lineageId="Package\ETL QuintoBaco\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
-                      name="ErrorCode"
-                      specialFlags="1" />
-                    <outputColumn
-                      refId="Package\ETL QuintoBaco\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
-                      dataType="i4"
-                      lineageId="Package\ETL QuintoBaco\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
-                      name="ErrorColumn"
-                      specialFlags="2" />
-                  </outputColumns>
-                  <externalMetadataColumns />
-                </output>
-              </outputs>
-            </component>
-          </components>
-          <paths>
-            <path
-              refId="Package\ETL QuintoBaco.Paths[Derived Column Output]"
-              endId="Package\ETL QuintoBaco\OLE DB Destination.Inputs[OLE DB Destination Input]"
-              name="Derived Column Output"
-              startId="Package\ETL QuintoBaco\Derived Column.Outputs[Derived Column Output]" />
-            <path
-              refId="Package\ETL QuintoBaco.Paths[OLE DB Source Output]"
-              endId="Package\ETL QuintoBaco\Derived Column.Inputs[Derived Column Input]"
-              name="OLE DB Source Output"
-              startId="Package\ETL QuintoBaco\OLE DB Source.Outputs[OLE DB Source Output]" />
+              startId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output]" />
           </paths>
         </pipeline>
       </DTS:ObjectData>
@@ -1222,19 +627,11 @@
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint]"
       DTS:CreationName=""
-      DTS:DTSID="{D7CEFA62-1F7D-4110-8A72-FD5459500E4F}"
+      DTS:DTSID="{8BE05503-5888-4A5C-A322-6656B02CE941}"
       DTS:From="Package\DATA CLEAR TABLE"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint"
-      DTS:To="Package\ETL CuartoBaco" />
-    <DTS:PrecedenceConstraint
-      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
-      DTS:CreationName=""
-      DTS:DTSID="{99666D77-8EC0-4F8B-9D7C-755520EDC305}"
-      DTS:From="Package\ETL CuartoBaco"
-      DTS:LogicalAnd="True"
-      DTS:ObjectName="Constraint 1"
-      DTS:To="Package\ETL QuintoBaco" />
+      DTS:To="Package\Data Flow Task" />
   </DTS:PrecedenceConstraints>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
 <!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
@@ -1247,55 +644,29 @@
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
-        <NodeLayout
-          Size="152.8,41.6"
-          Id="Package\ETL CuartoBaco"
-          TopLeft="123.57142883448,90.2352940385524" />
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="172,41.6"
           Id="Package\DATA CLEAR TABLE"
           TopLeft="108.571428802549,9.94117646187441" />
+        <NodeLayout
+          Size="150.4,41.6"
+          Id="Package\Data Flow Task"
+          TopLeft="126.428571697705,118.047058725666" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
-          TopLeft="197.271428818514,51.5411764618744">
+          TopLeft="198.100000250127,51.5411764618744">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,38.694117576678"
+              EndConnector="0,66.505882263792"
               Start="0,0"
-              End="0,31.194117576678">
+              End="0,59.005882263792">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,31.194117576678" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="152.8,41.6"
-          Id="Package\ETL QuintoBaco"
-          TopLeft="125.714285981898,170.52941161523" />
-        <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint 1]"
-          TopLeft="201.042857408189,131.835294038552">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,38.6941175766779"
-              Start="0,0"
-              End="0,31.1941175766779">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,31.1941175766779" />
+                    End="0,59.005882263792" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -1308,32 +679,36 @@
     </LayoutInfo>
   </Package>
   <TaskHost
-    design-time-name="Package\ETL CuartoBaco">
+    design-time-name="Package\Data Flow Task">
     <LayoutInfo>
       <GraphLayout
         Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="149.6,41.6"
-          Id="Package\ETL CuartoBaco\OLE DB Source"
-          TopLeft="149.285714603504,42.0588234925456" />
+          Id="Package\Data Flow Task\OLE DB Source"
+          TopLeft="156.428571761567,34.4117646757191" />
         <NodeLayout
           Size="152.8,41.6"
-          Id="Package\ETL CuartoBaco\Derived Column"
-          TopLeft="145.000000308667,140.705882229607" />
+          Id="Package\Data Flow Task\Derived Column"
+          TopLeft="155.714286045761,132.294117531098" />
+        <NodeLayout
+          Size="170.4,41.6"
+          Id="Package\Data Flow Task\OLE DB Destination"
+          TopLeft="150.000000319311,240.882352730034" />
         <EdgeLayout
-          Id="Package\ETL CuartoBaco.Paths[OLE DB Source Output]"
-          TopLeft="222.742857456086,83.6588234925456">
+          Id="Package\Data Flow Task.Paths[OLE DB Source Output]"
+          TopLeft="231.671428903664,76.0117646757191">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,57.0470587370614"
+              EndConnector="0,56.2823528553787"
               Start="0,0"
-              End="0,49.5470587370614">
+              End="0,48.7823528553787">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,49.5470587370614" />
+                    End="0,48.7823528553787" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -1342,24 +717,20 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="170.4,41.6"
-          Id="Package\ETL CuartoBaco\OLE DB Destination"
-          TopLeft="135.714286003186,266.117646825561" />
         <EdgeLayout
-          Id="Package\ETL CuartoBaco.Paths[Derived Column Output]"
-          TopLeft="221.157143155926,182.305882229607">
+          Id="Package\Data Flow Task.Paths[Derived Column Output]"
+          TopLeft="233.657143182536,173.894117531098">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,83.8117645959542"
+              EndConnector="0,66.9882351989359"
               Start="0,0"
-              End="0,76.3117645959542">
+              End="0,59.4882351989359">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,76.3117645959542" />
+                    End="0,59.4882351989359" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -1372,7 +743,7 @@
     </LayoutInfo>
   </TaskHost>
   <PipelineComponentMetadata
-    design-time-name="Package\ETL CuartoBaco\OLE DB Source">
+    design-time-name="Package\Data Flow Task\OLE DB Source">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -1385,97 +756,7 @@
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\ETL CuartoBaco\OLE DB Destination">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <TaskHost
-    design-time-name="Package\ETL QuintoBaco">
-    <LayoutInfo>
-      <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
-        <NodeLayout
-          Size="149.6,41.6"
-          Id="Package\ETL QuintoBaco\OLE DB Source"
-          TopLeft="204.999996945262,65.9999990165234" />
-        <NodeLayout
-          Size="152.8,41.6"
-          Id="Package\ETL QuintoBaco\Derived Column"
-          TopLeft="204.692304642155,165.92307445063" />
-        <NodeLayout
-          Size="170.4,41.6"
-          Id="Package\ETL QuintoBaco\OLE DB Destination"
-          TopLeft="200.769227777536,275.384611281065" />
-        <EdgeLayout
-          Id="Package\ETL QuintoBaco.Paths[OLE DB Source Output]"
-          TopLeft="280.446150793708,107.599999016523">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,58.3230754341071"
-              Start="0,0"
-              End="0,50.8230754341071">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,50.8230754341071" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\ETL QuintoBaco.Paths[Derived Column Output]"
-          TopLeft="283.530766209846,207.52307445063">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,67.8615368304343"
-              Start="0,0"
-              End="0,60.3615368304343">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,60.3615368304343" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-      </GraphLayout>
-    </LayoutInfo>
-  </TaskHost>
-  <PipelineComponentMetadata
-    design-time-name="Package\ETL QuintoBaco\OLE DB Source">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\ETL QuintoBaco\OLE DB Destination">
+    design-time-name="Package\Data Flow Task\OLE DB Destination">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
