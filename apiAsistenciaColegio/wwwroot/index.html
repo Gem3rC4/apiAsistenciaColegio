@@ -72,7 +72,6 @@
                 </ul>
                 <ul class="navbar-nav ms-auto align-items-center">
                     <li class="nav-item dropdown user-menu">
-                        <!-- El diseño a dos líneas de tu compañero integrado en el botón -->
                         <a href="#" class="nav-link dropdown-toggle d-flex align-items-center gap-2 px-3" data-bs-toggle="dropdown" style="height: auto;">
                             <div class="text-end lh-sm" style="max-width: 150px;">
                                 <span class="d-block fw-bold text-dark text-truncate" id="lbl-usuario" style="font-size: 13px;">
@@ -85,7 +84,6 @@
                             <i class="bi bi-person-circle fs-3 text-success"></i>
                         </a>
 
-                        <!-- El menú desplegable para cerrar sesión -->
                         <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end shadow-lg border-0 rounded-3 mt-2">
                             <li class="user-footer text-center p-3">
                                 <button onclick="ejecutarCierreSesion()" class="btn btn-danger w-100 fw-bold">
@@ -195,14 +193,11 @@
     <script src="/js/adminlte.js"></script>
 
     <script>
-        // =======================================================
-        // 1. LÓGICA DE INTERFAZ Y ROLES (ADMINLTE)
-        // =======================================================
+        // 1. LÓGICA DE INTERFAZ Y ROLES
         document.addEventListener("DOMContentLoaded", () => {
             const rolActual = localStorage.getItem('rolUsuario') || 'Desconocido';
             const nombreActual = localStorage.getItem('nombreUsuario') || 'Usuario';
 
-            // Enviamos los datos al nuevo diseño de la barra superior
             document.getElementById('lbl-usuario').innerText = nombreActual;
             document.getElementById('lbl-rol-navbar').innerText = rolActual;
 
@@ -235,11 +230,9 @@
             window.location.replace('login.html');
         }
 
-        // =======================================================
-        // 2. FUNCIONES OPERATIVAS RESTAURADAS (SWEETALERT AVANZADO)
-        // =======================================================
+        // 2. FUNCIONES OPERATIVAS
 
-        // --- UTILIDAD BASE64 ---
+        // UTILIDAD BASE64 
         const fileToBase64 = file => new Promise((resolve, reject) => {
             const reader = new FileReader();
             reader.readAsDataURL(file);
@@ -247,7 +240,7 @@
             reader.onerror = error => reject(error);
         });
 
-        // --- ESTADO EN VIVO ---
+        // ESTADO EN VIVO
         async function consultarEstadoEnVivo(event) {
             event.preventDefault();
             const { value: codigoQR } = await Swal.fire({
@@ -287,7 +280,7 @@
             }
         }
 
-        // --- ACTUALIZAR FOTO ---
+        // ACTUALIZAR FOTO
         async function cambiarFotoPerfil(carnet) {
             const { value: file } = await Swal.fire({ title: 'Actualizar Fotografía', input: 'file', inputAttributes: { 'accept': 'image/*' }, showCancelButton: true, confirmButtonColor: '#1b5e20' });
             if (file) {
@@ -299,7 +292,7 @@
             }
         }
 
-        // --- ALUMNOS EN RIESGO ---
+        // ALUMNOS EN RIESGO
         async function consultarAlumnosRiesgo(event) {
             event.preventDefault();
             const { value: maxFaltas } = await Swal.fire({ title: 'Alumnos en Riesgo', input: 'number', inputValue: 3, showCancelButton: true, confirmButtonText: 'Generar Reporte', confirmButtonColor: '#1b5e20' });
@@ -336,7 +329,7 @@
             XLSX.writeFile(libro, `Riesgo_${mes}_${anio}.xlsx`);
         }
 
-        // --- JUSTIFICACIONES (Con PDF y Firma) ---
+        // JUSTIFICACIONES (Con PDF y Firma)
         async function abrirModalJustificacion(event) {
             event.preventDefault();
             const { value: formValues } = await Swal.fire({
@@ -396,7 +389,7 @@
             }
         }
 
-        // --- ASIGNAR ENCARGADOS ---
+        // ASIGNAR ENCARGADOS
         async function abrirModalEncargado(event) {
             event.preventDefault();
             const { value: formValues } = await Swal.fire({
@@ -429,7 +422,7 @@
             }
         }
 
-        // --- BUZÓN DE EXCUSAS ---
+        // BUZÓN DE EXCUSAS
         async function verBuzonJustificaciones(event) {
             event.preventDefault();
             try {
@@ -450,7 +443,7 @@
             } catch (e) { Swal.fire('Error', 'No se pudieron recuperar los documentos.', 'error'); }
         }
 
-        // --- INSCRIBIR ALUMNO (Con carga dinámica de grados) ---
+        // INSCRIBIR ALUMNO
         async function abrirModalInscripcion(event) {
             event.preventDefault();
             Swal.fire({ title: 'Cargando formulario...', didOpen: () => Swal.showLoading() });
@@ -503,7 +496,7 @@
             }
         }
 
-        // --- DESCARGA MASIVA ---
+        // DESCARGA MASIVA
         function descargarQRsMasivo(event) {
             event.preventDefault();
             Swal.fire({ title: 'Generando Gafetes...', text: 'Empaquetando en ZIP...', icon: 'info', showConfirmButton: false, timer: 3000 });

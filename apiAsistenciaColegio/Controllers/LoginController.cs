@@ -4,7 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using BCrypt.Net; // Agregamos la referencia a BCrypt
+using BCrypt.Net; 
 
 namespace apiAsistenciaColegio.Controllers
 {
@@ -14,8 +14,6 @@ namespace apiAsistenciaColegio.Controllers
     {
         private readonly string _connectionString;
 
-        // TIP: Para producción, ¡nunca dejes esta clave en el código fuente! 
-        // Es mejor moverla a tu appsettings.json
         private readonly string _secretKey = "MiClaveSuperSecretaParaElColegioSagradoCorazonDeJesus2026!";
 
         public LoginController(IConfiguration configuration)
@@ -35,8 +33,6 @@ namespace apiAsistenciaColegio.Controllers
             {
                 using var conn = new SqlConnection(_connectionString);
 
-                // CAMBIO IMPORTANTE: Solo buscamos por usuario, no por contraseña.
-                // Traemos el passwordHash de la BD para compararlo en memoria.
                 using var cmd = new SqlCommand("SELECT nombreCompleto, rol, passwordHash FROM tblUsuarios WHERE usuario = @user AND estado = 1", conn);
                 cmd.Parameters.AddWithValue("@user", request.Usuario);
 
@@ -49,12 +45,10 @@ namespace apiAsistenciaColegio.Controllers
                     string rol = reader["rol"].ToString();
                     string hashGuardadoEnBd = reader["passwordHash"].ToString();
 
-                    // VERIFICACIÓN BCRYPT: Comparamos el texto plano con el Hash de la BD
                     bool passwordCorrecto = BCrypt.Net.BCrypt.Verify(request.Password, hashGuardadoEnBd);
 
                     if (passwordCorrecto)
                     {
-                        // 1. Si el usuario existe y la contraseña coincide, fabricamos su Token
                         var tokenHandler = new JwtSecurityTokenHandler();
                         var llave = Encoding.ASCII.GetBytes(_secretKey);
                         var tokenDescriptor = new SecurityTokenDescriptor
@@ -75,7 +69,6 @@ namespace apiAsistenciaColegio.Controllers
                     }
                 }
 
-                // Error 401: Si no encontró el usuario o el Verify devolvió false
                 return Unauthorized(new { mensaje = "Usuario o contraseña incorrectos." });
             }
             catch (Exception ex)
@@ -136,7 +129,7 @@ namespace apiAsistenciaColegio.Controllers
                 cmdInsert.Parameters.AddWithValue("@nombre", request.NombreCompleto.Trim());
                 cmdInsert.Parameters.AddWithValue("@user", request.Usuario.Trim());
                 cmdInsert.Parameters.AddWithValue("@pass", passwordHash);
-                cmdInsert.Parameters.AddWithValue("@rol", request.Rol); // <--- Insertamos el rol dinámico elegido
+                cmdInsert.Parameters.AddWithValue("@rol", request.Rol);
 
                 int filasAfectadas = cmdInsert.ExecuteNonQuery();
 
@@ -155,13 +148,12 @@ namespace apiAsistenciaColegio.Controllers
             }
         }
 
-        // Modelo de datos actualizado para mapear el JSON del frontend
         public class RegistroRequest
         {
             public string NombreCompleto { get; set; }
             public string Usuario { get; set; }
             public string Password { get; set; }
-            public string Rol { get; set; } // <--- Agregamos la propiedad para el rol
+            public string Rol { get; set; } 
         }
     }
 }

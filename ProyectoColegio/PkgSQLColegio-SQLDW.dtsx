@@ -11,11 +11,35 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="PkgSQLColegio-SQLDW"
   DTS:PackageType="5"
-  DTS:VersionBuild="4"
-  DTS:VersionGUID="{134669FC-F11B-464D-BD9E-C46F7ECB3F87}">
+  DTS:VersionBuild="6"
+  DTS:VersionGUID="{FBD9AD1A-54F3-491E-9379-097743B33006}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[AUGUSTOPC\SQLEXPRESS.db_ColegioDATA]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{03B930ED-96AF-475B-9A0B-A58184C424AD}"
+      DTS:ObjectName="AUGUSTOPC\SQLEXPRESS.db_ColegioDATA">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=AUGUSTOPC\SQLEXPRESS;Initial Catalog=db_ColegioDATA;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-PkgSQLColegio-SQLDW-{03B930ED-96AF-475B-9A0B-A58184C424AD}AUGUSTOPC\SQLEXPRESS.db_ColegioDATA;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[AUGUSTOPC\SQLEXPRESS.DW_Colegio]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{C70EAAD3-9B44-4A15-BC95-ABE53A7D8944}"
+      DTS:ObjectName="AUGUSTOPC\SQLEXPRESS.DW_Colegio">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=AUGUSTOPC\SQLEXPRESS;Initial Catalog=DW_Colegio;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-PkgSQLColegio-SQLDW-{C70EAAD3-9B44-4A15-BC95-ABE53A7D8944}AUGUSTOPC\SQLEXPRESS.DW_Colegio;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
     <DTS:ConnectionManager
       DTS:refId="Package.ConnectionManagers[GERBER-CANAHUI.db_ColegioDATA]"
       DTS:CreationName="OLEDB"
@@ -56,8 +80,8 @@
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
-          SQLTask:Connection="{B8C735A6-39D7-49BD-92AC-E3DE92FD9009}"
-          SQLTask:SqlStatementSource="truncate table ex_PrimeroBasico;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          SQLTask:Connection="{C70EAAD3-9B44-4A15-BC95-ABE53A7D8944}"
+          SQLTask:SqlStatementSource="select * from ex_PrimeroBasico;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
@@ -229,8 +253,8 @@
               <connections>
                 <connection
                   refId="Package\Data Flow Task\OLE DB Destination.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[GERBER-CANAHUI.DW_Colegio]"
-                  connectionManagerRefId="Package.ConnectionManagers[GERBER-CANAHUI.DW_Colegio]"
+                  connectionManagerID="Package.ConnectionManagers[AUGUSTOPC\SQLEXPRESS.DW_Colegio]"
+                  connectionManagerRefId="Package.ConnectionManagers[AUGUSTOPC\SQLEXPRESS.DW_Colegio]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -420,8 +444,8 @@
               <connections>
                 <connection
                   refId="Package\Data Flow Task\OLE DB Source.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[GERBER-CANAHUI.db_ColegioDATA]"
-                  connectionManagerRefId="Package.ConnectionManagers[GERBER-CANAHUI.db_ColegioDATA]"
+                  connectionManagerID="Package.ConnectionManagers[AUGUSTOPC\SQLEXPRESS.db_ColegioDATA]"
+                  connectionManagerRefId="Package.ConnectionManagers[AUGUSTOPC\SQLEXPRESS.db_ColegioDATA]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -624,11 +648,11 @@
       <GraphLayout
         Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="172,41.6"
+          Size="172,42"
           Id="Package\DATA CLEAR TABLE"
           TopLeft="152.142857466729,24.4705882138447" />
         <NodeLayout
-          Size="150.4,41.6"
+          Size="150,42"
           Id="Package\Data Flow Task"
           TopLeft="167.857143214467,126.176470477637" />
         <EdgeLayout
@@ -662,17 +686,17 @@
       <GraphLayout
         Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="152.8,41.6"
+          Size="150,42"
+          Id="Package\Data Flow Task\OLE DB Source"
+          TopLeft="182.857143246398,33.7647058702876" />
+        <NodeLayout
+          Size="153,42"
           Id="Package\Data Flow Task\Derived Column"
           TopLeft="187.142857541235,127.705882241002" />
         <NodeLayout
-          Size="170.4,41.6"
+          Size="170,42"
           Id="Package\Data Flow Task\OLE DB Destination"
           TopLeft="176.428571804142,220.999999806285" />
-        <NodeLayout
-          Size="149.6,41.6"
-          Id="Package\Data Flow Task\OLE DB Source"
-          TopLeft="182.857143246398,33.7647058702876" />
         <EdgeLayout
           Id="Package\Data Flow Task.Paths[OLE DB Source Output]"
           TopLeft="260.600000393816,75.3647058702877">
@@ -721,7 +745,7 @@
     </LayoutInfo>
   </TaskHost>
   <PipelineComponentMetadata
-    design-time-name="Package\Data Flow Task\OLE DB Destination">
+    design-time-name="Package\Data Flow Task\OLE DB Source">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -734,7 +758,7 @@
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Data Flow Task\OLE DB Source">
+    design-time-name="Package\Data Flow Task\OLE DB Destination">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>

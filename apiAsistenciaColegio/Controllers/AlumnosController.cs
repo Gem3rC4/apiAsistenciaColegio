@@ -17,9 +17,7 @@ namespace apiAsistenciaColegio.Controllers
             _connectionString = configuration.GetConnectionString("ConexionColegio");
         }
 
-        // =======================================================================
-        // GET: /api/alumnos -> Llama a tu SP existente 'sp_ObtenerEstudiantesParaQR'
-        // =======================================================================
+        // GET: /api/alumnos -> Llama a SP existente 'sp_ObtenerEstudiantesParaQR'
         [HttpGet]
         public IActionResult ObtenerAlumnos()
         {
@@ -43,7 +41,6 @@ namespace apiAsistenciaColegio.Controllers
 
                                 listaAlumnos.Add(new AlumnoDto
                                 {
-                                    // Asignamos tal cual los devuelve tu procedimiento almacenado
                                     grado = reader["Grado"].ToString().Trim(),
                                     seccion = reader["Seccion"].ToString().Trim(),
                                     estudiante = $"{nombres} {apellidos}",
@@ -62,8 +59,6 @@ namespace apiAsistenciaColegio.Controllers
             }
         }
 
-        // Definimos las propiedades en minúscula para garantizar que se acoplen
-        // perfectamente con las líneas 131-134 de tu alumnos.html
         public class AlumnoDto
         {
             public string grado { get; set; }

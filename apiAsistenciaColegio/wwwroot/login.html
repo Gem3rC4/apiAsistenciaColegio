@@ -286,7 +286,7 @@
             const nombre = document.getElementById("txtRegNombre").value.trim();
             const usuario = document.getElementById("txtRegUsuario").value.trim();
             const password = document.getElementById("txtRegPassword").value.trim();
-            const rol = document.getElementById("cmbRegRol").value; // <--- Capturamos el Rol seleccionado
+            const rol = document.getElementById("cmbRegRol").value; 
             const btnRegistrar = document.getElementById("btnRegistrar");
 
             btnRegistrar.textContent = "Registrando...";
@@ -296,7 +296,6 @@
                 const response = await fetch('/api/login/registrar', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    // CAMBIO AQUÍ: Agregamos el rol al cuerpo del JSON
                     body: JSON.stringify({ nombreCompleto: nombre, usuario: usuario, password: password, rol: rol })
                 });
 

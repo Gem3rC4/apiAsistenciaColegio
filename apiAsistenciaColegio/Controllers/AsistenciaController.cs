@@ -20,9 +20,7 @@ namespace apiAsistenciaColegio.Controllers
             _connectionString = configuration.GetConnectionString("ConexionColegio");
         }
 
-        //===================================================================
-        //==================== REGISTRAR ASISTENCIA =========================
-        //===================================================================
+        // REGISTRAR ASISTENCIA 
         [HttpPost("registrar")]
         public IActionResult RegistrarAsistencia([FromBody] EscaneoRequest request)
         {
@@ -31,14 +29,12 @@ namespace apiAsistenciaColegio.Controllers
                 return BadRequest(new { estado = "Error", mensaje = "El código QR está vacío o es inválido." });
             }
 
-            // Variable local para acumular los mensajes del Trigger (PRINT o llegadas tarde)
             string alertaTrigger = string.Empty;
 
             try
             {
                 using var conn = new SqlConnection(_connectionString);
 
-                // 🎯 Escuchar al trigger antes de abrir la conexión
                 conn.InfoMessage += (sender, e) => { alertaTrigger += e.Message + "\n"; };
 
                 using var cmd = new SqlCommand("usp_RegistrarAsistencia", conn);
@@ -57,7 +53,7 @@ namespace apiAsistenciaColegio.Controllers
 
                 bool resultado = Convert.ToBoolean(pResultado.Value);
                 string mensaje = pMensaje.Value?.ToString() ?? "Sin Respuesta del servidor";
-                alertaTrigger = alertaTrigger.Trim(); // Limpiamos saltos de línea
+                alertaTrigger = alertaTrigger.Trim();
 
                 if (resultado)
                     return Ok(new { estado = "Exito", mensaje, alerta = !string.IsNullOrEmpty(alertaTrigger) ? alertaTrigger : null });
@@ -70,9 +66,7 @@ namespace apiAsistenciaColegio.Controllers
             }
         }
 
-        //===========================================================================
-        //=============VER TABLA CON TODAS LAS ASISTENCIAS Y FALTAS==================
-        //===========================================================================
+        //VER TABLA CON TODAS LAS ASISTENCIAS Y FALTAS
         [HttpGet("hoy")]
         public IActionResult ObtenerReporteHoy()
         {
@@ -81,25 +75,40 @@ namespace apiAsistenciaColegio.Controllers
                 var listaReporte = new List<ReporteAsistenciaDto>();
 
                 using var conn = new SqlConnection(_connectionString);
-                using var cmd = new SqlCommand("ups_ObtenerReporteAsistenciaHoy", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
 
-                // 🎯 AGREGAMOS LOS PARÁMETROS OUTPUT QUE AHORA EXIGE EL SP
-                var pResultado = new SqlParameter("@Resultado", SqlDbType.Bit) { Direction = ParameterDirection.Output };
-                var pMensaje = new SqlParameter("@Mensaje", SqlDbType.NVarChar, 500) { Direction = ParameterDirection.Output };
+                // Esta consulta hace el trabajo pesado: une la entrada con su salida (si existe) 
+                // y calcula el tiempo usando SQL.
+                string query = @"
+            SELECT 
+                g.nombreGrado AS grado,
+                a.Seccion AS seccion,
+                (e.nombres + ' ' + e.apellidos) AS nombreEstudiante,
+                CONVERT(VARCHAR(5), ent.fechaHora, 108) AS horaLlegada,
+                ISNULL(CONVERT(VARCHAR(5), sal.fechaHora, 108), '--:--') AS horaSalida,
+                CASE 
+                    WHEN sal.idAsistencia IS NOT NULL THEN 'RETIRADO' 
+                    ELSE 'PRESENTE' 
+                END AS estado,
+                ISNULL(calc.TiempoFormateado, '00:00') AS tiempoTotal
+            FROM tblAsistencia ent
+            INNER JOIN tblEstudiantes e ON ent.idEstudiante = e.idEstudiante
+            INNER JOIN tblAsignaciones a ON e.idEstudiante = a.idEstudiante
+            INNER JOIN tblGrados g ON a.idGrado = g.idGrado
+            LEFT JOIN tblAsistencia sal ON ent.idEstudiante = sal.idEstudiante 
+                                        AND CAST(ent.fechaHora AS DATE) = CAST(sal.fechaHora AS DATE)
+                                        AND sal.tipoMovimiento = 'Salida'
+            OUTER APPLY dbo.fn_CalcularTiempoEnClase(ent.idEstudiante) calc
+            WHERE ent.tipoMovimiento = 'Entrada' 
+              AND CAST(ent.fechaHora AS DATE) = CAST(GETDATE() AS DATE)";
 
-                cmd.Parameters.Add(pResultado);
-                cmd.Parameters.Add(pMensaje);
-
+                using var cmd = new SqlCommand(query, conn);
                 conn.Open();
 
                 using var reader = cmd.ExecuteReader();
-
                 while (reader.Read())
                 {
                     listaReporte.Add(new ReporteAsistenciaDto
                     {
-                        // Mapeamos a los nombres exactos de las columnas que devuelve tu nuevo SP
                         Grado = reader["grado"].ToString(),
                         Seccion = reader["seccion"].ToString(),
                         NombreEstudiante = reader["nombreEstudiante"].ToString(),
@@ -118,12 +127,8 @@ namespace apiAsistenciaColegio.Controllers
             }
         }
 
-        //===========================================================================
-        //================ OBTENER ESTADO ACTUAL (FUNCIÓN ESCALAR) ==================
-        //===========================================================================
-        //===========================================================================
-        //================ OBTENER ESTADO ACTUAL CON FOTO (MULTIMEDIA) ==============
-        //===========================================================================
+        //Funciones
+
         [HttpGet("estado/{codigoQR}")]
         public IActionResult ObtenerEstadoActual(string codigoQR)
         {
@@ -134,7 +139,6 @@ namespace apiAsistenciaColegio.Controllers
             {
                 using var conn = new SqlConnection(_connectionString);
 
-                // Realizamos un LEFT JOIN hacia la tabla multimedia para extraer la ruta de la foto
                 string query = @"
                     SELECT (e.nombres + ' ' + e.apellidos) AS nombreCompleto, 
                            dbo.fn_ObtenerEstadoActual(e.idEstudiante) AS EstadoActual,
@@ -167,9 +171,7 @@ namespace apiAsistenciaColegio.Controllers
             }
         }
 
-        //===========================================================================
-        //======================= OBTENER LISTA DE GRADOS ===========================
-        //===========================================================================
+        //OBTENER LISTA DE GRADOS 
         [HttpGet("grados")]
         public IActionResult ObtenerGrados()
         {
@@ -202,9 +204,7 @@ namespace apiAsistenciaColegio.Controllers
             }
         }
 
-        //===========================================================================
-        //======================== REGISTRAR NUEVO ESTUDIANTE =======================
-        //===========================================================================
+        // REGISTRAR NUEVO ESTUDIANTE
         [HttpPost("nuevo-estudiante")]
         public IActionResult RegistrarNuevoEstudiante([FromBody] NuevoEstudianteRequest request)
         {
@@ -218,16 +218,14 @@ namespace apiAsistenciaColegio.Controllers
                 using var conn = new SqlConnection(_connectionString);
                 conn.Open();
 
-                // 1. Autogenerar un código de Carnet/QR único (Ej. SCJ-2026-4512)
                 Random rnd = new Random();
                 string nuevoCodigoQR = $"SCJ-{DateTime.Now.Year}-{rnd.Next(1000, 9999)}";
 
-                // Iniciamos una transacción para asegurar que las 3 tablas se inserten correctamente
                 using SqlTransaction transaccion = conn.BeginTransaction();
 
                 try
                 {
-                    // 2. Insertar en tblEstudiantes
+                    // Insertar en tblEstudiantes
                     string queryEstudiante = @"INSERT INTO tblEstudiantes (Nombres, Apellidos, CodigoQR) 
                                                VALUES (@nom, @ape, @qr);
                                                SELECT SCOPE_IDENTITY();";
@@ -241,7 +239,7 @@ namespace apiAsistenciaColegio.Controllers
                         idNuevoEstudiante = Convert.ToInt32(cmdEst.ExecuteScalar());
                     }
 
-                    // 3. Insertar en tblAsignaciones (Para vincularlo a un grado y sección)
+                    // Insertar en tblAsignaciones (Para vincularlo a un grado y sección)
                     string queryAsignacion = @"INSERT INTO tblAsignaciones (idEstudiante, idGrado, Seccion, cicloEscolar) 
                                                VALUES (@id, @grado, @sec, @ciclo)";
 
@@ -254,7 +252,7 @@ namespace apiAsistenciaColegio.Controllers
                         cmdAsig.ExecuteNonQuery();
                     }
 
-                    // 4. Procesar y guardar la fotografía (Si se adjuntó)
+                    // Procesar y guardar la fotografía (Si se adjuntó)
                     if (!string.IsNullOrWhiteSpace(request.FotoBase64))
                     {
                         string carpetaBase = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "documentos");
@@ -274,7 +272,6 @@ namespace apiAsistenciaColegio.Controllers
                         }
                     }
 
-                    // Si todo salió bien, confirmamos los cambios en la base de datos
                     transaccion.Commit();
 
                     return Ok(new
@@ -285,7 +282,6 @@ namespace apiAsistenciaColegio.Controllers
                 }
                 catch (Exception exTransaction)
                 {
-                    // Si algo falla (ej. error al guardar la foto), deshacemos los inserts anteriores
                     transaccion.Rollback();
                     throw new Exception("Error durante la transacción: " + exTransaction.Message);
                 }
@@ -305,9 +301,7 @@ namespace apiAsistenciaColegio.Controllers
             public string FotoBase64 { get; set; }
         }
 
-        //===========================================================================
-        //====================== DESCARGAR QR INDIVIDUAL ============================
-        //===========================================================================
+        //DESCARGAR QR INDIVIDUAL
         [HttpGet("descargar-qr/{codigoQR}")]
         public IActionResult DescargarQRIndividual(string codigoQR)
         {
@@ -328,7 +322,6 @@ namespace apiAsistenciaColegio.Controllers
                     }
                 }
 
-                // Generamos la imagen en memoria
                 using var qrGenerator = new QRCodeGenerator();
                 using var qrCodeData = qrGenerator.CreateQrCode(codigoQR, QRCodeGenerator.ECCLevel.Q);
                 using var qrCode = new QRCode(qrCodeData);
@@ -361,9 +354,7 @@ namespace apiAsistenciaColegio.Controllers
             }
         }
 
-        //===========================================================================
-        //================ DESCARGAR TODOS LOS QR EN FORMATO ZIP ====================
-        //===========================================================================
+        //DESCARGAR TODOS LOS QR EN FORMATO ZIP
         [HttpGet("descargar-qrs-zip")]
         public IActionResult DescargarQRsZip()
         {
@@ -430,9 +421,7 @@ namespace apiAsistenciaColegio.Controllers
             }
         }
 
-        //===========================================================================
-        //=================== ACTUALIZAR FOTO DE PERFIL DE ALUMNO ===================
-        //===========================================================================
+        //ACTUALIZAR FOTO DE PERFIL DE ALUMNO
         [HttpPost("subir-foto")]
         public IActionResult SubirFotoPerfil([FromBody] FotoUploadRequest request)
         {
@@ -495,9 +484,7 @@ namespace apiAsistenciaColegio.Controllers
             public string FotoBase64 { get; set; }
         }
 
-        //===========================================================================
-        //================ OBTENER ALUMNOS EN RIESGO (MULTI-TABLA) ==================
-        //===========================================================================
+        //OBTENER ALUMNOS EN RIESGO (MULTI-TABLA)
         [HttpGet("riesgo")]
         public IActionResult ObtenerAlumnosEnRiesgo([FromQuery] int mes, [FromQuery] int anio, [FromQuery] int maxFaltas)
         {
@@ -536,9 +523,7 @@ namespace apiAsistenciaColegio.Controllers
             }
         }
 
-        //===========================================================================
-        //=================== REGISTRAR JUSTIFICACIÓN DE FALTA ======================
-        //===========================================================================
+        // REGISTRAR JUSTIFICACIÓN DE FALTA 
         [HttpPost("justificar")]
         public IActionResult RegistrarJustificacion([FromBody] JustificacionRequest request)
         {
@@ -584,7 +569,7 @@ namespace apiAsistenciaColegio.Controllers
                     byte[] bytesPdf = Convert.FromBase64String(request.PdfBase64);
                     string nombrePdf = $"PDF_{idEstudiante}_{DateTime.Now.Ticks}.pdf";
                     System.IO.File.WriteAllBytes(Path.Combine(carpetaBase, nombrePdf), bytesPdf);
-                    rutaPdf = $"/documentos/{nombrePdf}"; // Ruta relativa para guardar en BD
+                    rutaPdf = $"/documentos/{nombrePdf}"; 
                 }
 
                 // Si viene una Firma
@@ -593,7 +578,7 @@ namespace apiAsistenciaColegio.Controllers
                     byte[] bytesFirma = Convert.FromBase64String(request.FirmaBase64);
                     string nombreFirma = $"FIRMA_{idEstudiante}_{DateTime.Now.Ticks}.png";
                     System.IO.File.WriteAllBytes(Path.Combine(carpetaBase, nombreFirma), bytesFirma);
-                    rutaFirma = $"/documentos/{nombreFirma}"; // Ruta relativa para guardar en BD
+                    rutaFirma = $"/documentos/{nombreFirma}";
                 }
 
                 // 3. Insertamos en la Base de Datos
@@ -628,9 +613,7 @@ namespace apiAsistenciaColegio.Controllers
             public string FirmaBase64 { get; set; }
         }
 
-        //===========================================================================
-        //================ LISTAR JUSTIFICACIONES (PARA EL MAESTRO) =================
-        //===========================================================================
+        //LISTAR JUSTIFICACIONES (PARA EL MAESTRO)
         [HttpGet("lista-justificaciones")]
         public IActionResult ListarJustificaciones()
         {
@@ -673,9 +656,7 @@ namespace apiAsistenciaColegio.Controllers
             }
         }
 
-        //===========================================================================
-        //================= REGISTRAR Y ASIGNAR UN ENCARGADO ========================
-        //===========================================================================
+        //REGISTRAR Y ASIGNAR UN ENCARGADO
         [HttpPost("asignar-encargado")]
         public IActionResult AsignarEncargado([FromBody] EncargadoRequest request)
         {
@@ -712,7 +693,6 @@ namespace apiAsistenciaColegio.Controllers
                     return NotFound(new { mensaje = "No se encontró ningún estudiante con el carnet especificado." });
                 }
 
-                // 2. Comprobamos si el encargado ya existe en el colegio (por ejemplo, si tiene otro hijo inscrito)
                 string queryEncargado = "SELECT idEncargado FROM tblEncargados WHERE dpi = @dpi";
                 int idEncargado = 0;
 
@@ -726,12 +706,11 @@ namespace apiAsistenciaColegio.Controllers
                     }
                 }
 
-                // Si no existe el encargado, lo registramos primero
                 if (idEncargado == 0)
                 {
                     string queryInsertEnc = @"INSERT INTO tblEncargados (dpi, nombres, apellidos, telefono, correo) 
                                               VALUES (@dpi, @nombres, @apellidos, @telefono, @correo);
-                                              SELECT SCOPE_IDENTITY();"; // Recuperamos el id generado al vuelo
+                                              SELECT SCOPE_IDENTITY();"; 
                     
                     using (var cmdInsEnc = new SqlCommand(queryInsertEnc, conn))
                     {
@@ -745,7 +724,6 @@ namespace apiAsistenciaColegio.Controllers
                     }
                 }
 
-                // 3. Comprobamos que este encargado no esté ya asignado a este mismo hijo
                 string queryRelacion = "SELECT COUNT(1) FROM tblEstudiante_Encargado WHERE idEstudiante = @idEst AND idEncargado = @idEnc";
                 using (var cmdRel = new SqlCommand(queryRelacion, conn))
                 {
@@ -759,7 +737,6 @@ namespace apiAsistenciaColegio.Controllers
                     }
                 }
 
-                // 4. Creamos el vínculo final en la tabla intermedia tblEstudiante_Encargado
                 string queryInsertRel = @"INSERT INTO tblEstudiante_Encargado (idEstudiante, idEncargado, parentesco, esContactoEmergencia) 
                                           VALUES (@idEst, @idEnc, @parentesco, 1)";
                 
@@ -779,7 +756,6 @@ namespace apiAsistenciaColegio.Controllers
             }
         }
 
-        // Modelo de petición para el mapeo JSON
         public class EncargadoRequest
         {
             public string CodigoQR { get; set; }
@@ -791,9 +767,7 @@ namespace apiAsistenciaColegio.Controllers
             public string Parentesco { get; set; }
         }
 
-        //===========================================================================
-        //=============GENERAR QR MASIVO PARA TODOS LOS ESTUDIANTES==================
-        //===========================================================================
+        //GENERAR QR MASIVO PARA TODOS LOS ESTUDIANTES
         [HttpGet("generarqrmasivo")]
         public IActionResult GenerarQRMasa()
         {
@@ -824,31 +798,24 @@ namespace apiAsistenciaColegio.Controllers
                     string seccion = reader["Seccion"].ToString().Trim();
 
                     string nombreCompleto = $"{nombres} {apellidos}";
-                    // Preparamos la sección para el nombre del archivo
+
                     string textoSeccionArchivo = string.IsNullOrWhiteSpace(seccion) ? "" : $"{seccion} ";
 
-                    // Unimos todo con espacios normales y limpios
+
                     string nombreArchivo = $"{grado} {textoSeccionArchivo}{apellidos} {nombres}";
 
-                    // --- 1. LÓGICA DE CREACIÓN DE SUBCARPETAS ---
-                    // Si tiene sección le agrega la palabra "Seccion" (ej. "SeccionA"). Si no, lo deja en blanco.
+                    // LÓGICA DE CREACIÓN DE SUBCARPETAS 
                     string textoSeccion = string.IsNullOrWhiteSpace(seccion) ? "" : $"Seccion{seccion}";
 
-                    // Unimos el grado y la sección, y le quitamos todos los espacios en blanco
-                    // Esto convertirá "Primero Basico" + "SeccionA" en "PrimeroBasicoSeccionA"
                     string nombreSubCarpeta = $"{grado}{textoSeccion}".Replace(" ", "");
 
-                    // Combinamos la ruta base con la nueva subcarpeta
                     string rutaDestinoFinal = Path.Combine(rutaCarpetaBase, nombreSubCarpeta);
 
-                    // Si esta subcarpeta específica aún no existe, la creamos al vuelo
                     if (!Directory.Exists(rutaDestinoFinal))
                     {
                         Directory.CreateDirectory(rutaDestinoFinal);
                     }
-                    // --------------------------------------------
 
-                    // Optimización de Memoria RAM
                     using var qrGenerator = new QRCodeGenerator();
                     using var qrCodeData = qrGenerator.CreateQrCode(codigoQR, QRCodeGenerator.ECCLevel.Q);
                     using var qrCode = new QRCode(qrCodeData);
@@ -870,8 +837,7 @@ namespace apiAsistenciaColegio.Controllers
                         g.DrawString(nombreCompleto, fuente, brocha, espacioParaEscribir, formato);
                     }
 
-                    // --- 2. GUARDAR EN LA SUBCARPETA CORRECTA ---
-                    // Guardamos la imagen dentro de su carpeta correspondiente en lugar de la carpeta base
+                    // GUARDAR EN LA SUBCARPETA CORRECTA
                     string rutaArchivo = Path.Combine(rutaDestinoFinal, $"{nombreArchivo}.png");
                     lienzoFinal.Save(rutaArchivo, ImageFormat.Png);
 
@@ -886,9 +852,7 @@ namespace apiAsistenciaColegio.Controllers
             }
         }
 
-        // =======================================================================
-        // ======================== CLASES DTO (Modelos) =========================
-        // =======================================================================
+        // CLASES DTO (Modelos) 
         public class EscaneoRequest
         {
             public string CodigoQR { get; set; }
@@ -902,7 +866,7 @@ namespace apiAsistenciaColegio.Controllers
             public string HoraLlegada { get; set; }
             public string HoraSalida { get; set; }
             public string Estado { get; set; }
-            public string TiempoTotal { get; set; } // Propiedad requerida
+            public string TiempoTotal { get; set; }
         }
     }
 }

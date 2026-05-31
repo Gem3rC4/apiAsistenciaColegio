@@ -54,7 +54,6 @@
             top: 20px;
         }
 
-        /* Contenedor de los dos paneles */
         .dashboard-container {
             display: flex;
             gap: 20px;
@@ -63,7 +62,6 @@
             flex-wrap: wrap;
         }
 
-        /* Estilo de los paneles (Casillas) */
         .panel {
             background: var(--blanco);
             border-radius: 12px;
@@ -142,28 +140,24 @@
 </head>
 <body>
 
-    <a href="index.html" class="btn-volver">⬅ Volver al Menú</a>
-
     <div class="header">
         <h1>Gestión de Data Warehouse</h1>
         <p>Unificación y carga de datos de estudiantes</p>
     </div>
 
     <div class="dashboard-container">
-
-        <div class="panel" style="flex: 2;">
-            <h2>🔎 Consultar Alumnos Unificados</h2>
+        <div class="panel" style="flex: 1;">
+            <h2>🔎 Consultar Alumnos (Data Warehouse)</h2>
 
             <div style="display: flex; gap: 10px; margin-bottom: 15px;">
                 <div style="flex: 1;">
                     <label>Filtrar por Grado:</label>
                     <select id="filtroGrado">
-                        <option value="TODOS">Todos los grados</option>
-                        <option value="Segundo Basico">Segundo Básico</option>
-                        <option value="Tercero Basico">Tercero Básico</option>
-                        <option value="Cuarto Baco">Cuarto Bachillerato</option>
-                        <option value="Cuarto Biologia">Cuarto Biología</option>
-                        <option value="Quinto Baco">Quinto Bachillerato</option>
+                        <option value="ex_PrimeroBasico">Primero Básico</option>
+                        <option value="ex_SegundoBasico">Segundo Básico</option>
+                        <option value="ex_TerceroBasico">Tercero Básico</option>
+                        <option value="ex_CuartoBachillerato">Cuarto Bachillerato</option>
+                        <option value="ex_QuintoBachillerato">Quinto Bachillerato</option>
                     </select>
                 </div>
                 <div style="flex: 1;">
@@ -183,140 +177,45 @@
                 <table id="tablaDW">
                     <thead>
                         <tr>
-                            <th>ID DW</th>
                             <th>Nombres y Apellidos</th>
                             <th>Grado</th>
                             <th>Sección</th>
-                            <th>Horario</th>
                             <th>Estado</th>
-                            <th>Origen Datos</th>
                         </tr>
                     </thead>
                     <tbody id="cuerpoTablaDW">
-                        <tr>
-                            <td colspan="7" style="text-align: center; color: #666;">Haga clic en filtrar para cargar los datos del Data Warehouse...</td>
-                        </tr>
+                        <tr><td colspan="4" style="text-align: center;">Seleccione un grado y presione filtrar...</td></tr>
                     </tbody>
                 </table>
             </div>
         </div>
-
-        <div class="panel" style="flex: 1;">
-            <h2>☁️ Cargar Nuevos Datos</h2>
-            <p style="font-size: 13px; color: #666;">Sube un archivo para integrarlo al proceso ETL. Estructura requerida: id | Apellidos, Nombres | Grado | Seccion | Horario | Estado | CicloEscolar</p>
-
-            <div class="form-group">
-                <label>Tipo de Origen:</label>
-                <select id="tipoArchivo">
-                    <option value="EXCEL">Archivo de Excel (.xlsx, .csv)</option>
-                    <option value="SQL">Script SQL Server (.sql)</option>
-                    <option value="ORACLE">Exportación Oracle (.dmp, .csv)</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label>Seleccionar Archivo:</label>
-                <input type="file" id="archivoETL" accept=".xlsx, .csv, .sql, .dmp">
-            </div>
-
-            <button class="btn-accion" onclick="procesarArchivoETL()">🚀 Cargar al Data Warehouse</button>
-        </div>
-
     </div>
 
     <script>
-        // ==========================================
-        // 1. FUNCIÓN PARA FILTRAR LA TABLA (GET)
-        // ==========================================
         async function cargarTablaDW() {
-            const grado = document.getElementById('filtroGrado').value;
+            const tabla = document.getElementById('filtroGrado').value;
             const seccion = document.getElementById('filtroSeccion').value;
             const tbody = document.getElementById('cuerpoTablaDW');
 
-            tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;">Cargando datos desde SQL Server...</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">Consultando base de datos...</td></tr>';
 
             try {
-                // Llamada real a tu backend en C#
-                const res = await fetch(`/api/dw/alumnos?grado=${grado}&seccion=${seccion}`);
+                const res = await fetch(`/api/dw/consulta?tabla=${tabla}&seccion=${seccion}`);
                 const data = await res.json();
-
-                tbody.innerHTML = ''; // Limpiamos tabla
+                tbody.innerHTML = '';
 
                 data.forEach(item => {
-                    // Colores de las etiquetas según el origen
-                    let badgeColor = item.origen === "EXCEL" ? "#217346" : (item.origen === "ORACLE" ? "#c62828" : "#0277bd");
-
                     tbody.innerHTML += `
                         <tr>
-                            <td><b>${item.id}</b></td>
-                            <td>${item.nombre}</td>
+                            <td>${item.nombreCompleto}</td>
                             <td>${item.grado}</td>
-                            <td><b>${item.seccion}</b></td>
-                            <td>${item.horario}</td>
+                            <td>${item.seccion}</td>
                             <td>${item.estado}</td>
-                            <td><span style="background:${badgeColor}; color:white; padding:3px 8px; border-radius:4px; font-size:11px; font-weight:bold;">${item.origen}</span></td>
                         </tr>
                     `;
                 });
-
-                if (data.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;">No se encontraron registros en el Data Warehouse.</td></tr>';
-                }
-
             } catch (error) {
-                Swal.fire('Error', 'No se pudo conectar al Data Warehouse. Verifica la conexión a BD.', 'error');
-            }
-        }
-
-        // ==========================================
-        // 2. FUNCIÓN PARA SUBIR ARCHIVO (POST)
-        // ==========================================
-        async function procesarArchivoETL() {
-            const tipo = document.getElementById('tipoArchivo').value;
-            const archivo = document.getElementById('archivoETL').files[0];
-
-            if (!archivo) {
-                Swal.fire('Atención', 'Debes seleccionar un archivo para cargar.', 'warning');
-                return;
-            }
-
-            // Simulamos la barra de carga que se ve muy bien en las presentaciones
-            Swal.fire({
-                title: 'Ejecutando proceso ETL...',
-                html: `Transfiriendo archivo ${tipo} hacia SQL Server.`,
-                allowOutsideClick: false,
-                didOpen: () => { Swal.showLoading(); }
-            });
-
-            try {
-                // Aquí usarías FormData para enviar el archivo al controlador C#
-                /*
-                const formData = new FormData();
-                formData.append("archivo", archivo);
-                formData.append("tipoFuente", tipo);
-
-                const response = await fetch('/api/dw/cargar-archivo', {
-                    method: 'POST',
-                    body: formData
-                });
-                const result = await response.json();
-                */
-
-                // Simulamos el tiempo de espera del ETL (2 segundos)
-                setTimeout(() => {
-                    Swal.fire({
-                        icon: 'success',
-                        title: '¡Carga Exitosa!',
-                        text: `Los datos del archivo ${archivo.name} fueron extraídos, transformados y cargados al Data Warehouse correctamente.`,
-                        confirmButtonColor: '#1b5e20'
-                    }).then(() => {
-                        document.getElementById('archivoETL').value = ""; // Limpiar input
-                        cargarTablaDW(); // Recargar la tabla
-                    });
-                }, 2000);
-
-            } catch (error) {
-                Swal.fire('Error ETL', 'Ocurrió un problema en la transformación de datos.', 'error');
+                Swal.fire('Error', 'No se pudo conectar a la base de datos.', 'error');
             }
         }
     </script>

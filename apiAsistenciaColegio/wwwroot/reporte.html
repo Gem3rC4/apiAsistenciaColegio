@@ -68,7 +68,6 @@
                 background-color: #144d18;
             }
 
-        /* Estilos de la Tabla */
         .table-container {
             overflow-x: auto;
         }
@@ -182,27 +181,20 @@
                 transform: translateY(-2px);
             }
 
-        /*=========================================*/
-        /* ===========DISEÑO RESPONSIVO============*/
-        /* ========================================*/
 
-        /* 1. Habilitar el desplazamiento horizontal de la tabla */
         .table-responsive {
             width: 100%;
             overflow-x: auto;
-            -webkit-overflow-scrolling: touch; /* Hace que el deslizamiento en iPhone sea suave */
-            border-radius: 8px; /* Opcional, para que los bordes se vean suaves */
+            -webkit-overflow-scrolling: touch;
+            border-radius: 8px; 
         }
 
-        /* 2. Prohibir que el texto se colapse en múltiples líneas */
         #tablaAsistencia th,
         #tablaAsistencia td {
             white-space: nowrap;
         }
 
-        /* 3. Media Query: Detectar si es un celular (ancho menor a 768px) */
         @media (max-width: 768px) {
-            /* Hacemos que los controles se apilen hacia abajo y usen todo el ancho */
             .panel-controles {
                 flex-direction: column;
                 align-items: stretch;
@@ -214,7 +206,6 @@
                 width: 100%;
             }
 
-                /* Ajuste de botones y selectores para que midan el 100% de la pantalla y sean fáciles de tocar */
                 .filtros select {
                     width: 100%;
                     margin-right: 0;
@@ -286,7 +277,6 @@
                 fetch('/api/asistencia/hoy')
                     .then(response => response.json())
                     .then(datos => {
-                        // Limpiamos el mensaje de "Cargando..."
                         tbody.innerHTML = '';
 
                         if (datos.length === 0) {
@@ -294,8 +284,8 @@
                             return;
                         }
 
-                        // --- 1. DIBUJAR LA TABLA DE ALUMNOS ---
-                        let filasHTML = ''; // Creamos una variable temporal para guardar todo el texto
+                        // DIBUJAR LA TABLA DE ALUMNOS
+                        let filasHTML = '';
 
                         datos.forEach(alumno => {
                             let claseBadge = 'bg-falta';
@@ -305,7 +295,6 @@
                             let horaEntrada = alumno.horaLlegada === '--:--' ? '<span class="hora-vacia">--:--</span>' : alumno.horaLlegada;
                             let horaSalida = alumno.horaSalida === '--:--' ? '<span class="hora-vacia">--:--</span>' : alumno.horaSalida;
 
-                            // Agregamos la fila a nuestra variable temporal
                             filasHTML += `
                                     <tr>
                                         <td>${alumno.grado}</td>
@@ -321,7 +310,7 @@
 
                         tbody.innerHTML = filasHTML;
 
-                        // --- LLENAR LOS FILTROS DINÁMICAMENTE ---
+                        // LLENAR LOS FILTROS DINÁMICAMENTE
                         const selectGrado = document.getElementById('filtroGrado');
                         const selectSeccion = document.getElementById('filtroSeccion');
 
@@ -345,7 +334,6 @@
                             selectSeccion.appendChild(opcion);
                         });
 
-                        // --- APLICAR EL FILTRO ---
                         filtrarTabla();
 
                     })
@@ -355,7 +343,6 @@
                     });
             }
 
-            // Ejecutamos la función automáticamente al abrir la página
             window.onload = cargarReporte;
 
             // Función para filtrar la tabla
@@ -368,11 +355,9 @@
                 filas.forEach(fila => {
                     if (fila.cells.length < 2) return;
 
-                    // Obtenemos los textos, los pasamos a minúsculas y quitamos tildes
                     let gradoFila = fila.cells[0].innerText.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
                     let seccionFila = fila.cells[1].innerText.toLowerCase().trim();
 
-                    // Limpiamos también el grado seleccionado de tildes por seguridad
                     let gradoBuscado = gradoSeleccionado.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
                     let coincideGrado = (gradoSeleccionado === "todos" || gradoFila.includes(gradoBuscado));
@@ -388,14 +373,12 @@
 
             // Función para exportar a Excel
             function exportarExcel() {
-                //Obtener nombres para el archivo
                 let selectGrado = document.getElementById("filtroGrado");
                 let textoGrado = selectGrado.options[selectGrado.selectedIndex].text.replace(/ /g, "_");
 
                 let selectSeccion = document.getElementById("filtroSeccion");
                 let textoSeccion = selectSeccion.options[selectSeccion.selectedIndex].text.replace(/ /g, "_");
 
-                // Clonar y limpiar la tabla original
                 let tablaOriginal = document.getElementById("tablaAsistencia");
                 let tablaClonada = tablaOriginal.cloneNode(true);
 
@@ -406,27 +389,23 @@
                     }
                 });
 
-                // AGREGAR EL TÍTULO DEL COLEGIO AL INICIO
                 let thead = tablaClonada.querySelector("thead");
                 let trTitulo = document.createElement("tr");
                 let thTitulo = document.createElement("th");
-                thTitulo.colSpan = 7; // Abarca todas las columnas
+                thTitulo.colSpan = 7;
                 thTitulo.innerText = "REPORTE DIARIO DE ASISTENCIA - COLEGIO SAGRADO CORAZÓN DE JESÚS";
                 trTitulo.appendChild(thTitulo);
-                thead.insertBefore(trTitulo, thead.firstChild); // Lo pone en la Fila 1
+                thead.insertBefore(trTitulo, thead.firstChild);
 
-                // Crear el libro y la hoja
                 let libro = XLSX.utils.book_new();
                 let hoja = XLSX.utils.table_to_sheet(tablaClonada);
 
-                // INYECTAR ESTILOS CELDA POR CELDA
                 for (let celda in hoja) {
-                    if (celda[0] === '!') continue; // Ignorar configuraciones internas
+                    if (celda[0] === '!') continue; 
 
-                    let numFila = celda.replace(/\D/g, ''); // Extraer solo el número de la fila
-                    let letraColumna = celda.replace(/[0-9]/g, ''); // Extraer solo la letra de la columna
+                    let numFila = celda.replace(/\D/g, ''); 
+                    let letraColumna = celda.replace(/[0-9]/g, ''); 
 
-                    // Estilo Base: Todo centrado, con bordes grises y texto normal
                     hoja[celda].s = {
                         alignment: { horizontal: "center", vertical: "center" },
                         border: {
@@ -437,24 +416,21 @@
                         }
                     };
 
-                    // Estilo para la Fila 1 (El Súper Título)
                     if (numFila === '1') {
-                        hoja[celda].s.font = { bold: true, sz: 14, color: { rgb: "FFFFFF" } }; // Letra blanca y grande
-                        hoja[celda].s.fill = { fgColor: { rgb: "1B5E20" } }; // Fondo Verde Oscuro
-                    }
-                    // Estilo para la Fila 2 (Los encabezados: Grado, Sección, etc.)
-                    else if (numFila === '2') {
-                        hoja[celda].s.font = { bold: true, color: { rgb: "1B5E20" } }; // Letra verde oscuro
-                        hoja[celda].s.fill = { fgColor: { rgb: "E8F5E9" } }; // Fondo verde clarito
+                        hoja[celda].s.font = { bold: true, sz: 14, color: { rgb: "FFFFFF" } }; 
+                        hoja[celda].s.fill = { fgColor: { rgb: "1B5E20" } }; 
                     }
 
-                    // Un toque extra: Alinear los nombres a la izquierda para que se lean mejor
+                    else if (numFila === '2') {
+                        hoja[celda].s.font = { bold: true, color: { rgb: "1B5E20" } }; 
+                        hoja[celda].s.fill = { fgColor: { rgb: "E8F5E9" } }; 
+                    }
+
                     if (letraColumna === 'C' && numFila > 2) {
                         hoja[celda].s.alignment = { horizontal: "left", vertical: "center" };
                     }
                 }
 
-                //Ajustar el ancho de las columnas
                 hoja['!cols'] = [
                     { wch: 18 }, // A: Grado
                     { wch: 12 }, // B: Sección
@@ -462,7 +438,7 @@
                     { wch: 15 }, // D: Hora Entrada
                     { wch: 15 }, // E: Hora Salida
                     { wch: 15 }, // F: Estado
-                    { wch: 15 }  // G: Tiempo Total 🎯
+                    { wch: 15 }  // G: Tiempo Total
                 ];
 
                 XLSX.utils.book_append_sheet(libro, hoja, "Asistencia");

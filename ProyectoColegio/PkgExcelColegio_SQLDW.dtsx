@@ -11,11 +11,47 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="PkgExcelColegio_SQLDW"
   DTS:PackageType="5"
-  DTS:VersionBuild="7"
-  DTS:VersionGUID="{2B846A93-0E11-4512-B7A6-3602C363A31A}">
+  DTS:VersionBuild="18"
+  DTS:VersionGUID="{68919A8B-286E-42D5-B7B9-245C8D4E90FD}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[AUGUSTOPC\SQLEXPRESS.DW_Colegio]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{A95DCACA-C5FB-4637-9EE8-2F4DF1C5FE4B}"
+      DTS:ObjectName="AUGUSTOPC\SQLEXPRESS.DW_Colegio">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=AUGUSTOPC\SQLEXPRESS;Initial Catalog=DW_Colegio;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-PkgExcelColegio_SQLDW-{A95DCACA-C5FB-4637-9EE8-2F4DF1C5FE4B}AUGUSTOPC\SQLEXPRESS.DW_Colegio;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[AUGUSTOPC\SQLEXPRESS.DW_Colegio 1]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{DA520D89-A532-4EE1-8166-001DF501523D}"
+      DTS:ObjectName="AUGUSTOPC\SQLEXPRESS.DW_Colegio 1">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=AUGUSTOPC\SQLEXPRESS;Initial Catalog=DW_Colegio;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-PkgExcelColegio_SQLDW-{DA520D89-A532-4EE1-8166-001DF501523D}AUGUSTOPC\SQLEXPRESS.DW_Colegio 1;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[AUGUSTOPC\SQLEXPRESS.DW_Colegio 2]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{C3101A34-B588-485C-A223-CCF5B927F06B}"
+      DTS:ObjectName="AUGUSTOPC\SQLEXPRESS.DW_Colegio 2">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=AUGUSTOPC\SQLEXPRESS;Initial Catalog=DW_Colegio;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-PkgExcelColegio_SQLDW-{C3101A34-B588-485C-A223-CCF5B927F06B}AUGUSTOPC\SQLEXPRESS.DW_Colegio 2;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
     <DTS:ConnectionManager
       DTS:refId="Package.ConnectionManagers[Excel Connection Manager]"
       DTS:CreationName="EXCEL"
@@ -26,6 +62,18 @@
           DTS:ConnectRetryCount="0"
           DTS:ConnectRetryInterval="0"
           DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.16.0;Data Source=C:\Users\gerbe\OneDrive\Escritorio\ColegioDATA.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Excel Connection Manager 1]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{D8003874-421A-449F-8784-30EAD1C8578A}"
+      DTS:ObjectName="Excel Connection Manager 1">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="0"
+          DTS:ConnectRetryInterval="0"
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.16.0;Data Source=C:\Users\Augusto\Downloads\ColegioDATA.xlsx;Extended Properties=&quot;Excel 12.0 XML;HDR=YES&quot;;" />
       </DTS:ObjectData>
     </DTS:ConnectionManager>
     <DTS:ConnectionManager
@@ -59,7 +107,7 @@
       DTS:refId="Package\ETL Cuarto Bachillerato"
       DTS:CreationName="Microsoft.Pipeline"
       DTS:Description="Data Flow Task"
-      DTS:DTSID="{26112b99-c717-4278-93bc-6bb6b2100eae}"
+      DTS:DTSID="{ed4a91dc-34d7-4afe-b7de-430afdb0842c}"
       DTS:ExecutableType="Microsoft.Pipeline"
       DTS:LocaleID="-1"
       DTS:ObjectName="ETL Cuarto Bachillerato"
@@ -208,8 +256,8 @@
               <connections>
                 <connection
                   refId="Package\ETL Cuarto Bachillerato\Excel Source.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[Excel Connection Manager]"
-                  connectionManagerRefId="Package.ConnectionManagers[Excel Connection Manager]"
+                  connectionManagerID="Package.ConnectionManagers[Excel Connection Manager 1]"
+                  connectionManagerRefId="Package.ConnectionManagers[Excel Connection Manager 1]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -427,8 +475,8 @@
               <connections>
                 <connection
                   refId="Package\ETL Cuarto Bachillerato\OLE DB Destination.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[GERBER-CANAHUI.DW_Colegio]"
-                  connectionManagerRefId="Package.ConnectionManagers[GERBER-CANAHUI.DW_Colegio]"
+                  connectionManagerID="Package.ConnectionManagers[AUGUSTOPC\SQLEXPRESS.DW_Colegio 2]"
+                  connectionManagerRefId="Package.ConnectionManagers[AUGUSTOPC\SQLEXPRESS.DW_Colegio 2]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -736,8 +784,8 @@
               <connections>
                 <connection
                   refId="Package\ETL Primero Basico\Excel Source.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[Excel Connection Manager]"
-                  connectionManagerRefId="Package.ConnectionManagers[Excel Connection Manager]"
+                  connectionManagerID="Package.ConnectionManagers[Excel Connection Manager 1]"
+                  connectionManagerRefId="Package.ConnectionManagers[Excel Connection Manager 1]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -837,16 +885,6 @@
                       refId="Package\ETL Primero Basico\Excel Source.Outputs[Excel Source Output].ExternalColumns[CicloEscolar]"
                       dataType="r8"
                       name="CicloEscolar" />
-                    <externalMetadataColumn
-                      refId="Package\ETL Primero Basico\Excel Source.Outputs[Excel Source Output].ExternalColumns[F7]"
-                      dataType="wstr"
-                      length="255"
-                      name="F7" />
-                    <externalMetadataColumn
-                      refId="Package\ETL Primero Basico\Excel Source.Outputs[Excel Source Output].ExternalColumns[F8]"
-                      dataType="wstr"
-                      length="255"
-                      name="F8" />
                   </externalMetadataColumns>
                 </output>
                 <output
@@ -965,8 +1003,8 @@
               <connections>
                 <connection
                   refId="Package\ETL Primero Basico\OLE DB Destination.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[GERBER-CANAHUI.DW_Colegio]"
-                  connectionManagerRefId="Package.ConnectionManagers[GERBER-CANAHUI.DW_Colegio]"
+                  connectionManagerID="Package.ConnectionManagers[AUGUSTOPC\SQLEXPRESS.DW_Colegio]"
+                  connectionManagerRefId="Package.ConnectionManagers[AUGUSTOPC\SQLEXPRESS.DW_Colegio]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -1022,7 +1060,7 @@
                     <inputColumn
                       refId="Package\ETL Primero Basico\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[userETL]"
                       cachedDataType="wstr"
-                      cachedLength="20"
+                      cachedLength="17"
                       cachedName="userETL"
                       externalMetadataColumnId="Package\ETL Primero Basico\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[userETL]"
                       lineageId="Package\ETL Primero Basico\Derived Column.Outputs[Derived Column Output].Columns[userETL]" />
@@ -1035,10 +1073,6 @@
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
-                    <externalMetadataColumn
-                      refId="Package\ETL Primero Basico\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Id]"
-                      dataType="i4"
-                      name="Id" />
                     <externalMetadataColumn
                       refId="Package\ETL Primero Basico\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ApellidosNombres]"
                       dataType="wstr"
@@ -1077,6 +1111,10 @@
                       refId="Package\ETL Primero Basico\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[dateETL]"
                       dataType="dbTimeStamp"
                       name="dateETL" />
+                    <externalMetadataColumn
+                      refId="Package\ETL Primero Basico\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Id]"
+                      dataType="i4"
+                      name="Id" />
                   </externalMetadataColumns>
                 </input>
               </inputs>
@@ -1125,7 +1163,7 @@
       DTS:refId="Package\ETL Quinto Bachillerato"
       DTS:CreationName="Microsoft.Pipeline"
       DTS:Description="Data Flow Task"
-      DTS:DTSID="{6a3f83b4-1c23-4aa3-bc5a-4577275f917f}"
+      DTS:DTSID="{482b37a8-9d91-4083-84cf-b206a3994480}"
       DTS:ExecutableType="Microsoft.Pipeline"
       DTS:LocaleID="-1"
       DTS:ObjectName="ETL Quinto Bachillerato"
@@ -1274,8 +1312,8 @@
               <connections>
                 <connection
                   refId="Package\ETL Quinto Bachillerato\Excel Source.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[Excel Connection Manager]"
-                  connectionManagerRefId="Package.ConnectionManagers[Excel Connection Manager]"
+                  connectionManagerID="Package.ConnectionManagers[Excel Connection Manager 1]"
+                  connectionManagerRefId="Package.ConnectionManagers[Excel Connection Manager 1]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -1342,6 +1380,56 @@
                       externalMetadataColumnId="Package\ETL Quinto Bachillerato\Excel Source.Outputs[Excel Source Output].ExternalColumns[CicloEscolar]"
                       lineageId="Package\ETL Quinto Bachillerato\Excel Source.Outputs[Excel Source Output].Columns[CicloEscolar]"
                       name="CicloEscolar"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\ETL Quinto Bachillerato\Excel Source.Outputs[Excel Source Output].Columns[F7]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\ETL Quinto Bachillerato\Excel Source.Outputs[Excel Source Output].ExternalColumns[F7]"
+                      length="255"
+                      lineageId="Package\ETL Quinto Bachillerato\Excel Source.Outputs[Excel Source Output].Columns[F7]"
+                      name="F7"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\ETL Quinto Bachillerato\Excel Source.Outputs[Excel Source Output].Columns[F8]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\ETL Quinto Bachillerato\Excel Source.Outputs[Excel Source Output].ExternalColumns[F8]"
+                      length="255"
+                      lineageId="Package\ETL Quinto Bachillerato\Excel Source.Outputs[Excel Source Output].Columns[F8]"
+                      name="F8"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\ETL Quinto Bachillerato\Excel Source.Outputs[Excel Source Output].Columns[F9]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\ETL Quinto Bachillerato\Excel Source.Outputs[Excel Source Output].ExternalColumns[F9]"
+                      length="255"
+                      lineageId="Package\ETL Quinto Bachillerato\Excel Source.Outputs[Excel Source Output].Columns[F9]"
+                      name="F9"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\ETL Quinto Bachillerato\Excel Source.Outputs[Excel Source Output].Columns[F10]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\ETL Quinto Bachillerato\Excel Source.Outputs[Excel Source Output].ExternalColumns[F10]"
+                      length="255"
+                      lineageId="Package\ETL Quinto Bachillerato\Excel Source.Outputs[Excel Source Output].Columns[F10]"
+                      name="F10"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\ETL Quinto Bachillerato\Excel Source.Outputs[Excel Source Output].Columns[F11]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\ETL Quinto Bachillerato\Excel Source.Outputs[Excel Source Output].ExternalColumns[F11]"
+                      length="255"
+                      lineageId="Package\ETL Quinto Bachillerato\Excel Source.Outputs[Excel Source Output].Columns[F11]"
+                      name="F11"
                       truncationRowDisposition="FailComponent" />
                   </outputColumns>
                   <externalMetadataColumns
@@ -1443,6 +1531,36 @@
                       lineageId="Package\ETL Quinto Bachillerato\Excel Source.Outputs[Excel Source Error Output].Columns[CicloEscolar]"
                       name="CicloEscolar" />
                     <outputColumn
+                      refId="Package\ETL Quinto Bachillerato\Excel Source.Outputs[Excel Source Error Output].Columns[F7]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\ETL Quinto Bachillerato\Excel Source.Outputs[Excel Source Error Output].Columns[F7]"
+                      name="F7" />
+                    <outputColumn
+                      refId="Package\ETL Quinto Bachillerato\Excel Source.Outputs[Excel Source Error Output].Columns[F8]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\ETL Quinto Bachillerato\Excel Source.Outputs[Excel Source Error Output].Columns[F8]"
+                      name="F8" />
+                    <outputColumn
+                      refId="Package\ETL Quinto Bachillerato\Excel Source.Outputs[Excel Source Error Output].Columns[F9]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\ETL Quinto Bachillerato\Excel Source.Outputs[Excel Source Error Output].Columns[F9]"
+                      name="F9" />
+                    <outputColumn
+                      refId="Package\ETL Quinto Bachillerato\Excel Source.Outputs[Excel Source Error Output].Columns[F10]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\ETL Quinto Bachillerato\Excel Source.Outputs[Excel Source Error Output].Columns[F10]"
+                      name="F10" />
+                    <outputColumn
+                      refId="Package\ETL Quinto Bachillerato\Excel Source.Outputs[Excel Source Error Output].Columns[F11]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\ETL Quinto Bachillerato\Excel Source.Outputs[Excel Source Error Output].Columns[F11]"
+                      name="F11" />
+                    <outputColumn
                       refId="Package\ETL Quinto Bachillerato\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
                       dataType="i4"
                       lineageId="Package\ETL Quinto Bachillerato\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
@@ -1518,8 +1636,8 @@
               <connections>
                 <connection
                   refId="Package\ETL Quinto Bachillerato\OLE DB Destination.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[GERBER-CANAHUI.DW_Colegio]"
-                  connectionManagerRefId="Package.ConnectionManagers[GERBER-CANAHUI.DW_Colegio]"
+                  connectionManagerID="Package.ConnectionManagers[AUGUSTOPC\SQLEXPRESS.DW_Colegio 2]"
+                  connectionManagerRefId="Package.ConnectionManagers[AUGUSTOPC\SQLEXPRESS.DW_Colegio 2]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -1827,8 +1945,8 @@
               <connections>
                 <connection
                   refId="Package\ETL SegundoBasico\Excel Source.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[Excel Connection Manager]"
-                  connectionManagerRefId="Package.ConnectionManagers[Excel Connection Manager]"
+                  connectionManagerID="Package.ConnectionManagers[Excel Connection Manager 1]"
+                  connectionManagerRefId="Package.ConnectionManagers[Excel Connection Manager 1]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -2066,8 +2184,8 @@
               <connections>
                 <connection
                   refId="Package\ETL SegundoBasico\OLE DB Destination.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[GERBER-CANAHUI.DW_Colegio]"
-                  connectionManagerRefId="Package.ConnectionManagers[GERBER-CANAHUI.DW_Colegio]"
+                  connectionManagerID="Package.ConnectionManagers[AUGUSTOPC\SQLEXPRESS.DW_Colegio 2]"
+                  connectionManagerRefId="Package.ConnectionManagers[AUGUSTOPC\SQLEXPRESS.DW_Colegio 2]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -2123,7 +2241,7 @@
                     <inputColumn
                       refId="Package\ETL SegundoBasico\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[userETL]"
                       cachedDataType="wstr"
-                      cachedLength="20"
+                      cachedLength="17"
                       cachedName="userETL"
                       externalMetadataColumnId="Package\ETL SegundoBasico\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[userETL]"
                       lineageId="Package\ETL SegundoBasico\Derived Column.Outputs[Derived Column Output].Columns[userETL]" />
@@ -2136,10 +2254,6 @@
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
-                    <externalMetadataColumn
-                      refId="Package\ETL SegundoBasico\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Id]"
-                      dataType="i4"
-                      name="Id" />
                     <externalMetadataColumn
                       refId="Package\ETL SegundoBasico\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ApellidosNombres]"
                       dataType="wstr"
@@ -2178,6 +2292,10 @@
                       refId="Package\ETL SegundoBasico\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[dateETL]"
                       dataType="dbTimeStamp"
                       name="dateETL" />
+                    <externalMetadataColumn
+                      refId="Package\ETL SegundoBasico\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Id]"
+                      dataType="i4"
+                      name="Id" />
                   </externalMetadataColumns>
                 </input>
               </inputs>
@@ -2375,8 +2493,8 @@
               <connections>
                 <connection
                   refId="Package\ETL Tercero Basico\Excel Source.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[Excel Connection Manager]"
-                  connectionManagerRefId="Package.ConnectionManagers[Excel Connection Manager]"
+                  connectionManagerID="Package.ConnectionManagers[Excel Connection Manager 1]"
+                  connectionManagerRefId="Package.ConnectionManagers[Excel Connection Manager 1]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -2614,8 +2732,8 @@
               <connections>
                 <connection
                   refId="Package\ETL Tercero Basico\OLE DB Destination.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[GERBER-CANAHUI.DW_Colegio]"
-                  connectionManagerRefId="Package.ConnectionManagers[GERBER-CANAHUI.DW_Colegio]"
+                  connectionManagerID="Package.ConnectionManagers[AUGUSTOPC\SQLEXPRESS.DW_Colegio 2]"
+                  connectionManagerRefId="Package.ConnectionManagers[AUGUSTOPC\SQLEXPRESS.DW_Colegio 2]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -2783,8 +2901,8 @@
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
-          SQLTask:Connection="{39D3AA58-7D22-403D-99B5-B2D806758833}"
-          SQLTask:SqlStatementSource="truncate table ex_PrimeroBasico;&#xA;truncate table ex_SegundoBasico;&#xA;truncate table ex_TerceroBasico;&#xA;truncate table ex_CuartoBachillerato;&#xA;truncate table ex_QuintoBachillerato;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          SQLTask:Connection="{C3101A34-B588-485C-A223-CCF5B927F06B}"
+          SQLTask:SqlStatementSource="select * from ex_PrimeroBasico;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
       </DTS:ObjectData>
     </DTS:Executable>
   </DTS:Executables>
@@ -2800,7 +2918,7 @@
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
       DTS:CreationName=""
-      DTS:DTSID="{E2909DDF-E77D-4201-85A2-556ABF26488D}"
+      DTS:DTSID="{DA1ACC1C-0696-4318-B0BC-C84F28B19298}"
       DTS:From="Package\ETL Primero Basico"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint 1"
@@ -2808,7 +2926,7 @@
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
       DTS:CreationName=""
-      DTS:DTSID="{200E668E-63B2-4114-80C5-59C5090E09C2}"
+      DTS:DTSID="{63684EE9-16A1-4FD5-9BA3-A37BC77FC7A3}"
       DTS:From="Package\ETL SegundoBasico"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint 2"
@@ -2816,7 +2934,7 @@
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
       DTS:CreationName=""
-      DTS:DTSID="{1CF3F303-7791-4E30-B41B-0A23B9032F1E}"
+      DTS:DTSID="{4DC12EB6-4F4C-4C3D-BB65-71740AE17B75}"
       DTS:From="Package\ETL Tercero Basico"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint 3"
@@ -2824,7 +2942,7 @@
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint 4]"
       DTS:CreationName=""
-      DTS:DTSID="{DD82D414-E651-479E-A640-31AEE844FF84}"
+      DTS:DTSID="{D1EB49AD-8E3A-4936-9C92-68E5478F6FB6}"
       DTS:From="Package\ETL Cuarto Bachillerato"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint 4"
@@ -2843,27 +2961,19 @@
       <GraphLayout
         Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="188,41.6"
-          Id="Package\ETL Cuarto Bachillerato"
-          TopLeft="145.000000308667,432.505882241002" />
-        <NodeLayout
-          Size="168.8,41.6"
+          Size="169,42"
           Id="Package\ETL Primero Basico"
           TopLeft="157.142857477374,129.235294004367" />
         <NodeLayout
-          Size="188,41.6"
-          Id="Package\ETL Quinto Bachillerato"
-          TopLeft="145.000000308667,534.105882241002" />
-        <NodeLayout
-          Size="170.4,41.6"
+          Size="171,42"
           Id="Package\ETL SegundoBasico"
           TopLeft="155.714286045761,228.541176359319" />
         <NodeLayout
-          Size="168,41.6"
+          Size="169,42"
           Id="Package\ETL Tercero Basico"
           TopLeft="155.714286045761,330.141176359319" />
         <NodeLayout
-          Size="162.4,41.6"
+          Size="162,42"
           Id="Package\Execute SQL Task"
           TopLeft="155.714286045761,25.99999997721" />
         <EdgeLayout
@@ -2890,18 +3000,18 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 1]"
-          TopLeft="241.228571761567,170.835294004367">
+          TopLeft="241.428571761568,171.235294004367">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,57.705882354952"
+              EndConnector="0,57.305882354952"
               Start="0,0"
-              End="0,50.205882354952">
+              End="0,49.805882354952">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,50.205882354952" />
+                    End="0,49.805882354952" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -2912,18 +3022,18 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 2]"
-          TopLeft="240.314286045761,270.141176359319">
+          TopLeft="240.714286045761,270.541176359319">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,60"
+              EndConnector="0,59.6"
               Start="0,0"
-              End="0,52.5">
+              End="0,52.1">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.5" />
+                    End="0,52.1" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -2932,20 +3042,24 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
+        <NodeLayout
+          Size="189,42"
+          Id="Package\ETL Cuarto Bachillerato"
+          TopLeft="145.000000308667,414.105882241002" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 3]"
-          TopLeft="239.357143177214,371.741176359319">
+          TopLeft="239.857143177214,372.141176359319">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,60.7647058816826"
+              EndConnector="0,41.964705881683"
               Start="0,0"
-              End="0,53.2647058816826">
+              End="0,34.464705881683">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,53.2647058816826" />
+                    End="0,34.464705881683" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -2954,20 +3068,24 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
+        <NodeLayout
+          Size="189,42"
+          Id="Package\ETL Quinto Bachillerato"
+          TopLeft="138,513" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 4]"
-          TopLeft="239.000000308667,474.105882241002">
+          TopLeft="236.000000154334,456.105882241002">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,60.0000000000001"
+              EndConnector="0,56.894117758998"
               Start="0,0"
-              End="0,52.5000000000001">
+              End="0,49.394117758998">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.5000000000001" />
+                    End="0,49.394117758998" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -2980,112 +3098,22 @@
     </LayoutInfo>
   </Package>
   <TaskHost
-    design-time-name="Package\ETL Cuarto Bachillerato">
-    <LayoutInfo>
-      <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
-        <NodeLayout
-          Size="170.4,41.6"
-          Id="Package\ETL Cuarto Bachillerato\OLE DB Destination"
-          TopLeft="110.714285949967,233.235293913207" />
-        <NodeLayout
-          Size="152.8,41.6"
-          Id="Package\ETL Cuarto Bachillerato\Derived Column"
-          TopLeft="116.428571676417,134.588235176146" />
-        <NodeLayout
-          Size="138.4,41.6"
-          Id="Package\ETL Cuarto Bachillerato\Excel Source"
-          TopLeft="121.428571687061,40.5294117291803" />
-        <EdgeLayout
-          Id="Package\ETL Cuarto Bachillerato.Paths[Excel Source Output]"
-          TopLeft="191.728571681739,82.1294117291803">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,52.4588234469656"
-              Start="0,0"
-              End="0,44.9588234469656">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,44.9588234469656" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\ETL Cuarto Bachillerato.Paths[Derived Column Output]"
-          TopLeft="194.371428813192,176.188235176146">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,57.0470587370613"
-              Start="0,0"
-              End="0,49.5470587370613">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,49.5470587370613" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-      </GraphLayout>
-    </LayoutInfo>
-  </TaskHost>
-  <PipelineComponentMetadata
-    design-time-name="Package\ETL Cuarto Bachillerato\OLE DB Destination">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\ETL Cuarto Bachillerato\Excel Source">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <TaskHost
     design-time-name="Package\ETL Primero Basico">
     <LayoutInfo>
       <GraphLayout
         Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="138.4,41.6"
-          Id="Package\ETL Primero Basico\Excel Source"
-          TopLeft="121.428571687061,40.5294117291803" />
+          Size="170,42"
+          Id="Package\ETL Primero Basico\OLE DB Destination"
+          TopLeft="110.714285949967,233.235293913207" />
         <NodeLayout
-          Size="152.8,41.6"
+          Size="153,42"
           Id="Package\ETL Primero Basico\Derived Column"
           TopLeft="116.428571676417,134.588235176146" />
         <NodeLayout
-          Size="170.4,41.6"
-          Id="Package\ETL Primero Basico\OLE DB Destination"
-          TopLeft="110.714285949967,233.235293913207" />
+          Size="138,42"
+          Id="Package\ETL Primero Basico\Excel Source"
+          TopLeft="121.428571687061,40.5294117291803" />
         <EdgeLayout
           Id="Package\ETL Primero Basico.Paths[Excel Source Output]"
           TopLeft="191.728571681739,82.1294117291803">
@@ -3160,112 +3188,44 @@
     </Properties>
   </PipelineComponentMetadata>
   <TaskHost
-    design-time-name="Package\ETL Quinto Bachillerato">
-    <LayoutInfo>
-      <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
-        <NodeLayout
-          Size="170.4,41.6"
-          Id="Package\ETL Quinto Bachillerato\OLE DB Destination"
-          TopLeft="110.714285949967,233.235293913207" />
-        <NodeLayout
-          Size="152.8,41.6"
-          Id="Package\ETL Quinto Bachillerato\Derived Column"
-          TopLeft="116.428571676417,134.588235176146" />
-        <NodeLayout
-          Size="138.4,41.6"
-          Id="Package\ETL Quinto Bachillerato\Excel Source"
-          TopLeft="121.428571687061,40.5294117291803" />
-        <EdgeLayout
-          Id="Package\ETL Quinto Bachillerato.Paths[Excel Source Output]"
-          TopLeft="191.728571681739,82.1294117291803">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,52.4588234469656"
-              Start="0,0"
-              End="0,44.9588234469656">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,44.9588234469656" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\ETL Quinto Bachillerato.Paths[Derived Column Output]"
-          TopLeft="194.371428813192,176.188235176146">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,57.0470587370613"
-              Start="0,0"
-              End="0,49.5470587370613">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,49.5470587370613" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-      </GraphLayout>
-    </LayoutInfo>
-  </TaskHost>
-  <PipelineComponentMetadata
-    design-time-name="Package\ETL Quinto Bachillerato\OLE DB Destination">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\ETL Quinto Bachillerato\Excel Source">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <TaskHost
     design-time-name="Package\ETL SegundoBasico">
     <LayoutInfo>
       <GraphLayout
         Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="170.4,41.6"
+          Size="171,42"
           Id="Package\ETL SegundoBasico\OLE DB Destination"
           TopLeft="110.714285949967,233.235293913207" />
         <NodeLayout
-          Size="152.8,41.6"
+          Size="153,42"
           Id="Package\ETL SegundoBasico\Derived Column"
           TopLeft="116.428571676417,134.588235176146" />
         <NodeLayout
-          Size="138.4,41.6"
+          Size="138,42"
           Id="Package\ETL SegundoBasico\Excel Source"
           TopLeft="121.428571687061,40.5294117291803" />
+        <EdgeLayout
+          Id="Package\ETL SegundoBasico.Paths[Derived Column Output]"
+          TopLeft="194.571428813192,176.588235176146">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,56.647058737061"
+              Start="0,0"
+              End="0,49.147058737061">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,49.147058737061" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
         <EdgeLayout
           Id="Package\ETL SegundoBasico.Paths[Excel Source Output]"
           TopLeft="191.728571681739,82.1294117291803">
@@ -3280,28 +3240,6 @@
                   Capacity="5">
                   <mssgle:LineSegment
                     End="0,44.9588234469656" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\ETL SegundoBasico.Paths[Derived Column Output]"
-          TopLeft="194.371428813192,176.188235176146">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,57.0470587370613"
-              Start="0,0"
-              End="0,49.5470587370613">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,49.5470587370613" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -3345,39 +3283,17 @@
       <GraphLayout
         Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="170.4,41.6"
+          Size="170,42"
           Id="Package\ETL Tercero Basico\OLE DB Destination"
           TopLeft="110.714285949967,233.235293913207" />
         <NodeLayout
-          Size="152.8,41.6"
+          Size="153,42"
           Id="Package\ETL Tercero Basico\Derived Column"
           TopLeft="116.428571676417,134.588235176146" />
         <NodeLayout
-          Size="138.4,41.6"
+          Size="138,42"
           Id="Package\ETL Tercero Basico\Excel Source"
           TopLeft="121.428571687061,40.5294117291803" />
-        <EdgeLayout
-          Id="Package\ETL Tercero Basico.Paths[Excel Source Output]"
-          TopLeft="191.728571681739,82.1294117291803">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,52.4588234469656"
-              Start="0,0"
-              End="0,44.9588234469656">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,44.9588234469656" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
         <EdgeLayout
           Id="Package\ETL Tercero Basico.Paths[Derived Column Output]"
           TopLeft="194.371428813192,176.188235176146">
@@ -3392,6 +3308,28 @@
                   Capacity="5">
                   <mssgle:LineSegment
                     End="0,49.5470587370613" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\ETL Tercero Basico.Paths[Excel Source Output]"
+          TopLeft="191.728571681739,82.1294117291803">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,52.4588234469656"
+              Start="0,0"
+              End="0,44.9588234469656">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,44.9588234469656" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -3418,6 +3356,186 @@
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
     design-time-name="Package\ETL Tercero Basico\Excel Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\ETL Cuarto Bachillerato">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="170,42"
+          Id="Package\ETL Cuarto Bachillerato\OLE DB Destination"
+          TopLeft="110.714285949967,233.235293913207" />
+        <NodeLayout
+          Size="153,42"
+          Id="Package\ETL Cuarto Bachillerato\Derived Column"
+          TopLeft="116.428571676417,134.588235176146" />
+        <NodeLayout
+          Size="138,42"
+          Id="Package\ETL Cuarto Bachillerato\Excel Source"
+          TopLeft="121.428571687061,40.5294117291803" />
+        <EdgeLayout
+          Id="Package\ETL Cuarto Bachillerato.Paths[Derived Column Output]"
+          TopLeft="194.371428813192,176.188235176146">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,57.0470587370613"
+              Start="0,0"
+              End="0,49.5470587370613">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,49.5470587370613" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\ETL Cuarto Bachillerato.Paths[Excel Source Output]"
+          TopLeft="191.728571681739,82.1294117291803">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,52.4588234469656"
+              Start="0,0"
+              End="0,44.9588234469656">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,44.9588234469656" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\ETL Cuarto Bachillerato\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\ETL Cuarto Bachillerato\Excel Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\ETL Quinto Bachillerato">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="170,42"
+          Id="Package\ETL Quinto Bachillerato\OLE DB Destination"
+          TopLeft="110.714285949967,233.235293913207" />
+        <NodeLayout
+          Size="153,42"
+          Id="Package\ETL Quinto Bachillerato\Derived Column"
+          TopLeft="116.428571676417,134.588235176146" />
+        <NodeLayout
+          Size="138,42"
+          Id="Package\ETL Quinto Bachillerato\Excel Source"
+          TopLeft="121.428571687061,40.5294117291803" />
+        <EdgeLayout
+          Id="Package\ETL Quinto Bachillerato.Paths[Derived Column Output]"
+          TopLeft="194.371428813192,176.188235176146">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,57.0470587370613"
+              Start="0,0"
+              End="0,49.5470587370613">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,49.5470587370613" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\ETL Quinto Bachillerato.Paths[Excel Source Output]"
+          TopLeft="191.728571681739,82.1294117291803">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,52.4588234469656"
+              Start="0,0"
+              End="0,44.9588234469656">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,44.9588234469656" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\ETL Quinto Bachillerato\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\ETL Quinto Bachillerato\Excel Source">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>

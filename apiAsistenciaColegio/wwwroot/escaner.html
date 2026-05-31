@@ -241,8 +241,6 @@
         </div>
     </div>
 
-    <a href="index.html" class="btn-volver">⬅ Volver al Menú</a>
-
     <script>
         let escaneando = true;
         let html5QrCode;
@@ -255,7 +253,6 @@
                 html5QrCode = new Html5Qrcode("reader");
             }
 
-            // Forzamos la cámara trasera (environment)
             html5QrCode.start(
                 { facingMode: "environment" },
                 {
@@ -263,7 +260,7 @@
                     qrbox: { width: 250, height: 250 }
                 },
                 onScanSuccess,
-                (errorMessage) => { /* Ignoramos los errores normales de "buscando qr..." */ }
+                (errorMessage) => {  }
             ).then(() => {
                 camaraEncendida = true;
                 btnToggle.innerHTML = "Detener Cámara";
@@ -304,16 +301,15 @@
             if (modo === 'qr') {
                 document.getElementById("panelQR").classList.add("active");
                 document.getElementById("btnTabQR").classList.add("active");
-                iniciarCamara(); // Encendemos al volver
+                iniciarCamara(); 
             } else {
                 document.getElementById("panelManual").classList.add("active");
                 document.getElementById("btnTabManual").classList.add("active");
-                detenerCamara(); // Apagamos la cámara si va a teclear
+                detenerCamara();
                 setTimeout(() => inputManual.focus(), 100);
             }
         }
 
-        // --- LÓGICA PRINCIPAL DE ASISTENCIA ---
         async function onScanSuccess(codigoEscaneado) {
             if (!escaneando) return;
             escaneando = false;
@@ -334,7 +330,6 @@
 
                 const data = await response.json();
 
-                // 🎯 Construimos el mensaje verificando si el Trigger envió una alerta
                 let htmlMensaje = data.mensaje;
                 if (data.alerta) {
                     htmlMensaje += `<br><br><div style="background-color: #fff3e0; color: #e65100; padding: 10px; border-radius: 8px; border: 1px solid #ffb74d; font-size: 14px;"><b>⚠️ Alerta del Sistema:</b> ${data.alerta}</div>`;
@@ -374,7 +369,6 @@
             }
         }
 
-        // --- LÓGICA DEL BOTÓN MANUAL ---
         function procesarIngresoManual() {
             let carnet = inputManual.value.trim();
 
@@ -400,7 +394,6 @@
             }
         });
 
-        // Iniciar la cámara al cargar la página por primera vez
         window.onload = () => {
             iniciarCamara();
         };
